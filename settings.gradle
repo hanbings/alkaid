@@ -1,3 +1,5 @@
 rootProject.name = 'alkaid'
 include 'alkaid-core'
+include 'alkaod-api'
+include 'alkaid-gradle'
 

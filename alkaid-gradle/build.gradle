@@ -1,0 +1,12 @@
+plugins {
+    id 'java-gradle-plugin'
+}
+
+gradlePlugin {
+    plugins {
+        alkaid {
+            id = 'com.alkaidmc.alkaid.gradle'
+            implementationClass = 'com.alkaidmc.alkaid.AlkaidGradle'
+        }
+    }
+}
