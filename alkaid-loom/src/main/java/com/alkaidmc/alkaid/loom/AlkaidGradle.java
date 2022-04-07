@@ -14,11 +14,15 @@ public class AlkaidGradle implements Plugin<Project> {
     public void apply(Project project) {
         // 添加配置
         AlkaidGradleExtension config = project.getExtensions().create("alkaid", AlkaidGradleExtension.class);
+        // 判空版本号
+        if (config.getVersion().isPresent()) {
+            throw new IllegalArgumentException("version is not null");
+        }
+        // 获取版本号
+        String version = config.getVersion().get();
         // 基本依赖
-        project.getDependencies().create("com.alkaidmc.alkaid:alkaid-api:"
-                + config.getVersion().getOrElse("${alkaid.version}"));
-        project.getDependencies().create("com.alkaidmc.alkaid:alkaid-core:"
-                + config.getVersion().getOrElse("${alkaid.version}"));
+        project.getDependencies().create("com.alkaidmc.alkaid:alkaid-api:" + version);
+        project.getDependencies().create("com.alkaidmc.alkaid:alkaid-core:" + version);
         // 添加任务
         project.getTasks().register("using", AlkaidUsingAction.class);
         // hook jar 任务

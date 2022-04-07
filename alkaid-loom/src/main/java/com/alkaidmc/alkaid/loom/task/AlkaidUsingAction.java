@@ -17,7 +17,8 @@ public class AlkaidUsingAction extends DefaultTask {
                 System.out.println("Using Bungeecord");
             }
 
-            default: break;
+            default:
+                break;
         }
     }
 }
