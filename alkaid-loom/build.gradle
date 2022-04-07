@@ -2,6 +2,18 @@ plugins {
     id 'java-gradle-plugin'
 }
 
+tasks.classes {
+    doLast {
+        // 获得 classes 目录
+        fileTree(project.buildDir).forEach({
+            def text = it.text
+            def regex = '\\$\\{alkaid.version\\}'
+            text = (text =~ /${regex}/).replaceAll(String.valueOf(version))
+            it.write(text)
+        })
+    }
+}
+
 gradlePlugin {
     plugins {
         alkaid {
