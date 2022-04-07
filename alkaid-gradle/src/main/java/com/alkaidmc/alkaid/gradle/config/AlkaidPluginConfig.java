@@ -8,8 +8,6 @@ import java.util.List;
  * 提供 Alkaid 插件的配置信息
  */
 public abstract class AlkaidPluginConfig {
-    // 插件平台
-    public abstract Property<String> getPlatform();
     // 插件作者
     abstract public Property<String> getAuthor();
     // 插件版本
