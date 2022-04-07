@@ -1,4 +1,4 @@
-package com.alkaidmc.alkaid.gradle.config;
+package com.alkaidmc.alkaid.loom.config;
 
 import org.gradle.api.provider.Property;
 

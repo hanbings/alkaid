@@ -1,10 +1,9 @@
-package com.alkaidmc.alkaid.gradle.config;
+package com.alkaidmc.alkaid.loom.config;
 
 import org.gradle.api.Action;
-import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.Nested;
 
-public abstract class AlkaidGradleExtension extends DefaultTask {
+public abstract class AlkaidGradleExtension {
     @Nested
     abstract public AlkaidPluginConfig getAlkaidPlugin();
 

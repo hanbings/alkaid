@@ -1,4 +1,4 @@
-package com.alkaidmc.alkaid.gradle.config;
+package com.alkaidmc.alkaid.loom.config;
 
 import org.gradle.api.provider.Property;
 
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 提供 Alkaid 插件的配置信息
  */
-public abstract class AlkaidPluginConfig {
+abstract public class AlkaidPluginConfig {
     // 插件作者
     abstract public Property<String> getAuthor();
 
