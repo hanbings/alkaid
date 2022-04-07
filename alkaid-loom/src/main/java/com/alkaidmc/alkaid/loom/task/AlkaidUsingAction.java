@@ -3,7 +3,7 @@ package com.alkaidmc.alkaid.loom.task;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
-public class UsingAction extends DefaultTask {
+public class AlkaidUsingAction extends DefaultTask {
     @TaskAction
     @SuppressWarnings("SpellCheckingInspection")
     public void using(String module) {
