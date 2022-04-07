@@ -6,7 +6,7 @@ gradlePlugin {
     plugins {
         alkaid {
             id = 'com.alkaidmc.alkaid.gradle'
-            implementationClass = 'com.alkaidmc.alkaid.AlkaidGradle'
+            implementationClass = 'com.alkaidmc.alkaid.gradle.AlkaidGradle'
         }
     }
 }
