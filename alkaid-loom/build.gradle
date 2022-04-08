@@ -1,11 +1,21 @@
 plugins {
     id 'java-gradle-plugin'
+    id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '0.18.0'
+}
+
+pluginBundle {
+    website = 'https://github.com/alkaidmc/alkaid'
+    vcsUrl = 'https://github.com/alkaidmc/alkaid'
+    tags = ['alkaidmc', 'alkaid', 'bukkit', 'minecraft']
 }
 
 gradlePlugin {
     plugins {
         alkaid {
             id = 'com.alkaidmc.alkaid.loom'
+            displayName = 'Alkaid Loom'
+            description = 'Alkaid Loom - Alkaid Development Builder Plugin'
             implementationClass = 'com.alkaidmc.alkaid.loom.AlkaidGradle'
         }
     }

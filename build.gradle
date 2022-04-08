@@ -6,12 +6,15 @@ task collect(type: Copy) {
 }
 
 tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
+    options.encoding = 'UTF-8'
 }
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
+
+    group = 'com.alkaidmc.alkaid'
+    version = '1.0.0-dev'
 
     repositories {
         mavenCentral()
