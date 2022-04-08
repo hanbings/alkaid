@@ -1,3 +1,16 @@
+buildscript {
+    repositories {
+        maven {
+            url uri('../repo')
+        }
+    }
+    dependencies {
+        classpath 'com.alkaidmc.alkaid:alkaid-loom:1.0.0-dev'
+    }
+}
+
+apply plugin: 'com.alkaidmc.alkaid.loom'
+
 dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'
