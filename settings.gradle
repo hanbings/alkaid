@@ -1,4 +1,4 @@
 rootProject.name = 'alkaid'
-include 'alkaid-core'
-include 'alkaod-api'
+include 'alkaid-bukkit'
+include 'alkaid-bungeecord'
 
