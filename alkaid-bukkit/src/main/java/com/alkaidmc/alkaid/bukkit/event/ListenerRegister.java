@@ -8,25 +8,25 @@ import org.bukkit.event.Listener;
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
-public class AlkaidEvent {
+public class ListenerRegister {
     Alkaid alkaid;
     Listener voidListener = new Listener() {
     };
 
-    public AlkaidEvent(Alkaid alkaid) {
+    public ListenerRegister(Alkaid alkaid) {
         this.alkaid = alkaid;
     }
 
-    public AlkaidEvent listener(Class<? extends Event> event, Consumer<Event> listener) {
+    public ListenerRegister listener(Class<? extends Event> event, Consumer<Event> listener) {
         return listener(event, EventPriority.NORMAL, listener);
     }
 
-    public AlkaidEvent listener(Class<? extends Event> event, EventPriority priority, Consumer<Event> listener) {
+    public ListenerRegister listener(Class<? extends Event> event, EventPriority priority, Consumer<Event> listener) {
         return listener(event, priority, false, listener);
     }
 
-    public AlkaidEvent listener(Class<? extends Event> event, EventPriority priority,
-                                boolean ignoreCancelled, Consumer<Event> listener) {
+    public ListenerRegister listener(Class<? extends Event> event, EventPriority priority,
+                                     boolean ignoreCancelled, Consumer<Event> listener) {
         alkaid.getServer().getPluginManager().registerEvent(
                 event, voidListener, priority, (l, e) -> listener.accept(e), alkaid, ignoreCancelled
         );
