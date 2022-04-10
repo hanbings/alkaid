@@ -18,6 +18,14 @@ public class Alkaid extends JavaPlugin {
 
     }
 
+    public static AlkaidLoader loader() {
+        return loader;
+    }
+
+    public static AlkaidEvent event() {
+        return event;
+    }
+
     @Override
     public void onLoad() {
         loader.call(LoaderType.LOADING);
