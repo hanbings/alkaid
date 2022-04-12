@@ -1,29 +1,30 @@
 package com.alkaidmc.alkaid.bukkit;
 
-import com.alkaidmc.alkaid.bukkit.event.ListenerRegister;
+import com.alkaidmc.alkaid.bukkit.event.AlkaidEvent;
 import com.alkaidmc.alkaid.bukkit.type.LoaderType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@SuppressWarnings("unused")
 public class Alkaid extends JavaPlugin {
     static Alkaid alkaid;
     static AlkaidLoader loader;
-    static ListenerRegister listener;
+    static AlkaidEvent event;
 
     public Alkaid() {
         // 静态化实例
         alkaid = this;
         loader = new AlkaidLoader(this);
-        listener = new ListenerRegister(this);
+        event = new AlkaidEvent(this);
         // 获取 AlkaidPlugin 实例
 
     }
 
-    public static AlkaidLoader loader() {
+    public AlkaidLoader loader() {
         return loader;
     }
 
-    public static ListenerRegister event() {
-        return listener;
+    public AlkaidEvent event() {
+        return event;
     }
 
     @Override

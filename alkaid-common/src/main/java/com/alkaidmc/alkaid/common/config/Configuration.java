@@ -1,4 +1,4 @@
 package com.alkaidmc.alkaid.common.config;
 
-public class AlkaidJsonConfig {
+public class Configuration {
 }
