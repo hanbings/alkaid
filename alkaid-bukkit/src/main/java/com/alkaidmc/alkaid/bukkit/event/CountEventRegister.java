@@ -38,7 +38,7 @@ public class CountEventRegister implements AlkaidEventRegister, AlkaidEventContr
                 return;
             }
             // count 不为 0 不小于 0 即继续运行
-            if (count != 0 && count < 0) {
+            if (!(count > 0)) {
                 after.callback(alkaid, CountEventRegister.this);
                 return;
             }
