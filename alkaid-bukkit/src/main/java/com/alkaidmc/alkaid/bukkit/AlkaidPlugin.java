@@ -1,6 +1,4 @@
-package com.alkaidmc.alkaid.bukkit.interfaces;
-
-import com.alkaidmc.alkaid.bukkit.Alkaid;
+package com.alkaidmc.alkaid.bukkit;
 
 @SuppressWarnings("unused")
 abstract public class AlkaidPlugin {

@@ -1,13 +1,14 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
 import com.alkaidmc.alkaid.bukkit.Alkaid;
-import com.alkaidmc.alkaid.bukkit.interfaces.AlkaidEventRegister;
+import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventRegister;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import java.util.function.Consumer;
 
+@SuppressWarnings("unused")
 public class SimpleEventRegister implements AlkaidEventRegister {
     Alkaid alkaid;
     // 需要监听的事件

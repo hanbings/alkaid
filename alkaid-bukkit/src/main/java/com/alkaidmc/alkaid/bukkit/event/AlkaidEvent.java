@@ -17,4 +17,9 @@ public class AlkaidEvent {
     public CountEventRegister count() {
         return new CountEventRegister(alkaid);
     }
+
+    public ConditionalEventRegister conditional() {
+        return new ConditionalEventRegister(alkaid);
+    }
+
 }

@@ -1,5 +1,6 @@
-package com.alkaidmc.alkaid.bukkit.interfaces;
+package com.alkaidmc.alkaid.bukkit.event.interfaces;
 
+@SuppressWarnings("unused")
 public interface AlkaidEventControllable {
     void listen();
 
