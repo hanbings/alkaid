@@ -2,6 +2,7 @@ package com.alkaidmc.alkaid.bukkit.command.interfaces;
 
 import java.util.List;
 
+public interface AlkaidCommandParser {
     AlkaidCommandParser with(String command);
 
     AlkaidCommandParser use(AlkaidParserCallback callback);
