@@ -3,7 +3,10 @@ package com.alkaidmc.alkaid.bukkit.command.interfaces;
 import java.util.List;
 
 public interface AlkaidCommandParser {
+<<<<<<< Updated upstream
     AlkaidCommandParser with(String command);
+=======
+>>>>>>> Stashed changes
 
     AlkaidCommandParser use(AlkaidParserCallback callback);
 
