@@ -30,6 +30,10 @@ public class Alkaid extends JavaPlugin {
         return event;
     }
 
+    public AlkaidCommand command() {
+        return command;
+    }
+
     @Override
     public void onLoad() {
         loader.call(LoaderType.LOADING);
@@ -43,5 +47,17 @@ public class Alkaid extends JavaPlugin {
     @Override
     public void onDisable() {
         loader.call(LoaderType.DISABLE);
+    }
+
+    public void test() {
+        alkaid.command().simple()
+                .command("alkaid")
+                .alias("test")
+                .description("test alkaid command register.")
+                .permission("alkaid.test")
+                .usage("/alkaid test")
+                .execute(null)
+                .tab(null)
+                .register();
     }
 }

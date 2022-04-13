@@ -1,9 +1,18 @@
 package com.alkaidmc.alkaid.bukkit.command.interfaces;
 
-public interface AlkaidCommandParser {
-    AlkaidCommandParser parser(String command);
+import java.util.List;
 
-    AlkaidCommandParser filter(boolean player);
+    AlkaidCommandParser with(String command);
 
     AlkaidCommandParser use(AlkaidParserCallback callback);
+
+    AlkaidCommandParser player(boolean filter);
+
+    AlkaidCommandParser console(boolean filter);
+
+    AlkaidCommandParser op(boolean filter);
+
+    AlkaidCommandParser tab(List<String> tab);
+
+    AlkaidCommandParser tab(String... tab);
 }
