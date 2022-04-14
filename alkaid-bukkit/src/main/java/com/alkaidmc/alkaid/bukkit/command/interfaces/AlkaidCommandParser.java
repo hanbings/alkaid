@@ -1,14 +1,12 @@
 package com.alkaidmc.alkaid.bukkit.command.interfaces;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public interface AlkaidCommandParser {
-<<<<<<< Updated upstream
-    AlkaidCommandParser with(String command);
-=======
->>>>>>> Stashed changes
 
     AlkaidCommandParser use(AlkaidParserCallback callback);
+
+    AlkaidCommandParser tab(AlkaidTabCallback callback);
 
     AlkaidCommandParser player(boolean filter);
 
@@ -16,7 +14,7 @@ public interface AlkaidCommandParser {
 
     AlkaidCommandParser op(boolean filter);
 
-    AlkaidCommandParser tab(List<String> tab);
+    AlkaidCommandParser parser(Consumer<AlkaidCommandParser> consumer);
 
-    AlkaidCommandParser tab(String... tab);
+    AlkaidCommandParser parser(String command, Consumer<AlkaidCommandParser> consumer);
 }

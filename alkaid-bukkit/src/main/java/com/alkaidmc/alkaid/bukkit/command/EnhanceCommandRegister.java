@@ -78,13 +78,13 @@ public class EnhanceCommandRegister implements AlkaidCommandRegister, AlkaidComm
     }
 
     @Override
-    public AlkaidCommandParsable parse(Consumer<AlkaidCommandParser> consumer) {
+    public EnhanceCommandRegister parser(Consumer<AlkaidCommandParser> consumer) {
         parser = consumer;
         return this;
     }
 
     @Override
-    public AlkaidCommandParsable parser(String command, Consumer<AlkaidCommandParser> consumer) {
+    public EnhanceCommandRegister parser(String command, Consumer<AlkaidCommandParser> consumer) {
         parsers.put(consumer, command);
         return this;
     }
