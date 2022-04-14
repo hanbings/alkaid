@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import java.util.function.Consumer;
 
 public interface AlkaidCommandMatchable {
-    AlkaidCommandMatchable match(String regular, Consumer<CommandSender> callback);
+    AlkaidCommandMatchable match(Consumer<CommandSender> callback);
 
     AlkaidCommandMatchable match(String regular, AlkaidCommandCallback callback);
 
