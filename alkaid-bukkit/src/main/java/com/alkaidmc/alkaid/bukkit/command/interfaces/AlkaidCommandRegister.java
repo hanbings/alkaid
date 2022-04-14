@@ -5,5 +5,5 @@ public interface AlkaidCommandRegister {
 
     AlkaidCommandRegister register();
 
-    void unregister();
+    AlkaidCommandRegister unregister();
 }
