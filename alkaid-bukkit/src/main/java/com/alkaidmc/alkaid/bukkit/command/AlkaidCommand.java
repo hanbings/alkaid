@@ -42,17 +42,4 @@ public class AlkaidCommand {
         }
         return null;
     }
-
-    public EnhanceCommandRegister enhance() {
-        try {
-            return new EnhanceCommandRegister(
-                    alkaid,
-                    constructor.newInstance("", alkaid),
-                    commandMap
-            );
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException exception) {
-            exception.printStackTrace();
-        }
-        return null;
-    }
 }
