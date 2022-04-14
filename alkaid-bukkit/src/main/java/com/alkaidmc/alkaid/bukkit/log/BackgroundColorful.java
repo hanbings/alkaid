@@ -1,4 +1,4 @@
-package com.alkaidmc.alkaid.common.log;
+package com.alkaidmc.alkaid.bukkit.log;
 
 import org.fusesource.jansi.Ansi;
 
