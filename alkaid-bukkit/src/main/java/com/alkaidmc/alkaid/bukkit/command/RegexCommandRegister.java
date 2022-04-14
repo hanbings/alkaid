@@ -1,20 +1,23 @@
 package com.alkaidmc.alkaid.bukkit.command;
 
 import com.alkaidmc.alkaid.bukkit.Alkaid;
+import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandCallback;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandDescribable;
-import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandExecutable;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandRegister;
-import org.bukkit.command.CommandExecutor;
+import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidFilterCallback;
+import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidTabCallback;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
+import java.util.function.Consumer;
 
-public class SimpleCommandRegister implements AlkaidCommandRegister, AlkaidCommandDescribable, AlkaidCommandExecutable {
+public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidCommandDescribable {
     Alkaid alkaid;
     PluginCommand instance;
     CommandMap commands;
@@ -24,79 +27,70 @@ public class SimpleCommandRegister implements AlkaidCommandRegister, AlkaidComma
     String description;
     String usage;
     String permission;
-    CommandExecutor executor = null;
-    TabCompleter tab = null;
+    // 三个处理器 两个精准匹配处理器 一个全匹配处理器
+    Consumer<CommandSender> executor;
+    Map<String, AlkaidCommandCallback> executors = new HashMap<>();
+    Map<String, AlkaidTabCallback> tabs = new HashMap<>();
+    // 过滤器
+    AlkaidFilterCallback filter;
 
-    public SimpleCommandRegister(Alkaid alkaid, PluginCommand instance, CommandMap commands) {
+    public RegexCommandRegister(Alkaid alkaid, PluginCommand instance, CommandMap commands) {
         this.alkaid = alkaid;
         this.instance = instance;
         this.commands = commands;
     }
 
     @Override
-    public SimpleCommandRegister command(String command) {
+    public RegexCommandRegister command(String command) {
         this.command = command;
         return this;
     }
 
     @Override
-    public SimpleCommandRegister description(String description) {
+    public RegexCommandRegister description(String description) {
         this.description = description;
         return this;
     }
 
     @Override
-    public SimpleCommandRegister usage(String usage) {
+    public RegexCommandRegister usage(String usage) {
         this.usage = usage;
         return this;
     }
 
     @Override
-    public SimpleCommandRegister permission(String permission) {
+    public RegexCommandRegister permission(String permission) {
         this.permission = permission;
         return this;
     }
 
     @Override
-    public SimpleCommandRegister alias(String alias) {
+    public RegexCommandRegister alias(String alias) {
         this.aliases.add(alias);
         return this;
     }
 
     @Override
-    public SimpleCommandRegister aliases(String... aliases) {
+    public RegexCommandRegister aliases(String... aliases) {
         // 将数组转换为list
         this.aliases.addAll(Arrays.asList(aliases));
         return this;
     }
 
     @Override
-    public SimpleCommandRegister execute(CommandExecutor executor) {
-        this.executor = executor;
-        return this;
-    }
-
-    @Override
-    public SimpleCommandRegister tab(TabCompleter completer) {
-        this.tab = completer;
-        return this;
-    }
-
-    @Override
-    public SimpleCommandRegister register() {
+    public RegexCommandRegister register() {
         instance.setName(command);
         instance.setAliases(aliases);
         instance.setDescription(description);
         instance.setUsage(usage);
         instance.setPermission(permission);
-        Optional.ofNullable(executor).ifPresent(instance::setExecutor);
-        Optional.ofNullable(tab).ifPresent(instance::setTabCompleter);
+
         instance.register(commands);
         return this;
     }
 
     @Override
-    public SimpleCommandRegister unregister() {
+    public RegexCommandRegister unregister() {
         instance.unregister(commands);
         return this;
     }

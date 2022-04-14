@@ -42,4 +42,17 @@ public class AlkaidCommand {
         }
         return null;
     }
+
+    public RegexCommandRegister regex() {
+        try {
+            return new RegexCommandRegister(
+                    alkaid,
+                    constructor.newInstance("", alkaid),
+                    commandMap
+            );
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException exception) {
+            exception.printStackTrace();
+        }
+        return null;
+    }
 }
