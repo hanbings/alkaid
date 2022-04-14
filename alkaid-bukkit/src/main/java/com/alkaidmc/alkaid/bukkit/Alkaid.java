@@ -22,6 +22,10 @@ public class Alkaid extends JavaPlugin {
 
     }
 
+    public static Alkaid alkaid() {
+        return alkaid;
+    }
+
     public AlkaidLoader loader() {
         return loader;
     }

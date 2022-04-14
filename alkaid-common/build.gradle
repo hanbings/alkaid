@@ -1,7 +1,0 @@
-dependencies {
-    // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
-    implementation 'org.fusesource.jansi:jansi:2.4.0'
-
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation 'com.google.code.gson:gson:2.9.0'
-}
