@@ -1,14 +1,13 @@
 package com.alkaidmc.alkaid.bukkit.command;
 
-import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandParsable;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandParser;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidParserCallback;
+import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidTabCallback;
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
 import java.util.function.Consumer;
 
-public class EnhanceCommandParser implements AlkaidCommandParser, AlkaidCommandParsable {
+public class EnhanceCommandParser implements AlkaidCommandParser {
     CommandSender sender;
     String[] args;
 
@@ -18,42 +17,37 @@ public class EnhanceCommandParser implements AlkaidCommandParser, AlkaidCommandP
     }
 
     @Override
-    public AlkaidCommandParser use(AlkaidParserCallback callback) {
+    public EnhanceCommandParser use(AlkaidParserCallback callback) {
         return null;
     }
 
     @Override
-    public AlkaidCommandParser player(boolean filter) {
+    public EnhanceCommandParser tab(AlkaidTabCallback callback) {
         return null;
     }
 
     @Override
-    public AlkaidCommandParser console(boolean filter) {
+    public EnhanceCommandParser player(boolean filter) {
         return null;
     }
 
     @Override
-    public AlkaidCommandParser op(boolean filter) {
+    public EnhanceCommandParser console(boolean filter) {
         return null;
     }
 
     @Override
-    public AlkaidCommandParser tab(List<String> tab) {
+    public EnhanceCommandParser op(boolean filter) {
         return null;
     }
 
     @Override
-    public AlkaidCommandParser tab(String... tab) {
+    public EnhanceCommandParser parser(Consumer<AlkaidCommandParser> consumer) {
         return null;
     }
 
     @Override
-    public AlkaidCommandParsable parse(Consumer<AlkaidCommandParser> consumer) {
-        return null;
-    }
-
-    @Override
-    public AlkaidCommandParsable parser(String command, Consumer<AlkaidCommandParser> consumer) {
+    public EnhanceCommandParser parser(String command, Consumer<AlkaidCommandParser> consumer) {
         return null;
     }
 }
