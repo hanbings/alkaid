@@ -1,6 +1,5 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
-import com.alkaidmc.alkaid.bukkit.Alkaid;
 import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventCallback;
 import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventControllable;
 import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventCountable;
@@ -8,12 +7,13 @@ import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventRegister;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class CountEventRegister implements AlkaidEventRegister, AlkaidEventControllable, AlkaidEventCountable {
-    Alkaid alkaid;
+    JavaPlugin plugin;
     // 需要监听的事件
     Class<? extends Event> event;
     // 事件处理器
@@ -40,7 +40,7 @@ public class CountEventRegister implements AlkaidEventRegister, AlkaidEventContr
             }
             // count 不为 0 不小于 0 即继续运行
             if (!(count > 0)) {
-                after.callback(alkaid, CountEventRegister.this);
+                after.callback(plugin, CountEventRegister.this);
                 return;
             }
             // 判断该事件是否注销
@@ -54,8 +54,8 @@ public class CountEventRegister implements AlkaidEventRegister, AlkaidEventContr
         }
     };
 
-    public CountEventRegister(Alkaid alkaid) {
-        this.alkaid = alkaid;
+    public CountEventRegister(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -91,8 +91,8 @@ public class CountEventRegister implements AlkaidEventRegister, AlkaidEventContr
     @Override
     public CountEventRegister register() {
         this.listen();
-        alkaid.getServer().getPluginManager().registerEvent(
-                event, listener, priority, (l, e) -> consumer.accept(e), alkaid, ignore
+        plugin.getServer().getPluginManager().registerEvent(
+                event, listener, priority, (l, e) -> consumer.accept(e), plugin, ignore
         );
         return this;
     }
@@ -104,13 +104,13 @@ public class CountEventRegister implements AlkaidEventRegister, AlkaidEventContr
 
     @Override
     public void listen() {
-        this.before.callback(alkaid, this);
+        this.before.callback(plugin, this);
         this.hangup = false;
     }
 
     @Override
     public void hangup() {
-        this.after.callback(alkaid, this);
+        this.after.callback(plugin, this);
         this.hangup = true;
     }
 

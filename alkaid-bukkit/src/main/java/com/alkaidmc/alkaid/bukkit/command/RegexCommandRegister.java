@@ -1,6 +1,5 @@
 package com.alkaidmc.alkaid.bukkit.command;
 
-import com.alkaidmc.alkaid.bukkit.Alkaid;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandCallback;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandDescribable;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandFilterable;
@@ -11,6 +10,7 @@ import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidTabCallback;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 
 public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidCommandDescribable,
         AlkaidCommandMatchable, AlkaidCommandFilterable {
-    Alkaid alkaid;
+    JavaPlugin plugin;
     PluginCommand instance;
     CommandMap commands;
     // 命令相关信息
@@ -40,8 +40,8 @@ public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidComman
     // 过滤器结果
     boolean result = false;
 
-    public RegexCommandRegister(Alkaid alkaid, PluginCommand instance, CommandMap commands) {
-        this.alkaid = alkaid;
+    public RegexCommandRegister(JavaPlugin plugin, PluginCommand instance, CommandMap commands) {
+        this.plugin = plugin;
         this.instance = instance;
         this.commands = commands;
     }
