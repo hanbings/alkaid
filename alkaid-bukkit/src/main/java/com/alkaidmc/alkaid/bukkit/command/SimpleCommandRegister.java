@@ -1,6 +1,5 @@
 package com.alkaidmc.alkaid.bukkit.command;
 
-import com.alkaidmc.alkaid.bukkit.Alkaid;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandDescribable;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandExecutable;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandRegister;
@@ -8,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class SimpleCommandRegister implements AlkaidCommandRegister, AlkaidCommandDescribable, AlkaidCommandExecutable {
-    Alkaid alkaid;
+    JavaPlugin plugin;
     PluginCommand instance;
     CommandMap commands;
     // 命令相关信息
@@ -27,8 +27,8 @@ public class SimpleCommandRegister implements AlkaidCommandRegister, AlkaidComma
     CommandExecutor executor = null;
     TabCompleter tab = null;
 
-    public SimpleCommandRegister(Alkaid alkaid, PluginCommand instance, CommandMap commands) {
-        this.alkaid = alkaid;
+    public SimpleCommandRegister(JavaPlugin plugin, PluginCommand instance, CommandMap commands) {
+        this.plugin = plugin;
         this.instance = instance;
         this.commands = commands;
     }

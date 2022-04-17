@@ -1,25 +1,25 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
-import com.alkaidmc.alkaid.bukkit.Alkaid;
+import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
 public class AlkaidEvent {
-    Alkaid alkaid;
+    JavaPlugin plugin;
 
-    public AlkaidEvent(Alkaid alkaid) {
-        this.alkaid = alkaid;
+    public AlkaidEvent(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
     public SimpleEventRegister simple() {
-        return new SimpleEventRegister(alkaid);
+        return new SimpleEventRegister(plugin);
     }
 
     public CountEventRegister count() {
-        return new CountEventRegister(alkaid);
+        return new CountEventRegister(plugin);
     }
 
     public ConditionalEventRegister conditional() {
-        return new ConditionalEventRegister(alkaid);
+        return new ConditionalEventRegister(plugin);
     }
 
 }

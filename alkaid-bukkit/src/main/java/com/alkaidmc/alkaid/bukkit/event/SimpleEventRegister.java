@@ -1,16 +1,16 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
-import com.alkaidmc.alkaid.bukkit.Alkaid;
 import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventRegister;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class SimpleEventRegister implements AlkaidEventRegister {
-    Alkaid alkaid;
+    JavaPlugin plugin;
     // 需要监听的事件
     Class<? extends Event> event;
     // 事件处理器
@@ -33,8 +33,8 @@ public class SimpleEventRegister implements AlkaidEventRegister {
         }
     };
 
-    public SimpleEventRegister(Alkaid alkaid) {
-        this.alkaid = alkaid;
+    public SimpleEventRegister(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -63,8 +63,8 @@ public class SimpleEventRegister implements AlkaidEventRegister {
 
     @Override
     public SimpleEventRegister register() {
-        alkaid.getServer().getPluginManager().registerEvent(
-                event, listener, priority, (l, e) -> consumer.accept(e), alkaid, ignore
+        plugin.getServer().getPluginManager().registerEvent(
+                event, listener, priority, (l, e) -> consumer.accept(e), plugin, ignore
         );
         return this;
     }

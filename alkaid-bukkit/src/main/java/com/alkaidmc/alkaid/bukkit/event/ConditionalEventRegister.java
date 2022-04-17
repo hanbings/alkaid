@@ -1,17 +1,17 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
-import com.alkaidmc.alkaid.bukkit.Alkaid;
 import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventConditional;
 import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventRegister;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class ConditionalEventRegister implements AlkaidEventRegister, AlkaidEventConditional {
-    Alkaid alkaid;
+    JavaPlugin plugin;
     // 需要监听的事件
     Class<? extends Event> event;
     // 结束条件的事件
@@ -36,8 +36,8 @@ public class ConditionalEventRegister implements AlkaidEventRegister, AlkaidEven
         }
     };
 
-    public ConditionalEventRegister(Alkaid alkaid) {
-        this.alkaid = alkaid;
+    public ConditionalEventRegister(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
     @Override
@@ -66,11 +66,11 @@ public class ConditionalEventRegister implements AlkaidEventRegister, AlkaidEven
 
     @Override
     public ConditionalEventRegister register() {
-        alkaid.getServer().getPluginManager().registerEvent(
-                event, listener, priority, (l, e) -> consumer.accept(e), alkaid, ignore
+        plugin.getServer().getPluginManager().registerEvent(
+                event, listener, priority, (l, e) -> consumer.accept(e), plugin, ignore
         );
-        alkaid.getServer().getPluginManager().registerEvent(
-                interrupt, listener, priority, (l, e) -> cancel = true, alkaid, ignore
+        plugin.getServer().getPluginManager().registerEvent(
+                interrupt, listener, priority, (l, e) -> cancel = true, plugin, ignore
         );
         return this;
     }

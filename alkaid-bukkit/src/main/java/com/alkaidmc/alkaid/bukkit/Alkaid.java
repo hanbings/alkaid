@@ -5,15 +5,13 @@ import com.alkaidmc.alkaid.bukkit.event.AlkaidEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
-public class Alkaid extends JavaPlugin {
-    static Alkaid alkaid;
+public class Alkaid {
     static AlkaidEvent event;
     static AlkaidCommand command;
 
-    public Alkaid() {
+    public Alkaid(JavaPlugin plugin) {
         // 静态化实例
-        alkaid = this;
-        event = new AlkaidEvent(this);
-        command = new AlkaidCommand(this);
+        event = new AlkaidEvent(plugin);
+        command = new AlkaidCommand(plugin);
     }
 }
