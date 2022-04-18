@@ -1,7 +1,7 @@
-package com.alkaidmc.alkaid.bukkit.log;
+package com.alkaidmc.alkaid.log;
 
 import lombok.Builder;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 
 public class Logger {
     static java.util.logging.Logger logger;

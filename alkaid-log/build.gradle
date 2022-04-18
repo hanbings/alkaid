@@ -1,0 +1,13 @@
+repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    // https://mvnrepository.com/artifact/net.md-5/bungeecord-api
+    implementation 'net.md-5:bungeecord-api:1.16-R0.4'
+    // https://mvnrepository.com/artifact/org.fusesource.jansi/jansi
+    implementation 'org.fusesource.jansi:jansi:2.4.0'
+}
