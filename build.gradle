@@ -37,10 +37,6 @@ subprojects {
         options.encoding('utf-8')
     }
 
-    repositories {
-        mavenCentral()
-    }
-
     publishing {
         repositories {
             maven {
