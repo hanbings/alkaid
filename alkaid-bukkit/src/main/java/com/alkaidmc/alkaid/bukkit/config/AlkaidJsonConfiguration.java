@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-public class JsonConfiguration {
+public class AlkaidJsonConfiguration {
     /**
      * 配置文件直转数据实体
      * 先加载插件配置文件夹中的文件
