@@ -1,20 +1,16 @@
 package com.alkaidmc.alkaid.mongodb;
 
-import com.mongodb.MongoClientOptions;
-import com.mongodb.client.MongoClient;
+import com.google.gson.Gson;
+import com.mongodb.client.MongoDatabase;
 
 public class AsyncMongodbConnector {
-    MongoClient client;
-    MongoClientOptions.Builder options;
-    String host;
-    String port;
-    String username;
-    String password;
+    MongoDatabase database;
 
-    public AsyncMongodbConnector(String host, String port, String username, String password) {
-        this.host = host;
-        this.port = port;
-        this.username = username;
-        this.password = password;
+    public AsyncMongodbConnector(MongoDatabase database) {
+        this.database = database;
+    }
+
+    public AsyncMongodbConnection connection(Gson gson, String collection) {
+        return new AsyncMongodbConnection(gson, database.getCollection(collection));
     }
 }
