@@ -1,8 +1,6 @@
 <h1 align="center">🌟 Alkaid</h1>
 <h5 align="center">A Lightweight Kit Aim In Development.</h5>
 
-
-
 ## 🍀 这是什么？
 
 这是一个工具库，封装 Bukkit BungeeCord 以及其他计划中的 Minecraft 服务端 API
@@ -21,8 +19,6 @@ new AlkaidEvent(plugin).simple()
                  .ignore(false)
                  .register();
 ```
-
-
 
 ## ✨ 模块
 
