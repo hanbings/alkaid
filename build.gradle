@@ -20,6 +20,11 @@ subprojects {
         mavenCentral()
     }
 
+    javadoc {
+        options.addBooleanOption('html5', true)
+        options.encoding('utf-8')
+    }
+
     task sourcesJar(type: Jar) {
         from sourceSets.main.allSource
         archiveClassifier.convention('sources')
@@ -32,10 +37,6 @@ subprojects {
         archiveClassifier.set('javadocs')
     }
 
-    javadoc {
-        options.addBooleanOption('html5', true)
-        options.encoding('utf-8')
-    }
 
     publishing {
         repositories {
