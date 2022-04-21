@@ -13,7 +13,7 @@
 
 ```java
 new AlkaidEvent(plugin).simple()
-                 .use(event -> ((PlayerLoginEvent) event).getPlayer().sendMessage("欢迎使用 Alkaid"))
+                 .use(event -> ((PlayerLoginEvent) event).getPlayer().sendMessage("欢迎"))
                  .with(PlayerLoginEvent.class)
                  .priority(EventPriority.HIGHEST)
                  .ignore(false)
