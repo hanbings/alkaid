@@ -21,7 +21,7 @@ public class ConditionalEventRegister implements AlkaidEventRegister {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Class<? extends Event> event;
+    Class<? extends Event> with;
     // 结束条件的事件
     @Setter
     @Getter
@@ -49,7 +49,7 @@ public class ConditionalEventRegister implements AlkaidEventRegister {
     @Override
     public void register() {
         plugin.getServer().getPluginManager().registerEvent(
-                event,
+                with,
                 new Listener() {
                 },
                 priority,

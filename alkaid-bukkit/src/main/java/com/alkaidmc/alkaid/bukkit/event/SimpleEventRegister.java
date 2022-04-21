@@ -20,7 +20,7 @@ public class SimpleEventRegister implements AlkaidEventRegister {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Class<? extends Event> event;
+    Class<? extends Event> with;
     // 事件处理器
     @Setter
     @Getter
@@ -43,7 +43,7 @@ public class SimpleEventRegister implements AlkaidEventRegister {
     @Override
     public void register() {
         plugin.getServer().getPluginManager().registerEvent(
-                event,
+                with,
                 new Listener() {
                 },
                 priority,
