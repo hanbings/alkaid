@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 public class ConditionalEventRegister implements AlkaidEventRegister {
     final JavaPlugin plugin;
+
     // 需要监听的事件
     @Setter
     @Getter

@@ -1,20 +1,19 @@
 package com.alkaidmc.alkaid.bukkit.command;
 
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandCallback;
-import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandDescribable;
-import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandFilterable;
-import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandMatchable;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandRegister;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidFilterCallback;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidTabCallback;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,56 +21,48 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
-public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidCommandDescribable,
-        AlkaidCommandMatchable, AlkaidCommandFilterable {
+public class RegexCommandRegister implements AlkaidCommandRegister {
     final JavaPlugin plugin;
     final PluginCommand instance;
     final CommandMap commands;
+
     // 命令相关信息
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     String command;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     List<String> aliases = new ArrayList<>();
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     String description;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     String usage;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     String permission;
+
     // 三个处理器 两个精准匹配处理器 一个全匹配处理器
-    Consumer<CommandSender> executor;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
+    Consumer<CommandSender> match;
     Map<String, AlkaidCommandCallback> executors = new HashMap<>();
     Map<String, AlkaidTabCallback> tabs = new HashMap<>();
     // 过滤器
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     AlkaidFilterCallback filter;
+
     // 过滤器结果
     boolean result = false;
-
-    @Override
-    public RegexCommandRegister description(String description) {
-        this.description = description;
-        return this;
-    }
-
-    @Override
-    public RegexCommandRegister usage(String usage) {
-        this.usage = usage;
-        return this;
-    }
-
-    @Override
-    public RegexCommandRegister permission(String permission) {
-        this.permission = permission;
-        return this;
-    }
-
-    @Override
-    public RegexCommandRegister alias(String alias) {
-        this.aliases.add(alias);
-        return this;
-    }
-
-    @Override
-    public RegexCommandRegister aliases(String... aliases) {
-        // 将数组转换为list
-        this.aliases.addAll(Arrays.asList(aliases));
-        return this;
-    }
 
     @Override
     public void register() {
@@ -92,7 +83,7 @@ public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidComman
                 return false;
             }
             // 如果有全匹配处理器
-            Optional.ofNullable(executor).ifPresent(e -> e.accept(sender));
+            Optional.ofNullable(match).ifPresent(e -> e.accept(sender));
             // 数组转为字符串 空格分隔
             String full = String.join(" ", args);
             // 精准匹配处理器所返回的结果
@@ -141,25 +132,11 @@ public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidComman
         instance.unregister(commands);
     }
 
-    @Override
-    public RegexCommandRegister filter(AlkaidFilterCallback callback) {
-        this.filter = callback;
-        return this;
-    }
-
-    @Override
-    public RegexCommandRegister match(Consumer<CommandSender> callback) {
-        this.executor = callback;
-        return this;
-    }
-
-    @Override
     public RegexCommandRegister match(String regular, AlkaidCommandCallback callback) {
         this.executors.put(regular, callback);
         return this;
     }
 
-    @Override
     public RegexCommandRegister tab(String regular, AlkaidTabCallback callback) {
         this.tabs.put(regular, callback);
         return this;
