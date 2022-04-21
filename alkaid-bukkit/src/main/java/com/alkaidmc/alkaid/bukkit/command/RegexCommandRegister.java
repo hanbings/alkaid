@@ -7,6 +7,7 @@ import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandMatchable;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandRegister;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidFilterCallback;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidTabCallback;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -20,11 +21,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@RequiredArgsConstructor
 public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidCommandDescribable,
         AlkaidCommandMatchable, AlkaidCommandFilterable {
-    JavaPlugin plugin;
-    PluginCommand instance;
-    CommandMap commands;
+    final JavaPlugin plugin;
+    final PluginCommand instance;
+    final CommandMap commands;
     // 命令相关信息
     String command;
     List<String> aliases = new ArrayList<>();
@@ -39,18 +41,6 @@ public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidComman
     AlkaidFilterCallback filter;
     // 过滤器结果
     boolean result = false;
-
-    public RegexCommandRegister(JavaPlugin plugin, PluginCommand instance, CommandMap commands) {
-        this.plugin = plugin;
-        this.instance = instance;
-        this.commands = commands;
-    }
-
-    @Override
-    public RegexCommandRegister command(String command) {
-        this.command = command;
-        return this;
-    }
 
     @Override
     public RegexCommandRegister description(String description) {
@@ -84,7 +74,7 @@ public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidComman
     }
 
     @Override
-    public RegexCommandRegister register() {
+    public void register() {
         instance.setName(command);
         instance.setAliases(aliases);
         instance.setDescription(description);
@@ -102,9 +92,7 @@ public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidComman
                 return false;
             }
             // 如果有全匹配处理器
-            Optional.ofNullable(executor).ifPresent(e -> {
-                e.accept(sender);
-            });
+            Optional.ofNullable(executor).ifPresent(e -> e.accept(sender));
             // 数组转为字符串 空格分隔
             String full = String.join(" ", args);
             // 精准匹配处理器所返回的结果
@@ -146,13 +134,11 @@ public class RegexCommandRegister implements AlkaidCommandRegister, AlkaidComman
             return results;
         });
         instance.register(commands);
-        return this;
     }
 
     @Override
-    public RegexCommandRegister unregister() {
+    public void unregister() {
         instance.unregister(commands);
-        return this;
     }
 
     @Override
