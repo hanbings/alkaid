@@ -1,9 +1,11 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
 import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventCallback;
-import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventControllable;
-import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventCountable;
 import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventRegister;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -12,117 +14,96 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
-public class CountEventRegister implements AlkaidEventRegister, AlkaidEventControllable, AlkaidEventCountable {
-    JavaPlugin plugin;
+@RequiredArgsConstructor
+public class CountEventRegister implements AlkaidEventRegister {
+    final JavaPlugin plugin;
     // 需要监听的事件
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     Class<? extends Event> event;
     // 事件处理器
-    Consumer<Event> consumer;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
+    Consumer<Event> use;
     // 事件剩余次数
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     int count = 0;
-    // 事件是否挂起
-    boolean hangup = false;
     // 开始监听前的调用
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     AlkaidEventCallback before = null;
     // 停止监听后的调用
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     AlkaidEventCallback after = null;
     // Bukkit 事件优先级
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     EventPriority priority = EventPriority.NORMAL;
     // 是否忽略  Bukkit 事件的取消标志
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     boolean ignore = false;
+
+    // 事件是否挂起
+    boolean hangup = false;
     // 注销事件
     boolean cancel = false;
-    Listener listener = new Listener() {
-        public void on(Event event) {
-            // 检查事件是否已经被挂起
-            if (hangup) {
-                return;
-            }
-            // count 不为 0 不小于 0 即继续运行
-            if (!(count > 0)) {
-                after.callback(plugin, CountEventRegister.this);
-                return;
-            }
-            // 判断该事件是否注销
-            if (cancel) {
-                event.getHandlers().unregister(this);
-                return;
-            }
-            consumer.accept(event);
-            // 执行计数
-            count--;
-        }
-    };
 
-    public CountEventRegister(JavaPlugin plugin) {
-        this.plugin = plugin;
-    }
 
-    @Override
-    public CountEventRegister count(int count) {
-        this.count = count;
-        return this;
-    }
-
-    @Override
-    public CountEventRegister listener(Class<? extends Event> event) {
-        this.event = event;
-        return this;
-    }
-
-    @Override
-    public CountEventRegister use(Consumer<Event> consumer) {
-        this.consumer = consumer;
-        return this;
-    }
-
-    @Override
-    public CountEventRegister priority(EventPriority priority) {
-        this.priority = priority;
-        return this;
-    }
-
-    @Override
-    public CountEventRegister ignore(boolean ignore) {
-        this.ignore = ignore;
-        return this;
-    }
-
-    @Override
-    public CountEventRegister register() {
-        this.listen();
-        plugin.getServer().getPluginManager().registerEvent(
-                event, listener, priority, (l, e) -> consumer.accept(e), plugin, ignore
-        );
-        return this;
-    }
-
-    @Override
-    public void unregister() {
-        cancel = true;
-    }
-
-    @Override
     public void listen() {
         this.before.callback(plugin, this);
         this.hangup = false;
     }
 
-    @Override
     public void hangup() {
         this.after.callback(plugin, this);
         this.hangup = true;
     }
 
     @Override
-    public CountEventRegister before(AlkaidEventCallback callback) {
-        this.before = callback;
-        return this;
+    public void register() {
+        this.listen();
+        plugin.getServer().getPluginManager().registerEvent(
+                event,
+                new Listener() {
+                },
+                priority,
+                (l, e) -> {
+                    // 检查事件是否已经被挂起
+                    if (hangup) {
+                        return;
+                    }
+                    // count 不为 0 不小于 0 即继续运行
+                    if (!(count > 0)) {
+                        after.callback(plugin, CountEventRegister.this);
+                        return;
+                    }
+                    // 判断该事件是否注销
+                    if (cancel) {
+                        e.getHandlers().unregister(l);
+                        return;
+                    }
+                    use.accept(e);
+                    // 执行计数
+                    count--;
+
+                },
+                plugin,
+                ignore
+        );
     }
 
     @Override
-    public CountEventRegister after(AlkaidEventCallback callback) {
-        this.after = callback;
-        return this;
+    public void unregister() {
+        cancel = true;
     }
 }

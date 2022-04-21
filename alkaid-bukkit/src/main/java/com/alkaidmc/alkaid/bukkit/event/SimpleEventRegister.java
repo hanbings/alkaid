@@ -1,5 +1,6 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
+import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventRegister;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -13,7 +14,7 @@ import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 @RequiredArgsConstructor
-public class SimpleEventRegister {
+public class SimpleEventRegister implements AlkaidEventRegister {
     final JavaPlugin plugin;
     // 需要监听的事件
     @Setter
@@ -24,7 +25,7 @@ public class SimpleEventRegister {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Consumer<Event> consumer;
+    Consumer<Event> use;
     // Bukkit 事件优先级
     @Setter
     @Getter
@@ -39,6 +40,7 @@ public class SimpleEventRegister {
     // 注销事件标志
     boolean cancel = false;
 
+    @Override
     public void register() {
         plugin.getServer().getPluginManager().registerEvent(
                 event,
@@ -51,13 +53,14 @@ public class SimpleEventRegister {
                         e.getHandlers().unregister(l);
                         return;
                     }
-                    consumer.accept(e);
+                    use.accept(e);
                 },
                 plugin,
                 ignore
         );
     }
 
+    @Override
     public void unregister() {
         cancel = true;
     }
