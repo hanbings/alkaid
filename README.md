@@ -34,6 +34,27 @@ new AlkaidEvent(plugin).conditional()
                 .register();
 ```
 
+**注册指令**
+
+```java
+new AlkaidCommand(plugin).simple()
+                .command("alkaid")
+                .description("须臾曈昽开晓晴 烂银一色摇光晶")
+                .permission("apj.20fans")
+                .usage("/alkaid")
+                .aliases(new ArrayList<>() {{
+                    add("alias");
+                }})
+                .executor((sender, command, label, args) -> {
+                    sender.sendMessage("你好！");
+                    return true;
+                })
+                .tab((sender, command, alias, args) -> new ArrayList<>() {{
+                    add("你好");
+                }})
+                .register();
+```
+
 ## ✨ 模块
 
 | 模块              | 描述                                   | Bukkit 支持 | Bungee Cord 支持 |
