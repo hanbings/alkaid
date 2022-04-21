@@ -21,5 +21,4 @@ public class AlkaidEvent {
     public ConditionalEventRegister conditional() {
         return new ConditionalEventRegister(plugin);
     }
-
 }
