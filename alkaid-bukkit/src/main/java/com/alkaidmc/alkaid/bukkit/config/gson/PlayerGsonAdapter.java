@@ -1,4 +1,4 @@
-package com.alkaidmc.alkaid.serialize.gson;
+package com.alkaidmc.alkaid.bukkit.config.gson;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

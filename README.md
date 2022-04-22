@@ -68,13 +68,11 @@ new AlkaidTask(plugin).simple()
 
 ## ✨ 模块
 
-| 模块              | 描述                                   | Bukkit 支持 | Bungee Cord 支持 |
-| ----------------- | -------------------------------------- | ----------- | ---------------- |
-| alkaid-bukkit     | Bukkit API 流式封装                    | ✔️           | ❌                |
-| alkaid-bungeecord | Bungee Cord 流式封装                   | ❌           | ✔️                |
-| alkaid-block      | 对 Bukkit 的方块操作封装 如区块复制    | ✔️           | ❌                |
-| alkaid-common     | 服务端无关工具类 如 sha256             | ✔️           | ✔️                |
-| alkaid-log        | 控制台 Logger 封装 包括色彩            | ✔️           | ✔️                |
-| alkaid-mongodb    | 对于 MongoDB 数据库的封装              | ✔️           | ✔️                |
-| alkaid-serialize  | 对于可序列化类型的第三方库封装 如 Gson | ✔️           | ❌                |
+| 模块              | 描述                        | Bukkit 支持 | Bungee Cord 支持 |
+| ----------------- | --------------------------- | ----------- | ---------------- |
+| alkaid-bukkit     | Bukkit API 流式封装         | ✔️           | ❌                |
+| alkaid-bungeecord | Bungee Cord 流式封装        | ❌           | ✔️                |
+| alkaid-common     | 服务端无关工具类 如 sha256  | ✔️           | ✔️                |
+| alkaid-log        | 控制台 Logger 封装 包括色彩 | ✔️           | ✔️                |
+| alkaid-mongodb    | 对于 MongoDB 数据库的封装   | ✔️           | ✔️                |
 
