@@ -55,6 +55,17 @@ new AlkaidCommand(plugin).simple()
                 .register();
 ```
 
+**注册任务**
+
+```
+new AlkaidTask(plugin).simple()
+                .run(() -> System.out.println("快和我一起歌唱 好孩子才不怕悲伤"))
+                .delay(20)
+                .period(20)
+                .async(true)
+                .register();
+```
+
 ## ✨ 模块
 
 | 模块              | 描述                                   | Bukkit 支持 | Bungee Cord 支持 |
