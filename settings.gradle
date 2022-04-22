@@ -1,9 +1,7 @@
 rootProject.name = 'alkaid'
 include 'alkaid-bukkit'
 include 'alkaid-bungeecord'
-include 'alkaid-mongodb'
 include 'alkaid-common'
-include 'alkaid-block'
-include 'alkaid-serialize'
+include 'alkaid-mongodb'
 include 'alkaid-log'
 
