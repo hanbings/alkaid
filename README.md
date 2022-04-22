@@ -57,7 +57,7 @@ new AlkaidCommand(plugin).simple()
 
 **注册任务**
 
-```
+```java
 new AlkaidTask(plugin).simple()
                 .run(() -> System.out.println("快和我一起歌唱 好孩子才不怕悲伤"))
                 .delay(20)
