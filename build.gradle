@@ -14,7 +14,7 @@ subprojects {
     apply plugin: 'maven-publish'
 
     group = 'com.alkaidmc.alkaid'
-    version = '1.0.0-dev'
+    version = '1.0.0-SNAPSHOT'
 
     repositories {
         mavenCentral()
@@ -42,7 +42,7 @@ subprojects {
         repositories {
             maven {
                 url = uri((project.findProperty("repository_root_url") ?: System.getenv("REPOSITORY_ROOT_URL"))
-                        + (project.version.toString().endsWith('release') ? 'releases' : 'snapshots'))
+                        + (project.version.toString().endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'))
                 credentials {
                     username = project.findProperty("repository_user") ?: System.getenv("REPOSITORY_USER")
                     password = project.findProperty("repository_token") ?: System.getenv("REPOSITORY_TOKEN")
