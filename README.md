@@ -76,3 +76,43 @@ new AlkaidTask(plugin).simple()
 | alkaid-log        | 控制台 Logger 封装 包括色彩 | ✔️           | ✔️                |
 | alkaid-mongodb    | 对于 MongoDB 数据库的封装   | ✔️           | ✔️                |
 
+## 🔨 怎么使用？
+
+目前 Alkaid Lib 发布在 https://repository.alkaidmc.com
+
+需要通过 Maven 或 Gradle 添加自定义仓库再添加对应模块依赖
+
+**Maven**
+
+```xml
+<repository>
+  <id>alkaidmc-repository-releases</id>
+  <name>AlkaidMC Repository</name>
+  <url>https://repository.alkaidmc.com/releases</url>
+</repository>
+
+<repository>
+  <id>alkaidmc-repository-snapshots</id>
+  <name>AlkaidMC Repository</name>
+  <url>https://repository.alkaidmc.com/snapshots</url>
+</repository>
+```
+
+**Gradle**
+
+```groovy
+maven {
+    url "https://repository.alkaidmc.com/releases"
+    url "https://repository.alkaidmc.com/snapshots"
+}
+```
+
+**Gradle Kotlin**
+
+```kotlin
+maven {
+    url = uri("https://repository.alkaidmc.com/releases")
+    url = uri("https://repository.alkaidmc.com/snapshots")
+}
+```
+
