@@ -20,12 +20,12 @@ public class SimpleEventRegister implements AlkaidEventRegister {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Class<? extends Event> with;
+    Class<? extends Event> event;
     // 事件处理器
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Consumer<Event> use;
+    Consumer<Event> listener;
     // Bukkit 事件优先级
     @Setter
     @Getter
@@ -43,7 +43,7 @@ public class SimpleEventRegister implements AlkaidEventRegister {
     @Override
     public void register() {
         plugin.getServer().getPluginManager().registerEvent(
-                with,
+                event,
                 new Listener() {
                 },
                 priority,
@@ -53,7 +53,7 @@ public class SimpleEventRegister implements AlkaidEventRegister {
                         e.getHandlers().unregister(l);
                         return;
                     }
-                    use.accept(e);
+                    listener.accept(e);
                 },
                 plugin,
                 ignore
