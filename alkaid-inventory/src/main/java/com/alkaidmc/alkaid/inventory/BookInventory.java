@@ -52,13 +52,13 @@ public class BookInventory {
     public ItemStack written() {
         return new ItemStack(Material.WRITTEN_BOOK) {{
             Optional<BookMeta> meta = Optional.ofNullable((BookMeta) getItemMeta());
-            meta.ifPresent(bookMeta -> {
+            meta.ifPresent(m -> {
                 // 书信息
-                bookMeta.setTitle(title);
-                bookMeta.setAuthor(author);
-                bookMeta.setGeneration(generation);
+                m.setTitle(title);
+                m.setAuthor(author);
+                m.setGeneration(generation);
                 // 写入书内容
-                pages.forEach(bookMeta::addPage);
+                pages.forEach(m::addPage);
                 // 写入 meta
                 setItemMeta(meta.get());
             });
@@ -68,13 +68,13 @@ public class BookInventory {
     public ItemStack writable() {
         return new ItemStack(Material.WRITABLE_BOOK) {{
             Optional<BookMeta> meta = Optional.ofNullable((BookMeta) getItemMeta());
-            meta.ifPresent(bookMeta -> {
+            meta.ifPresent(m -> {
                 // 书信息
-                bookMeta.setTitle(title);
-                bookMeta.setAuthor(author);
-                bookMeta.setGeneration(generation);
+                m.setTitle(title);
+                m.setAuthor(author);
+                m.setGeneration(generation);
                 // 写入书内容
-                pages.forEach(bookMeta::addPage);
+                pages.forEach(m::addPage);
                 // 写入 meta
                 setItemMeta(meta.get());
             });
