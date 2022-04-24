@@ -13,18 +13,22 @@
 
 ```java
 new AlkaidEvent(plugin).simple()
-                 .listener(event -> ((PlayerLoginEvent) event).getPlayer().sendMessage("欢迎"))
-                 .event(PlayerLoginEvent.class)
-                 .priority(EventPriority.HIGHEST)
-                 .ignore(false)
-                 .register();
+                .listener(event -> {
+                    ((PlayerLoginEvent) event).getPlayer().sendMessage("欢迎");
+                })
+                .event(PlayerLoginEvent.class)
+                .priority(EventPriority.HIGHEST)
+                .ignore(false)
+                .register();
 ```
 
 **遇到特定事件停止监听**
 
 ```java
 new AlkaidEvent(plugin).conditional()
-                .listener(event -> ((PlayerBedEnterEvent) event).getPlayer().sendMessage("晚安"))
+                .listener(event -> {
+                    ((PlayerBedEnterEvent) event).getPlayer().sendMessage("晚安");
+                })
                 // 监听此事件
                 .event(PlayerBedEnterEvent.class)
                 // 监听到此事件时停止监听
