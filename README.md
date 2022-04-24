@@ -66,6 +66,20 @@ new AlkaidTask(plugin).simple()
                 .register();
 ```
 
+**辅助反射**
+
+```java
+new ReflectionActions()
+                .load("com.alkaidmc.alkaid.common.AlkaidCommon")
+                .method("test", String.class)
+                .field("test")
+                .unlock()
+                .error(exception -> {
+                    throw new RuntimeException(exception);
+                })
+                .invoke("test");
+```
+
 ## ✨ 模块
 
 | 模块              | 描述                        | Bukkit 支持 | Bungee Cord 支持 |
