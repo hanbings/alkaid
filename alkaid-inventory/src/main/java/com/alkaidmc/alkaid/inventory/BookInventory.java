@@ -8,9 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class BookInventory {
@@ -28,6 +26,8 @@ public class BookInventory {
     @Accessors(fluent = true, chain = true)
     BookMeta.Generation generation = BookMeta.Generation.ORIGINAL;
 
+    // todo 支持截断操作
+
     // 书内容
     @Setter
     @Getter
@@ -40,6 +40,11 @@ public class BookInventory {
     }
 
     public BookInventory write(int page, String content) {
+        if (page > pages.size()) {
+            for (int i = pages.size(); i < page; i++) {
+                pages.add("");
+            }
+        }
         pages.add(page, content);
         return this;
     }
@@ -58,13 +63,6 @@ public class BookInventory {
                 setItemMeta(meta.get());
             });
         }};
-    }
-
-    public static void main(String[] args) {
-        System.out.println(new ArrayList<String>(5) {{
-            add(0,"0");
-            add(4,"4");
-        }});
     }
 
     public ItemStack writable() {
