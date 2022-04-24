@@ -13,8 +13,8 @@
 
 ```java
 new AlkaidEvent(plugin).simple()
-                 .use(event -> ((PlayerLoginEvent) event).getPlayer().sendMessage("欢迎"))
-                 .with(PlayerLoginEvent.class)
+                 .listener(event -> ((PlayerLoginEvent) event).getPlayer().sendMessage("欢迎"))
+                 .event(PlayerLoginEvent.class)
                  .priority(EventPriority.HIGHEST)
                  .ignore(false)
                  .register();
@@ -24,9 +24,9 @@ new AlkaidEvent(plugin).simple()
 
 ```java
 new AlkaidEvent(plugin).conditional()
-                .use(event -> ((PlayerBedEnterEvent) event).getPlayer().sendMessage("晚安"))
+                .listener(event -> ((PlayerBedEnterEvent) event).getPlayer().sendMessage("晚安"))
                 // 监听此事件
-                .with(PlayerBedEnterEvent.class)
+                .event(PlayerBedEnterEvent.class)
                 // 监听到此事件时停止监听
                 .interrupt(PlayerBedLeaveEvent.class)
                 .ignore(true)

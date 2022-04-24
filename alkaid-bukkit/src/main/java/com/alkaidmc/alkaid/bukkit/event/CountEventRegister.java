@@ -21,12 +21,12 @@ public class CountEventRegister implements AlkaidEventRegister {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Class<? extends Event> with;
+    Class<? extends Event> event;
     // 事件处理器
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Consumer<Event> use;
+    Consumer<Event> listener;
     // 事件剩余次数
     @Setter
     @Getter
@@ -73,7 +73,7 @@ public class CountEventRegister implements AlkaidEventRegister {
     public void register() {
         this.listen();
         plugin.getServer().getPluginManager().registerEvent(
-                with,
+                event,
                 new Listener() {
                 },
                 priority,
@@ -92,7 +92,7 @@ public class CountEventRegister implements AlkaidEventRegister {
                         e.getHandlers().unregister(l);
                         return;
                     }
-                    use.accept(e);
+                    listener.accept(e);
                     // 执行计数
                     count--;
 
