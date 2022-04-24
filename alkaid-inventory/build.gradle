@@ -1,0 +1,14 @@
+repositories {
+    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation 'com.google.code.gson:gson:2.9.0'
+
+    // https://hub.spigotmc.org/nexus/content/repositories/snapshots/
+    implementation 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+}
