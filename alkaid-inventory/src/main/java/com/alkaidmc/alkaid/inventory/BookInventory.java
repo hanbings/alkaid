@@ -26,8 +26,6 @@ public class BookInventory {
     @Accessors(fluent = true, chain = true)
     BookMeta.Generation generation = BookMeta.Generation.ORIGINAL;
 
-    // todo 支持截断操作
-
     // 书内容
     @Setter
     @Getter
