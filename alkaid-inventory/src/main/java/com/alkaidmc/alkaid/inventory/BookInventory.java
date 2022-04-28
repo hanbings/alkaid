@@ -37,8 +37,15 @@ public class BookInventory {
         return this;
     }
 
+    /**
+     * 从第 0 页开始数
+     *
+     * @param page    页数 注意：从第 0 页开始数
+     * @param content 内容
+     * @return 链式调用对象
+     */
     public BookInventory write(int page, String content) {
-        if (page > pages.size()) {
+        if (page + 1 > pages.size()) {
             for (int i = pages.size(); i < page; i++) {
                 pages.add("");
             }
