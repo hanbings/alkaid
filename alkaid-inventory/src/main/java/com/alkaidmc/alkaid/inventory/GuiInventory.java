@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -59,7 +60,13 @@ public class GuiInventory {
     }
 
     // 操作函数
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     Consumer<InventoryOpenEvent> open = null;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     Consumer<InventoryCloseEvent> close = null;
 
     public GuiInventory item(ItemStack item, int... slots) {
@@ -74,18 +81,8 @@ public class GuiInventory {
         return this;
     }
 
-    public GuiInventory open(Consumer<InventoryOpenEvent> open) {
-        this.open = open;
-        return this;
-    }
-
     public GuiInventory click(Consumer<InventoryClickEvent> click, int... slots) {
         Arrays.stream(slots).forEach(s -> actions.add(s, click));
-        return this;
-    }
-
-    public GuiInventory close(Consumer<InventoryCloseEvent> close) {
-        this.close = close;
         return this;
     }
 
@@ -132,12 +129,24 @@ public class GuiInventory {
                     InventoryClickEvent.class, LISTENER, EventPriority.LOWEST,
                     (l, e) -> {
                         InventoryClickEvent action = (InventoryClickEvent) e;
-                        if (Objects.equals(action.getInventory().getHolder(), holder)) {
-                            Optional.ofNullable(actions.get(action.getSlot())).ifPresent(a -> a.accept(action));
-                        }
+                        Optional.ofNullable(action.getClickedInventory()).ifPresent(inv -> {
+                            if (Objects.equals(action.getClickedInventory().getHolder(), holder)) {
+                                Optional.ofNullable(actions.get(action.getSlot())).ifPresent(a -> a.accept(action));
+                            }
+                        });
                     }, plugin
             );
         });
+
+        // 设置拖拽事件
+        Bukkit.getPluginManager().registerEvent(
+                InventoryDragEvent.class, LISTENER, EventPriority.LOWEST,
+                (l, e) -> {
+                    InventoryDragEvent action = (InventoryDragEvent) e;
+                    if (Objects.equals(action.getInventory().getHolder(), holder)) {
+                        action.setCancelled(true);
+                    }
+                }, plugin);
 
         // 设置物品
         IntStream.range(0, rows * 9)
