@@ -70,6 +70,45 @@ new AlkaidTask(plugin).simple()
                 .register();
 ```
 
+**创建一本书**
+
+```java
+new AlkaidInventory(plugin).book()
+                .title("这是一本书")
+                .author("这是一本书的作者")
+                .write("这是往书里写了一句话")
+                .write(2, "这是往第三页写了一句话")
+                // 生成书的 ItemStack
+                .written();
+```
+
+**创建自定义箱子界面**
+
+```java
+new AlkaidInventory(plugin).gui()
+                // 大小
+                .rows(6)
+                // 持有者
+                .holder(Bukkit.getPlayer("hanbings"))
+                // 不允许拖拽
+                .drag(false)
+                // 标题
+                .title("Alkaid")
+                // 设置特定位置的物品
+                .item(new ItemStack(Material.BOOK), 12, 13, 14)
+                .item(new ItemStack(Material.LIGHT_BLUE_BANNER), 32, 33, 34)
+                // 设置空闲位置的物品
+                .free(new ItemStack(Material.BLACK_BANNER))
+                // 设置物品的打开事件
+                .open((e) -> e.getPlayer().sendMessage("打开了"))
+                // 设置物品的点击事件
+                .click((e) -> e.getWhoClicked().sendMessage("点了一下"), 1, 2, 3)
+                .click((e) -> e.getWhoClicked().sendMessage("点了一下"), 4, 5, 6)
+                // 设置物品的关闭事件
+                .close((e) -> e.getPlayer().sendMessage("关闭了"))
+                .create();
+```
+
 **辅助反射**
 
 ```java
