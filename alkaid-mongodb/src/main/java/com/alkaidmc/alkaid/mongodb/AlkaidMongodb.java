@@ -41,6 +41,7 @@ public class AlkaidMongodb {
     @Accessors(fluent = true, chain = true)
     MongoClientOptions options = null;
 
+    // todo: mongodb 链接和鉴权
     public SyncMongodbConnection sync(String collection) {
         return null;
     }
@@ -48,4 +49,6 @@ public class AlkaidMongodb {
     public AsyncMongodbConnection async(String collection) {
        return null;
     }
+
+    // todo： 关闭连接
 }
