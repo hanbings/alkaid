@@ -4,50 +4,58 @@ import com.alkaidmc.alkaid.mongodb.interfaces.SyncQueryActions;
 import com.alkaidmc.alkaid.mongodb.interfaces.WriteableActions;
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
-import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SyncMongodbConnection implements WriteableActions, SyncQueryActions {
     Gson gson;
-    MongoCollection<Document> collection;
+    MongoDatabase database;
 
-    public SyncMongodbConnection(Gson gson, MongoCollection<Document> collection) {
+    public SyncMongodbConnection(Gson gson, MongoDatabase database) {
         this.gson = gson;
-        this.collection = collection;
+        this.database = database;
     }
 
     @Override
-    public void create(Object data) {
-        collection.insertOne(Document.parse(gson.toJson(data)));
+    public void create(String collection, Object data) {
+        database.getCollection(collection)
+                .insertOne(Document.parse(gson.toJson(data)));
     }
 
     @Override
-    public void create(List<Object> data) {
-        data.forEach(d -> collection.insertOne(Document.parse(gson.toJson(d))));
+    public void create(String collection, List<Object> data) {
+        database.getCollection(collection)
+                .insertMany(data.stream()
+                        .map(d -> Document.parse(gson.toJson(d)))
+                        .collect(Collectors.toList()));
     }
 
     @Override
-    public void update(Map<String, Object> index, Object data) {
-        collection.updateMany(
-                Document.parse(gson.toJsonTree(index, Map.class).toString()),
-                Document.parse(gson.toJson(data))
-        );
+    public void update(String collection, Map<String, Object> index, Object data) {
+        database.getCollection(collection)
+                .updateMany(
+                        Document.parse(gson.toJsonTree(index, Map.class).toString()),
+                        Document.parse(gson.toJson(data))
+                );
     }
 
     @Override
-    public void delete(Map<String, Object> index) {
-        collection.deleteMany(Document.parse(gson.toJsonTree(index, Map.class).toString()));
+    public void delete(String collection, Map<String, Object> index) {
+        database.getCollection(collection)
+                .deleteMany(Document.parse(gson.toJsonTree(index, Map.class).toString()));
     }
 
     @Override
-    public <T> List<T> read(Map<String, Object> index, Class<T> type) {
+    public <T> List<T> read(String collection, Map<String, Object> index, Class<T> type) {
         List<T> list = new ArrayList<>();
         // 获取数据库连接
-        collection.find(Document.parse(gson.toJsonTree(index, Map.class).toString()))
+        database.getCollection(collection)
+                .find(Document.parse(gson.toJsonTree(index, Map.class).toString()))
                 .iterator()
                 .forEachRemaining(document -> {
                     // 将 document 转换回对象
@@ -57,10 +65,11 @@ public class SyncMongodbConnection implements WriteableActions, SyncQueryActions
     }
 
     @Override
-    public <T, V> List<T> search(String data, V top, V bottom, int limit, Class<T> type) {
+    public <T, V> List<T> search(String collection, String data, V top, V bottom, int limit, Class<T> type) {
         List<T> list = new ArrayList<>();
         // 获取数据库连接
-        collection.find(new BasicDBObject() {{
+        database.getCollection(collection)
+                .find(new BasicDBObject() {{
                     put(data, new BasicDBObject() {{
                         put("$gte", top);
                         put("$lte", bottom);
