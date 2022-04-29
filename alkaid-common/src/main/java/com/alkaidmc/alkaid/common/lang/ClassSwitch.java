@@ -7,9 +7,10 @@ import lombok.experimental.Accessors;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
+@SuppressWarnings("unused")
 public class ClassSwitch {
-    // todo： 处理函数接口
     List<String> classes;
 
     @Setter
@@ -20,12 +21,12 @@ public class ClassSwitch {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Consumer<String> nothing;
+    Consumer<Class<?>> nothing;
 
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Consumer<String> fail;
+    Predicate<String> fail = x -> false;
 
     @Getter
     @Accessors(fluent = true, chain = true)
@@ -45,11 +46,13 @@ public class ClassSwitch {
         for (String classname : classes) {
             try {
                 clazz = loader.loadClass(classname);
-                break;
+                Optional.ofNullable(success).ifPresent(s -> s.accept(classname));
+                return this;
             } catch (ClassNotFoundException e) {
-                Optional.ofNullable(fail).ifPresent(c -> c.accept(classname));
+                if (fail.test(classname)) return this;
             }
         }
+        Optional.ofNullable(nothing).ifPresent(n -> n.accept(clazz));
         return this;
     }
 }

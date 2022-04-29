@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ReflectionActions {
-    // todo： classloader 以及错误处理参数
     @Getter
     @Accessors(fluent = true, chain = true)
     Class<?> clazz;
@@ -27,10 +26,15 @@ public class ReflectionActions {
         throw new RuntimeException(exception);
     };
 
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
+    ClassLoader loader = Class.class.getClassLoader();
+
     public ReflectionActions load(String classname, Consumer<Exception> error) {
         // forName 载入类
         try {
-            this.clazz = Class.forName(classname);
+            this.clazz = this.loader.loadClass(classname);
         } catch (ClassNotFoundException e) {
             (Optional.ofNullable(error).orElse(this.error)).accept(e);
         }
