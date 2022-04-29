@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.Optional;
+
 @NoArgsConstructor
 public class AlkaidMongodb {
     @Setter
@@ -39,16 +41,39 @@ public class AlkaidMongodb {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    MongoClientOptions options = null;
+    MongoClientOptions options = MongoClientOptions.builder().build();
+
+    // 托管 Client 的示例
+    MongoClient client = null;
 
     // todo: mongodb 链接和鉴权
     public SyncMongodbConnection sync(String collection) {
-        return null;
+        Optional.ofNullable(client).orElseGet(() -> {
+            if (username != null && password != null) {
+                MongoCredential credential =
+                        MongoCredential.createCredential(username, database, password.toCharArray());
+                return new MongoClient(new ServerAddress(host, port), credential, options);
+            } else {
+                return new MongoClient(new ServerAddress(host, port), options);
+            }
+        });
+        return new SyncMongodbConnection(gson, client.getDatabase(database));
     }
 
     public AsyncMongodbConnection async(String collection) {
-       return null;
+        Optional.ofNullable(client).orElseGet(() -> {
+            if (username != null && password != null) {
+                MongoCredential credential =
+                        MongoCredential.createCredential(username, database, password.toCharArray());
+                return new MongoClient(new ServerAddress(host, port), credential, options);
+            } else {
+                return new MongoClient(new ServerAddress(host, port), options);
+            }
+        });
+        return new AsyncMongodbConnection(gson, client.getDatabase(database));
     }
 
-    // todo： 关闭连接
+    public void close() {
+        Optional.ofNullable(client).ifPresent(MongoClient::close);
+    }
 }
