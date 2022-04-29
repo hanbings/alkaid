@@ -1,59 +1,51 @@
 package com.alkaidmc.alkaid.mongodb;
 
+import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
+@NoArgsConstructor
 public class AlkaidMongodb {
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     String host;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     int port;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     String database;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     String username;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
     String password;
-    MongoClientOptions options;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
+    Gson gson = new Gson();
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
+    MongoClientOptions options = null;
 
-
-    public AlkaidMongodb(String host, int port,
-                         String database, String username, String password,
-                         MongoClientOptions options) {
-        this.host = host;
-        this.port = port;
-        this.database = database;
-        this.username = username;
-        this.password = password;
-        this.options = options;
+    public SyncMongodbConnection sync(String collection) {
+        return null;
     }
 
-    public SyncMongodbConnector sync() {
-        if (username != null && password != null) {
-            MongoCredential credential = MongoCredential.createCredential(username, database, password.toCharArray());
-            return new SyncMongodbConnector(
-                    new MongoClient(
-                            new ServerAddress(host, port), credential, options
-                    )
-            );
-        }
-        return new SyncMongodbConnector(
-                new MongoClient(
-                        new ServerAddress(host, port), options
-                )
-        );
-    }
-
-    public AsyncMongodbConnector async() {
-        if (username != null && password != null) {
-            MongoCredential credential = MongoCredential.createCredential(username, database, password.toCharArray());
-            return new AsyncMongodbConnector(
-                    new MongoClient(
-                            new ServerAddress(host, port), credential, options
-                    ).getDatabase(database)
-            );
-        }
-        return new AsyncMongodbConnector(
-                new MongoClient(
-                        new ServerAddress(host, port), options
-                ).getDatabase(database)
-        );
+    public AsyncMongodbConnection async(String collection) {
+       return null;
     }
 }
