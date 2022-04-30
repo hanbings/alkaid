@@ -1,3 +1,5 @@
+![Alkaid](https://picture.hanbings.com/2022/05/01/d321c9d50fb71.png)
+
 <h1 align="center">🌟 Alkaid</h1>
 <h5 align="center">A Lightweight Kit Aim In Development.</h5>
 
@@ -112,15 +114,19 @@ new AlkaidInventory(plugin).gui()
 **辅助反射**
 
 ```java
-new ReflectionActions()
-                .load("com.alkaidmc.alkaid.common.AlkaidCommon")
-                .method("test", String.class)
-                .field("test")
-                .unlock()
-                .error(exception -> {
-                    throw new RuntimeException(exception);
-                })
-                .invoke("test");
+new AlkaidCommon().reflection()
+                // 设置加载器
+                .loader(AlkaidCommon.class.getClassLoader())
+                // 设置类名 第二个参数为异常处理 可选
+                .load("com.alkaidmc.alkaid.common.AlkaidCommon", Throwable::printStackTrace)
+                .load("com.alkaidmc.alkaid.common.lang.ClassSwitch")
+                // 查找方法 第二个参数为异常处理 可选
+                .method("test", String.class, String.class)
+                .method("test", Throwable::printStackTrace, String.class)
+                // 默认异常处理
+                .error(Throwable::printStackTrace)
+                // 执行方法
+                .invoke("test", "Alkaid", "Common");
 ```
 
 ## ✨ 模块
