@@ -1,4 +1,4 @@
-![Alkaid](https://picture.hanbings.io/2022/05/01/d321c9d50fb71.png)
+![Alkaid](https://picture.hanbings.io/2022/05/01/efd2f4606be8d.png)
 
 <h1 align="center">🌟 Alkaid</h1>
 <h5 align="center">A Lightweight Kit Aim In Development.</h5>
@@ -175,3 +175,10 @@ maven {
 }
 ```
 
+## ⚖ 开源许可
+
+本项目使用 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) 许可协议进行开源
+
+该协议允许基于本项目开发的项目进行商用，但需要注意的是，本项目中的图片（包括 Readme.md 文件中所展示的吉祥物狼龙摇光和可能出现的其他图片）**不属于开源的范围**，它们属于开发者 [寒冰 hanbings](https://github.com/hanbings) 个人所有，请在复制、修改本项目时移除它们。
+
+**吉祥物狼龙摇光图片中所使用 Alkaid 字样字体为商业需授权字体 Snap ITC**
