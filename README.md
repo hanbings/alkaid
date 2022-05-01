@@ -1,4 +1,4 @@
-![Alkaid](https://picture.hanbings.com/2022/05/01/d321c9d50fb71.png)
+![Alkaid](https://picture.hanbings.io/2022/05/01/d321c9d50fb71.png)
 
 <h1 align="center">🌟 Alkaid</h1>
 <h5 align="center">A Lightweight Kit Aim In Development.</h5>
@@ -48,16 +48,12 @@ new AlkaidCommand(plugin).simple()
                 .description("须臾曈昽开晓晴 烂银一色摇光晶")
                 .permission("apj.20fans")
                 .usage("/alkaid")
-                .aliases(new ArrayList<>() {{
-                    add("alias");
-                }})
+                .aliases(List.of("alias"))
                 .executor((sender, command, label, args) -> {
                     sender.sendMessage("你好！");
                     return true;
                 })
-                .tab((sender, command, alias, args) -> new ArrayList<>() {{
-                    add("你好");
-                }})
+                .tab((sender, command, alias, args) -> List.of("你好"))
                 .register();
 ```
 
