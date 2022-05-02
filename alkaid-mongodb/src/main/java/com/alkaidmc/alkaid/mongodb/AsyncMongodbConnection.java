@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class AsyncMongodbConnection implements WriteableActions, AsyncQueryActions {
     Gson gson;
     MongoDatabase database;

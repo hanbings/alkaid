@@ -11,6 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 @RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class SimpleTaskRegister implements AlkaidTaskRegister {
     final JavaPlugin plugin;
 

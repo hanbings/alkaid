@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class AlkaidInventory {
     final JavaPlugin plugin;
 

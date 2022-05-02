@@ -13,6 +13,7 @@ import lombok.experimental.Accessors;
 import java.util.Optional;
 
 @NoArgsConstructor
+@SuppressWarnings("unused")
 public class AlkaidMongodb {
     @Setter
     @Getter

@@ -1,0 +1,4 @@
+dependencies {
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    implementation 'redis.clients:jedis:4.2.2'
+}

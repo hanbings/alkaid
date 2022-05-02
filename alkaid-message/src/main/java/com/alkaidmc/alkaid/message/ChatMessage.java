@@ -7,6 +7,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class ChatMessage {
     List<BaseComponent> components = new ArrayList<>();
 
