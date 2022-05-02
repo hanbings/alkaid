@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class SimpleCommandRegister implements AlkaidCommandRegister {
     final JavaPlugin plugin;
     final PluginCommand instance;

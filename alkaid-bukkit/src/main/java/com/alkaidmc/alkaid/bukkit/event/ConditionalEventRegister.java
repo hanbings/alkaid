@@ -12,8 +12,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
-@SuppressWarnings("unused")
 @RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class ConditionalEventRegister implements AlkaidEventRegister {
     final JavaPlugin plugin;
 

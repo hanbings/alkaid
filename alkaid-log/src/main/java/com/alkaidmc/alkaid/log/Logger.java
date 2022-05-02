@@ -3,7 +3,9 @@ package com.alkaidmc.alkaid.log;
 import lombok.Builder;
 import net.md_5.bungee.api.ChatColor;
 
+@SuppressWarnings("unused")
 public class Logger {
+    // todo：wc 这里写的什么垃圾
     static java.util.logging.Logger logger;
     static String prefix;
     static ChatColor info;

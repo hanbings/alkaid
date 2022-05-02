@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class SyncMongodbConnection implements WriteableActions, SyncQueryActions {
     Gson gson;
     MongoDatabase database;

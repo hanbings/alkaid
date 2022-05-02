@@ -13,8 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
-@SuppressWarnings("unused")
 @RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class CountEventRegister implements AlkaidEventRegister {
     final JavaPlugin plugin;
     // 需要监听的事件

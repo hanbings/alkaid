@@ -20,7 +20,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+
 @RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class RegexCommandRegister implements AlkaidCommandRegister {
     final JavaPlugin plugin;
     final PluginCommand instance;

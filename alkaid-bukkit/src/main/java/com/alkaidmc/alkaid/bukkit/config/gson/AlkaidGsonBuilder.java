@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+@SuppressWarnings("unused")
 public class AlkaidGsonBuilder {
     public static Gson create() {
         return new GsonBuilder()

@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+@SuppressWarnings("unused")
 public class GuiInventory {
     static final Listener LISTENER = new Listener() {
     };
@@ -57,6 +58,7 @@ public class GuiInventory {
     @Getter
     @Accessors(fluent = true, chain = true)
     Consumer<InventoryCloseEvent> close = null;
+
     public GuiInventory(JavaPlugin plugin) {
         this.plugin = plugin;
         // 填充数组
