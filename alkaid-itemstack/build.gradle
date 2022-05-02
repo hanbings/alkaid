@@ -1,8 +1,0 @@
-repositories {
-    maven { url 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
-}
-
-dependencies {
-    // https://hub.spigotmc.org/nexus/content/repositories/snapshots/
-    implementation 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
-}
