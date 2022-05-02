@@ -1,4 +1,4 @@
-package com.alkaidmc.alkaid.bukkit.message;
+package com.alkaidmc.alkaid.message;
 
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;

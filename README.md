@@ -2,6 +2,7 @@
 
 <h1 align="center">🌟 Alkaid</h1>
 <h5 align="center">A Lightweight Kit Aim In Development.</h5>
+<h5 align="center">🚧 下一个 Release 将在6月中下旬或7月上旬发布 在此之前请勿用于生产环境 感谢支持！</h5>
 
 ## 🍀 这是什么？
 
@@ -127,15 +128,18 @@ new AlkaidCommon().reflection()
 
 ## ✨ 模块
 
-| 模块              | 描述                        | Bukkit 支持 | Bungee Cord 支持 |
-| ----------------- | --------------------------- | ----------- | ---------------- |
-| alkaid-bukkit     | Bukkit API 流式封装         | ✔️           | ❌                |
-| alkaid-bungeecord | Bungee Cord 流式封装        | ❌           | ✔️                |
-| alkaid-common     | 服务端无关工具类 如 sha256  | ✔️           | ✔️                |
-| alkaid-log        | 控制台 Logger 封装 包括色彩 | ✔️           | ✔️                |
-| alkaid-mongodb    | 对于 MongoDB 数据库的封装   | ✔️           | ✔️                |
+| 模块              | 描述                           | Bukkit 支持 | Bungee Cord 支持 | 不依赖于 Bukkit / Bungee Cord |
+| ----------------- | ------------------------------ | ----------- | ---------------- | ----------------------------- |
+| alkaid-bukkit     | Bukkit API 流式封装            | ✔️           | ❌                | ❌                             |
+| alkaid-bungeecord | Bungee Cord 流式封装           | ❌           | ✔️                | ❌                             |
+| alkaid-common     | 服务端无关工具类 如反射 sha256 | ✔️           | ✔️                | ✔️                             |
+| alkaid-inventory  | 物品容器封装                   | ✔️           | ❌                | ❌                             |
+| alkaid-itemstack  | 物品构造器封装                 | ✔️           | ❌                | ❌                             |
+| alkaid-log        | 控制台 Logger 封装 包括色彩    | ✔️           | ✔️                | ✔️                             |
+| alkaid-message    | 表达信息类封装                 | ✔️           | ❌                | ❌                             |
+| alkaid-mongodb    | 对于 MongoDB 数据库的封装      | ✔️           | ✔️                | ✔️                             |
 
-## 🔨 怎么使用？
+## ⚡️ 快速开始
 
 目前 Alkaid Lib 发布在 https://repository.alkaidmc.com
 
@@ -174,6 +178,10 @@ maven {
     url = uri("https://repository.alkaidmc.com/snapshots")
 }
 ```
+
+## 📝 文档
+
+🕊️ 很快就有
 
 ## ⚖ 开源许可
 
