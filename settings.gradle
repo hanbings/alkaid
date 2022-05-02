@@ -3,6 +3,7 @@ include 'alkaid-bukkit'
 include 'alkaid-bungeecord'
 include 'alkaid-common'
 include 'alkaid-inventory'
+include 'alkaid-itemstack'
 include 'alkaid-log'
+include 'alkaid-message'
 include 'alkaid-mongodb'
-

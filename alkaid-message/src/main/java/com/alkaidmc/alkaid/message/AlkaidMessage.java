@@ -1,4 +1,4 @@
-package com.alkaidmc.alkaid.bukkit.message;
+package com.alkaidmc.alkaid.message;
 
 import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
