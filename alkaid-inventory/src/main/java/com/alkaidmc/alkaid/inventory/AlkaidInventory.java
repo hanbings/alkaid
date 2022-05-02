@@ -15,4 +15,8 @@ public class AlkaidInventory {
     public GuiInventory gui() {
         return new GuiInventory(this.plugin);
     }
+
+    public ItemStackBuilder item() {
+        return new ItemStackBuilder();
+    }
 }
