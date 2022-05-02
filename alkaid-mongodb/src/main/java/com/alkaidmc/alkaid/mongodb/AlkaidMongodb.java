@@ -47,9 +47,8 @@ public class AlkaidMongodb {
     // 托管 Client 的示例
     MongoClient client = null;
 
-    // todo: mongodb 链接和鉴权
     public SyncMongodbConnection sync(String collection) {
-        Optional.ofNullable(client).orElseGet(() -> {
+        client = Optional.ofNullable(client).orElseGet(() -> {
             if (username != null && password != null) {
                 MongoCredential credential =
                         MongoCredential.createCredential(username, database, password.toCharArray());
@@ -62,7 +61,7 @@ public class AlkaidMongodb {
     }
 
     public AsyncMongodbConnection async(String collection) {
-        Optional.ofNullable(client).orElseGet(() -> {
+        client = Optional.ofNullable(client).orElseGet(() -> {
             if (username != null && password != null) {
                 MongoCredential credential =
                         MongoCredential.createCredential(username, database, password.toCharArray());
