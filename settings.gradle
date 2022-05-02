@@ -7,3 +7,5 @@ include 'alkaid-itemstack'
 include 'alkaid-log'
 include 'alkaid-message'
 include 'alkaid-mongodb'
+include 'alkaid-redis'
+

@@ -24,10 +24,9 @@ import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
 public class GuiInventory {
-    final JavaPlugin plugin;
     static final Listener LISTENER = new Listener() {
     };
-
+    final JavaPlugin plugin;
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
@@ -49,16 +48,6 @@ public class GuiInventory {
     List<ItemStack> items = new ArrayList<>(54);
     // 存储点击关系
     List<Consumer<InventoryClickEvent>> actions = new ArrayList<>(54);
-
-    public GuiInventory(JavaPlugin plugin) {
-        this.plugin = plugin;
-        // 填充数组
-        IntStream.range(0, 54).forEach(count -> {
-            items.add(null);
-            actions.add(null);
-        });
-    }
-
     // 操作函数
     @Setter
     @Getter
@@ -68,6 +57,14 @@ public class GuiInventory {
     @Getter
     @Accessors(fluent = true, chain = true)
     Consumer<InventoryCloseEvent> close = null;
+    public GuiInventory(JavaPlugin plugin) {
+        this.plugin = plugin;
+        // 填充数组
+        IntStream.range(0, 54).forEach(count -> {
+            items.add(null);
+            actions.add(null);
+        });
+    }
 
     public GuiInventory item(ItemStack item, int... slots) {
         Arrays.stream(slots).forEach(s -> items.add(s, item));
