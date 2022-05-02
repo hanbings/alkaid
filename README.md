@@ -1,4 +1,4 @@
-![Alkaid](https://picture.hanbings.io/2022/05/01/efd2f4606be8d.png)
+![Alkaid](https://picture.hanbings.io/2022/05/02/70cec4897f06a.png)
 
 <h1 align="center">🌟 Alkaid</h1>
 <h5 align="center">A Lightweight Kit Aim In Development.</h5>
