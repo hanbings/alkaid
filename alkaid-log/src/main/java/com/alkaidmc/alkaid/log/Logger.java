@@ -1,28 +1,27 @@
 package com.alkaidmc.alkaid.log;
 
 import lombok.Builder;
-import net.md_5.bungee.api.ChatColor;
+import org.fusesource.jansi.Ansi;
 
 @SuppressWarnings("unused")
 public class Logger {
-    // todo：wc 这里写的什么垃圾
     static java.util.logging.Logger logger;
     static String prefix;
-    static ChatColor info;
-    static ChatColor warning;
-    static ChatColor severe;
-    static ChatColor reset = ChatColor.RESET;
+    static Ansi.Color info;
+    static Ansi.Color warning;
+    static Ansi.Color severe;
+    static Ansi.Color reset = Ansi.Color.DEFAULT;
 
     static {
         logger = java.util.logging.Logger.getLogger("Alkaid");
         prefix = "[Alkaid] ";
-        info = ChatColor.GREEN;
-        warning = ChatColor.YELLOW;
-        severe = ChatColor.RED;
+        info = Ansi.Color.GREEN;
+        warning = Ansi.Color.YELLOW;
+        severe = Ansi.Color.RED;
     }
 
     @Builder
-    public Logger(String prefix, ChatColor info, ChatColor warning, ChatColor severe) {
+    public Logger(String prefix, Ansi.Color info, Ansi.Color warning, Ansi.Color severe) {
         Logger.prefix = prefix;
         Logger.info = info;
         Logger.warning = warning;
