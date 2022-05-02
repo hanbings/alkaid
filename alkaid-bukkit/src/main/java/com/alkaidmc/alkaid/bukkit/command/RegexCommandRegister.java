@@ -89,7 +89,6 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
             // 数组转为字符串 空格分隔
             String full = String.join(" ", args);
             // 精准匹配处理器所返回的结果
-            // todo 改为数组
             List<Boolean> results = new ArrayList<>();
             // 如果有精准匹配处理器
             executors.forEach((k, v) -> {
@@ -100,7 +99,6 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
                 }
             });
             // 遍历结果集合 如果有结果为 false 则返回 false 否则返回 true
-            // todo 改为 fail fast 逻辑
             return results.stream().anyMatch(r -> !r);
         });
         // 命令 Tab 提示处理器
