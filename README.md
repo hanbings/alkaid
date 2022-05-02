@@ -133,8 +133,7 @@ new AlkaidCommon().reflection()
 | alkaid-bukkit     | Bukkit API 流式封装            | ✔️           | ❌                | ❌                             |
 | alkaid-bungeecord | Bungee Cord 流式封装           | ❌           | ✔️                | ❌                             |
 | alkaid-common     | 服务端无关工具类 如反射 sha256 | ✔️           | ✔️                | ✔️                             |
-| alkaid-inventory  | 物品容器封装                   | ✔️           | ❌                | ❌                             |
-| alkaid-itemstack  | 物品构造器封装                 | ✔️           | ❌                | ❌                             |
+| alkaid-inventory  | 物品和物品容器封装             | ✔️           | ❌                | ❌                             |
 | alkaid-log        | 控制台 Logger 封装 包括色彩    | ✔️           | ✔️                | ✔️                             |
 | alkaid-message    | 表达信息类封装                 | ✔️           | ❌                | ❌                             |
 | alkaid-mongodb    | 对于 MongoDB 数据库的封装      | ✔️           | ✔️                | ✔️                             |
