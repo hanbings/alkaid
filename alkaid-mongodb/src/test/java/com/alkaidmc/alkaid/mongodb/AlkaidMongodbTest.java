@@ -18,6 +18,13 @@ public class AlkaidMongodbTest {
     }
 
     @Test
+    public void updateTest() {
+        asyncMongodbConnection.update(testCollection,
+                Collections.singletonMap("name", "Neko"),
+                new Document("$set", new Document("age", 3)));
+    }
+
+    @Test
     public void deleteTest() {
         asyncMongodbConnection.delete(testCollection,
                 new Document("name", "Neko"));
