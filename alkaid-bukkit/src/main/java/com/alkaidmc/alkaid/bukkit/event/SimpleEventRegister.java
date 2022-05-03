@@ -19,7 +19,7 @@ public class SimpleEventRegister<T extends Event> implements AlkaidEventRegister
     // 需要监听的事件
     @Getter
     @Accessors(fluent = true)
-    Class<T> event;
+    final Class<T> event;
     // 事件处理器
     @Setter
     @Getter
@@ -38,11 +38,6 @@ public class SimpleEventRegister<T extends Event> implements AlkaidEventRegister
 
     // 注销事件标志
     boolean cancel = false;
-
-    public SimpleEventRegister(JavaPlugin plugin, Class<T> event) {
-        this.plugin = plugin;
-        this.event = event;
-    }
 
     @Override
     @SuppressWarnings("unchecked")
