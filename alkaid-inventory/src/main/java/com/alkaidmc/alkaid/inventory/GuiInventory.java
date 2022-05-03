@@ -58,12 +58,10 @@ public class GuiInventory {
     @Accessors(fluent = true, chain = true)
     Consumer<InventoryCloseEvent> close = null;
 
-    public GuiInventory(JavaPlugin plugin, int rows, InventoryHolder holder) {
+    public GuiInventory(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.rows = rows;
-        this.holder = holder;
         // 填充数组
-        IntStream.range(0, rows * 9).forEach(count -> {
+        IntStream.range(0, 54).forEach(count -> {
             items.add(null);
             actions.add(null);
         });
