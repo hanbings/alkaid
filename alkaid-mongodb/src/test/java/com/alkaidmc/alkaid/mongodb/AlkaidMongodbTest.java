@@ -3,15 +3,15 @@ package com.alkaidmc.alkaid.mongodb;
 import org.bson.Document;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
+import java.util.HashMap;
 
 public class AlkaidMongodbTest {
-    AsyncMongodbConnection asyncMongodbConnection = new AlkaidMongodb().database("test").async();
+    SyncMongodbConnection syncMongodbConnection = new AlkaidMongodb().database("test").sync();
     String testCollection = "testAlkaid";
 
     @Test
     public void insertionTest() {
-        asyncMongodbConnection.create(testCollection,
+        syncMongodbConnection.create(testCollection,
                 new Document("name", "Neko")
                         .append("age", 4)
         );
@@ -19,14 +19,25 @@ public class AlkaidMongodbTest {
 
     @Test
     public void updateTest() {
-        asyncMongodbConnection.update(testCollection,
-                Collections.singletonMap("name", "Neko"),
-                new Document("$set", new Document("age", 3)));
+        syncMongodbConnection.update(testCollection,
+                new HashMap<>() {{
+                    put("name", "Neko");
+                }},
+                new Document("$set", new Document("age", 3))
+        );
     }
 
     @Test
     public void deleteTest() {
-        asyncMongodbConnection.delete(testCollection,
-                new Document("name", "Neko"));
+        syncMongodbConnection.delete(testCollection,
+                new HashMap<>() {{
+                    put("name", "Neko");
+                }}
+        );
+    }
+
+    @Test
+    public void readTest() {
+        syncMongodbConnection.read(testCollection, new Document("name", "Neko"), Object.class).forEach(System.out::println);
     }
 }
