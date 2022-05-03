@@ -3,6 +3,7 @@
 <h1 align="center">🌟 Alkaid</h1>
 <h5 align="center">A Lightweight Kit Aim In Development.</h5>
 <h5 align="center">🚧 下一个 Release 将在6月中下旬或7月上旬发布 在此之前请勿用于生产环境 感谢支持！</h5>
+<h5 align="center">⚠️在本次 Release 前可能会因为更换域名而更换包名</h5>
 
 ## 🍀 这是什么？
 
