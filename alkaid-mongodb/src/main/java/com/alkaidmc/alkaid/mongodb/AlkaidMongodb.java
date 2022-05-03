@@ -22,7 +22,7 @@ public class AlkaidMongodb {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    int port;
+    int port = 27017;
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
