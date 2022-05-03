@@ -14,14 +14,13 @@ import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
-public class ConditionalEventRegister implements AlkaidEventRegister {
+public class ConditionalEventRegister<T extends Event> implements AlkaidEventRegister {
     final JavaPlugin plugin;
 
     // 需要监听的事件
-    @Setter
     @Getter
-    @Accessors(fluent = true, chain = true)
-    Class<? extends Event> event;
+    @Accessors(fluent = true)
+    Class<T> event;
     // 结束条件的事件
     @Setter
     @Getter
@@ -31,7 +30,7 @@ public class ConditionalEventRegister implements AlkaidEventRegister {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Consumer<Event> listener;
+    Consumer<T> listener;
     // Bukkit 事件优先级
     @Setter
     @Getter
@@ -46,7 +45,13 @@ public class ConditionalEventRegister implements AlkaidEventRegister {
     // 注销事件
     boolean cancel = false;
 
+    public ConditionalEventRegister(JavaPlugin plugin, Class<T> event) {
+        this.plugin = plugin;
+        this.event = event;
+    }
+
     @Override
+    @SuppressWarnings("unchecked")
     public void register() {
         plugin.getServer().getPluginManager().registerEvent(
                 event,
@@ -59,7 +64,7 @@ public class ConditionalEventRegister implements AlkaidEventRegister {
                         e.getHandlers().unregister(l);
                         return;
                     }
-                    listener.accept(e);
+                    listener.accept((T) e);
                 },
                 plugin,
                 ignore

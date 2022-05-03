@@ -15,18 +15,17 @@ import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
-public class CountEventRegister implements AlkaidEventRegister {
+public class CountEventRegister<T extends Event> implements AlkaidEventRegister {
     final JavaPlugin plugin;
     // 需要监听的事件
-    @Setter
     @Getter
-    @Accessors(fluent = true, chain = true)
-    Class<? extends Event> event;
+    @Accessors(fluent = true)
+    Class<T> event;
     // 事件处理器
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    Consumer<Event> listener;
+    Consumer<T> listener;
     // 事件剩余次数
     @Setter
     @Getter
@@ -58,6 +57,10 @@ public class CountEventRegister implements AlkaidEventRegister {
     // 注销事件
     boolean cancel = false;
 
+    public CountEventRegister(JavaPlugin plugin, Class<T> event) {
+        this.plugin = plugin;
+        this.event = event;
+    }
 
     public void listen() {
         this.before.callback(plugin, this);
@@ -70,6 +73,7 @@ public class CountEventRegister implements AlkaidEventRegister {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void register() {
         this.listen();
         plugin.getServer().getPluginManager().registerEvent(
@@ -92,7 +96,7 @@ public class CountEventRegister implements AlkaidEventRegister {
                         e.getHandlers().unregister(l);
                         return;
                     }
-                    listener.accept(e);
+                    listener.accept((T) e);
                     // 执行计数
                     count--;
 
