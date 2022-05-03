@@ -16,19 +16,26 @@
 使用 Alkaid 提供的流式 API，可以省去原先使用 Bukkit API 定义监听器所需的继承再重写的繁杂步骤
 
 ```java
-new AlkaidEvent(plugin).simple(PlayerLoginEvent.class)
+new AlkaidEvent(plugin).simple()
+                // 监听的事件
+                .event(PlayerLoginEvent.class)
+                // 事件处理器
                 .listener(event -> {
                     event.getPlayer().sendMessage("欢迎");
                 })
+                // 事件优先级
                 .priority(EventPriority.HIGHEST)
+                // 忽略取消标志位
                 .ignore(false)
+                // 将事件注册到 Bukkit 事件系统
                 .register();
 ```
 
 **遇到特定事件停止监听**
 
 ```java
-new AlkaidEvent(plugin).conditional(PlayerBedEnterEvent.class)
+new AlkaidEvent(plugin).conditional()
+                .event(PlayerBedEnterEvent.class)
                 .listener(event -> {
                     event.getPlayer().sendMessage("晚安");
                 })
