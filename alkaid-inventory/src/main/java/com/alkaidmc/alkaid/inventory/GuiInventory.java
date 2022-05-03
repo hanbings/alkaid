@@ -27,7 +27,7 @@ import java.util.stream.IntStream;
 public class GuiInventory {
     static final Listener LISTENER = new Listener() {
     };
-    final JavaPlugin plugin;
+    JavaPlugin plugin;
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
@@ -44,7 +44,6 @@ public class GuiInventory {
     @Getter
     @Accessors(fluent = true, chain = true)
     boolean drag = false;
-
     // 存储物品
     List<ItemStack> items = new ArrayList<>(54);
     // 存储点击关系
@@ -59,10 +58,12 @@ public class GuiInventory {
     @Accessors(fluent = true, chain = true)
     Consumer<InventoryCloseEvent> close = null;
 
-    public GuiInventory(JavaPlugin plugin) {
+    public GuiInventory(JavaPlugin plugin, int rows, InventoryHolder holder) {
         this.plugin = plugin;
+        this.rows = rows;
+        this.holder = holder;
         // 填充数组
-        IntStream.range(0, 54).forEach(count -> {
+        IntStream.range(0, rows * 9).forEach(count -> {
             items.add(null);
             actions.add(null);
         });
@@ -86,15 +87,6 @@ public class GuiInventory {
     }
 
     public Inventory create() {
-        // 判断 holder 是否为 null
-        Optional.ofNullable(holder).or(() -> {
-            Bukkit.getLogger().severe(String.format("%s, %s.",
-                    "param holder (InventoryHolder) should not null",
-                    "use holder(InventoryHolder holder) method add it"
-            ));
-            throw new NullPointerException();
-        });
-
         // 创建 Inventory
         Inventory inventory = Bukkit.createInventory(holder, rows * 9, title);
 

@@ -82,11 +82,7 @@ new AlkaidInventory(plugin).book()
 **创建自定义箱子界面**
 
 ```java
-new AlkaidInventory(plugin).gui()
-                // 大小
-                .rows(6)
-                // 持有者
-                .holder(Bukkit.getPlayer("hanbings"))
+new AlkaidInventory(plugin).gui(6, Bukkit.getPlayer("hanbings"))
                 // 不允许拖拽
                 .drag(false)
                 // 标题
