@@ -20,7 +20,7 @@ public class ConditionalEventRegister<T extends Event> implements AlkaidEventReg
     // 需要监听的事件
     @Getter
     @Accessors(fluent = true)
-    Class<T> event;
+    final Class<T> event;
     // 结束条件的事件
     @Setter
     @Getter
@@ -44,11 +44,6 @@ public class ConditionalEventRegister<T extends Event> implements AlkaidEventReg
 
     // 注销事件
     boolean cancel = false;
-
-    public ConditionalEventRegister(JavaPlugin plugin, Class<T> event) {
-        this.plugin = plugin;
-        this.event = event;
-    }
 
     @Override
     @SuppressWarnings("unchecked")

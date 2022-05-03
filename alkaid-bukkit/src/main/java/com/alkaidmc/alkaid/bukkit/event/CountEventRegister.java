@@ -20,7 +20,7 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
     // 需要监听的事件
     @Getter
     @Accessors(fluent = true)
-    Class<T> event;
+    final Class<T> event;
     // 事件处理器
     @Setter
     @Getter
@@ -56,11 +56,6 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
     boolean hangup = false;
     // 注销事件
     boolean cancel = false;
-
-    public CountEventRegister(JavaPlugin plugin, Class<T> event) {
-        this.plugin = plugin;
-        this.event = event;
-    }
 
     public void listen() {
         this.before.callback(plugin, this);
