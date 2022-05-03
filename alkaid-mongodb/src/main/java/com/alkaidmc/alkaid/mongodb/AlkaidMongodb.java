@@ -47,7 +47,7 @@ public class AlkaidMongodb {
     // 托管 Client 的示例
     MongoClient client = null;
 
-    public SyncMongodbConnection sync(String collection) {
+    public SyncMongodbConnection sync() {
         client = Optional.ofNullable(client).orElseGet(() -> {
             if (username != null && password != null) {
                 MongoCredential credential =
@@ -60,7 +60,7 @@ public class AlkaidMongodb {
         return new SyncMongodbConnection(gson, client.getDatabase(database));
     }
 
-    public AsyncMongodbConnection async(String collection) {
+    public AsyncMongodbConnection async() {
         client = Optional.ofNullable(client).orElseGet(() -> {
             if (username != null && password != null) {
                 MongoCredential credential =
