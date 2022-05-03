@@ -1,23 +1,47 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
-import lombok.RequiredArgsConstructor;
 import org.bukkit.event.Event;
 import org.bukkit.plugin.java.JavaPlugin;
 
-@RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class AlkaidEvent {
     final JavaPlugin plugin;
 
-    public <T extends Event> SimpleEventRegister<T> simple(Class<T> event) {
-        return new SimpleEventRegister<>(plugin, event);
+    public AlkaidEvent(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
-    public <T extends Event> CountEventRegister<T> count(Class<T> event) {
-        return new CountEventRegister<>(plugin, event);
+    final SimpleEventFactory simple = new SimpleEventFactory();
+    final ConditionalEventFactory conditional = new ConditionalEventFactory();
+    final CountEventFactory count = new CountEventFactory();
+
+    public SimpleEventFactory simple() {
+        return simple;
     }
 
-    public <T extends Event> ConditionalEventRegister<T> conditional(Class<T> event) {
-        return new ConditionalEventRegister<>(plugin, event);
+    public ConditionalEventFactory conditional() {
+        return conditional;
+    }
+
+    public CountEventFactory count() {
+        return count;
+    }
+
+    class SimpleEventFactory {
+        public <T extends Event> SimpleEventRegister<T> event(Class<T> event) {
+            return new SimpleEventRegister<>(plugin, event);
+        }
+    }
+
+    class CountEventFactory {
+        public <T extends Event> CountEventRegister<T> event(Class<T> event) {
+            return new CountEventRegister<>(plugin, event);
+        }
+    }
+
+    class ConditionalEventFactory {
+        public <T extends Event> ConditionalEventRegister<T> event(Class<T> event) {
+            return new ConditionalEventRegister<>(plugin, event);
+        }
     }
 }
