@@ -89,7 +89,11 @@ new AlkaidInventory(plugin).book()
 **创建自定义箱子界面**
 
 ```java
-new AlkaidInventory(plugin).gui(6, Bukkit.getPlayer("hanbings"))
+new AlkaidInventory(plugin).gui()
+                // 大小
+                .rows(6)
+                // 持有者
+                .holder(Bukkit.getPlayer("hanbings"))
                 // 不允许拖拽
                 .drag(false)
                 // 标题
@@ -189,6 +193,7 @@ maven {
 本项目使用 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) 许可协议进行开源
 
 该协议**允许**基于本项目开发的项目**进行商用**，但需要注意的是，本项目中的图片（包括 Readme.md 文件中所展示的吉祥物狼龙摇光和可能出现的其他图片）**不属于开源的范围**
-它们属于开发者 [寒冰 hanbings](https://github.com/hanbings) 个人所有，~~是寒冰的崽子~~，请在复制、修改本项目时移除它们。
+它们属于开发者 [寒冰 hanbings](https://github.com/hanbings) 个人所有，~~是寒冰的崽子~~，请在复制、修改本项目时**移除它们**。
 
 **吉祥物狼龙摇光图片中所使用 Alkaid 字样字体为商业需授权字体 Snap ITC**
+

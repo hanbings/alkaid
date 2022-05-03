@@ -1,7 +1,6 @@
 package com.alkaidmc.alkaid.inventory;
 
 import lombok.RequiredArgsConstructor;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @RequiredArgsConstructor
@@ -13,8 +12,8 @@ public class AlkaidInventory {
         return new BookInventory();
     }
 
-    public GuiInventory gui(int rows, InventoryHolder holder) {
-        return new GuiInventory(this.plugin, rows, holder);
+    public GuiInventory gui() {
+        return new GuiInventory(plugin);
     }
 
     public ItemStackBuilder item() {
