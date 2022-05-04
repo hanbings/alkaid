@@ -68,6 +68,7 @@ public class AsyncMongodbConnection implements WriteableActions, AsyncQueryActio
                 .deleteMany(Document.parse(gson.toJsonTree(index, Map.class).toString()));
     }
 
+    // todo 处理异步
     @Override
     public <T> void read(String collection, Map<String, Object> index, Class<T> type, Consumer<List<T>> consumer) {
         List<T> list = new ArrayList<>();

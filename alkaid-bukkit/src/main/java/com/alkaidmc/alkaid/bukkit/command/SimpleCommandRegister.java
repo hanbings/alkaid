@@ -71,13 +71,16 @@ public class SimpleCommandRegister implements AlkaidCommandRegister {
 
     @Override
     public void register() {
+        // 注入命令参数 / inject command arguments
         instance.setName(command);
         instance.setAliases(aliases);
         instance.setDescription(description);
         instance.setUsage(usage);
         instance.setPermission(permission);
+        // 判空处理 / check null
         Optional.ofNullable(executor).ifPresent(instance::setExecutor);
         Optional.ofNullable(tab).ifPresent(instance::setTabCompleter);
+        // 向 bukkit 注册指令 / register command to bukkit
         instance.register(commands);
     }
 

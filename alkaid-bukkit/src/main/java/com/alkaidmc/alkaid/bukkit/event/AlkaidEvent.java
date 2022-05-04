@@ -25,6 +25,7 @@ public class AlkaidEvent {
     final SimpleEventFactory simple = new SimpleEventFactory();
     final ConditionalEventFactory conditional = new ConditionalEventFactory();
     final CountEventFactory count = new CountEventFactory();
+
     public AlkaidEvent(JavaPlugin plugin) {
         this.plugin = plugin;
     }
