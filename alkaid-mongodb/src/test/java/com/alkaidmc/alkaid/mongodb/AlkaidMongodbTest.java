@@ -20,6 +20,7 @@ import org.bson.Document;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.List;
 
 // todo mongodb 测试
 @SuppressWarnings("unused")
@@ -28,10 +29,20 @@ public class AlkaidMongodbTest {
     String testCollection = "testAlkaid";
 
     @Test
-    public void insertionTest() {
+    public void insertTest() {
         syncMongodbConnection.create(testCollection,
                 new Document("name", "Neko")
                         .append("age", 4)
+        );
+    }
+
+    @Test
+    public void insertListTest() {
+        syncMongodbConnection.create(testCollection,
+                List.of(new Document("name", "Ne")
+                        , new Document("name", "Neko")
+                        , new Document("name", "NekoCore")
+                )
         );
     }
 
