@@ -84,7 +84,7 @@ public class GuiInventory {
         return this;
     }
 
-    public Inventory create() {
+    public Inventory inventory() {
         // 创建 Inventory
         Inventory inventory = Bukkit.createInventory(holder, rows * 9, title);
 
