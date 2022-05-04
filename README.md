@@ -110,7 +110,7 @@ new AlkaidInventory(plugin).gui()
                 .click((e) -> e.getWhoClicked().sendMessage("点了一下"), 4, 5, 6)
                 // 设置物品的关闭事件
                 .close((e) -> e.getPlayer().sendMessage("关闭了"))
-                .create();
+                .inventory();
 ```
 
 **辅助反射**
