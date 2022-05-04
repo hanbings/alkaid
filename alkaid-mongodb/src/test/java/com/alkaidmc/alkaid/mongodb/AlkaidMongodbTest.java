@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 
+// todo mongodb 测试
 public class AlkaidMongodbTest {
     SyncMongodbConnection syncMongodbConnection = new AlkaidMongodb().database("test").sync();
     String testCollection = "testAlkaid";
