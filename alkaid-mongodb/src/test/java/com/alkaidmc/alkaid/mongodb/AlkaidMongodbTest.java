@@ -69,4 +69,9 @@ public class AlkaidMongodbTest {
     public void readTest() {
         syncMongodbConnection.read(testCollection, new Document("name", "Neko"), Object.class).forEach(System.out::println);
     }
+
+    @Test
+    public void searchTest() {
+        syncMongodbConnection.search(testCollection, "age", 1, 5, 10, Object.class).forEach(System.out::println);
+    }
 }
