@@ -41,6 +41,9 @@ import java.util.Set;
 @NoArgsConstructor
 @SuppressWarnings("unused")
 public class ItemMetaBuilder {
+    // 默认 ItemMeta / default ItemMeta.
+    final static ItemMeta DEFAULT_META = new ItemStack(Material.STONE).getItemMeta();
+
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
@@ -75,8 +78,8 @@ public class ItemMetaBuilder {
     @Accessors(fluent = true, chain = true)
     Multimap<Attribute, AttributeModifier> attributes;
 
-    // todo 默认 ItemMeta 设置
-    ItemMeta meta;
+    // 如果没有指定 ItemMeta，则使用默认 ItemMeta / if no ItemMeta, use default ItemMeta.
+    ItemMeta meta = DEFAULT_META;
 
     public ItemMetaBuilder(ItemMeta meta) {
         this.meta = meta;
@@ -87,6 +90,9 @@ public class ItemMetaBuilder {
     }
 
     public ItemMetaBuilder of(ItemMeta meta) {
+        // 从 meta 中获取属性 / get attributes from meta.
+        this.meta = meta;
+        // 设置值 / set value.
         this.display = meta.getDisplayName();
         this.localized = meta.getLocalizedName();
         this.lores = meta.getLore();
@@ -94,6 +100,7 @@ public class ItemMetaBuilder {
         this.flags = meta.getItemFlags();
         this.model = meta.getCustomModelData();
         this.attributes = meta.getAttributeModifiers();
+        this.unbreakable = meta.isUnbreakable();
         return this;
     }
 
@@ -128,15 +135,17 @@ public class ItemMetaBuilder {
         return this;
     }
 
-    // todo Optional null 检测
     public ItemMeta meta() {
-        meta.setDisplayName(display);
-        meta.setLocalizedName(localized);
+        // 进行 null 检测 / check null.
+        Optional.ofNullable(display).ifPresent(meta::setDisplayName);
+        Optional.ofNullable(localized).ifPresent(meta::setLocalizedName);
+        Optional.ofNullable(attributes).ifPresent(meta::setAttributeModifiers);
+        // 设置 null 安全的值 / set null safe value.
         meta.setLore(lores);
         meta.setCustomModelData(model);
+        meta.setUnbreakable(unbreakable);
         enchantments.forEach((k, v) -> meta.addEnchant(k, v, true));
         flags.forEach(meta::addItemFlags);
-        attributes.forEach(meta::addAttributeModifier);
         return meta;
     }
 }
