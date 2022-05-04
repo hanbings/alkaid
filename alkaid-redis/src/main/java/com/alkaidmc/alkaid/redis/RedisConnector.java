@@ -16,32 +16,47 @@
 
 package com.alkaidmc.alkaid.redis;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import redis.clients.jedis.Jedis;
 
-import java.util.Optional;
-
-@NoArgsConstructor
-@SuppressWarnings("unused")
 public class RedisConnector {
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
-    String host;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
-    int port;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
-    String auth = null;
 
-    public void connection() {
-        Jedis jedis = new Jedis(host, port);
-        Optional.ofNullable(auth).ifPresent(jedis::auth);
+    Jedis jedis;
+
+    public RedisConnector(String host, int port) {
+        jedis = new Jedis(host, port);
     }
+
+    public RedisConnector(String host, int port, int timeout) {
+        jedis = new Jedis(host, port, timeout);
+    }
+
+    public RedisConnector(String host, int port, int timeout, String password) {
+        jedis = new Jedis(host, port, timeout);
+        jedis.auth(password);
+    }
+
+    public void set(String key, String value) {
+        jedis.set(key, value);
+    }
+
+    public void set(String key, String value, int seconds) {
+        jedis.setex(key, seconds, value);
+    }
+
+    public String get(String key) {
+        return jedis.get(key);
+    }
+
+    public void del(String key) {
+        jedis.del(key);
+    }
+
+    public boolean exists(String key) {
+        return jedis.exists(key);
+    }
+
+    public void close() {
+        jedis.close();
+    }
+
 }

@@ -16,9 +16,30 @@
 
 package com.alkaidmc.alkaid.redis;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 @SuppressWarnings("unused")
+@NoArgsConstructor
 public class AlkaidRedis {
+    @Getter
+    String host = "localhost";
+    @Getter
+    int port = 6379;
+    @Getter
+    String auth = null;
+
+    public AlkaidRedis host(String host) {
+        this.host = host;
+        return this;
+    }
+
+    public AlkaidRedis port(int port) {
+        this.port = port;
+        return this;
+    }
+
     public RedisConnector redis() {
-        return new RedisConnector();
+        return new RedisConnector(host, port);
     }
 }
