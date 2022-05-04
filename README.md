@@ -1,7 +1,7 @@
 ![Alkaid](https://picture.hanbings.io/2022/05/02/70cec4897f06a.png)
 
 <h1 align="center">🌟 Alkaid</h1>
-<h5 align="center">A Lightweight Kit Aim In Development.</h5>
+<h5 align="center">A Lightweight Kit Assisting In Developing.</h5>
 <h5 align="center">🚧 下一个 Release 将在6月中下旬或7月上旬发布 在此之前请勿用于生产环境 感谢支持！</h5>
 <h5 align="center">⚠️在本次 Release 前可能会因为更换域名而更换包名</h5>
 
@@ -202,10 +202,26 @@ maven {
 
 ## ⚖ 开源许可
 
-本项目使用 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) 许可协议进行开源
+本项目使用 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) 许可协议进行开源。
 
 该协议**允许**基于本项目开发的项目**进行商用**，但需要注意的是，本项目中的图片（包括 Readme.md 文件中所展示的吉祥物狼龙摇光和可能出现的其他图片）**不属于开源的范围**
 它们属于开发者 [寒冰 hanbings](https://github.com/hanbings) 个人所有，~~是寒冰的崽子~~，请在复制、修改本项目时**移除它们**。
 
-**吉祥物狼龙摇光图片中所使用 Alkaid 字样字体为商业需授权字体 Snap ITC**
+**版权警示：吉祥物狼龙摇光图片中所使用 Alkaid 字样字体为商业需授权字体 Snap ITC**
+
+## 🍀 关于开源
+
+开源是一种精神。
+
+开源运动所坚持的三大原则：
+
+1. 坚持开放与共享，鼓励最大化的参与与协作。
+2. 尊重作者权益，保证软件程序完整的同时，鼓励修改的自由以及衍生创新工。
+3. 保持独立性和中立性。
+
+开源**不是意味着免费**，而是**自由**。
+
+与来自五湖四海的开发者共同**讨论**技术问题，**解决**技术难题，**促进**应用的发展是开源的本质目的。
+
+**众人拾柴火焰高，开源需要依靠大家的努力，请自觉遵守开源协议，弘扬开源精神，共建开源社区！****
 
