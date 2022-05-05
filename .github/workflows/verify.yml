@@ -1,4 +1,4 @@
-name: Alkaid Lib Build Github Actions
+name: Alkaid Lib Build
 
 on:
   push:
@@ -20,6 +20,9 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
+      - name: Build with Gradle (build)
+        run: ./gradlew build -x test
 
       - name: Build with Gradle (collect)
         run: ./gradlew collect

@@ -1,4 +1,4 @@
-name: Alkaid Lib Publish Github Actions
+name: Alkaid Lib Publish
 
 on:
   push:
