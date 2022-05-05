@@ -17,6 +17,7 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
 import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidEventRegister;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -28,37 +29,28 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
+@Setter
+@Getter
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class ConditionalEventRegister<T extends Event> implements AlkaidEventRegister {
     final JavaPlugin plugin;
-
     // 需要监听的事件
-    @Getter
-    @Accessors(fluent = true)
     final Class<T> event;
+
     // 结束条件的事件
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Class<? extends Event> interrupt;
     // 事件处理器
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Consumer<T> listener;
     // Bukkit 事件优先级
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     EventPriority priority = EventPriority.NORMAL;
     // 是否忽略  Bukkit 事件的取消标志
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     boolean ignore = false;
 
     // 注销事件
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     boolean cancel = false;
 
     @Override

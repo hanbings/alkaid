@@ -42,43 +42,23 @@ import java.util.Optional;
  * @see PluginCommand
  * @see CommandMap
  */
+@Setter
+@Getter
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class SimpleCommandRegister implements AlkaidCommandRegister {
     final JavaPlugin plugin;
     final PluginCommand instance;
     final CommandMap commands;
 
-    // 命令相关信息 / Command information
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String command;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     List<String> aliases = new ArrayList<>();
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String description;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String usage;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String permission;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     CommandExecutor executor = null;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     TabCompleter tab = null;
-
 
     @Override
     public void register() {

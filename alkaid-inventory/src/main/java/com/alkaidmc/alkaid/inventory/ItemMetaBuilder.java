@@ -17,8 +17,8 @@
 package com.alkaidmc.alkaid.inventory;
 
 import com.google.common.collect.Multimap;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.Material;
@@ -38,47 +38,27 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@NoArgsConstructor
+@Setter
+@Getter
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class ItemMetaBuilder {
     // 默认 ItemMeta / default ItemMeta.
     final static ItemMeta DEFAULT_META = new ItemStack(Material.STONE).getItemMeta();
 
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String display;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String localized;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     @SuppressWarnings("SpellCheckingInspection")
     List<String> lores = new ArrayList<>();
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Map<Enchantment, Integer> enchantments = new HashMap<>();
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Set<ItemFlag> flags = new HashSet<>();
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     boolean unbreakable;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     int model;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Multimap<Attribute, AttributeModifier> attributes;
 
     // 如果没有指定 ItemMeta，则使用默认 ItemMeta / if no ItemMeta, use default ItemMeta.
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     ItemMeta meta = DEFAULT_META;
 
     public ItemMetaBuilder(ItemMeta meta) {

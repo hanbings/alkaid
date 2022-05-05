@@ -21,46 +21,30 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.Optional;
 
-@NoArgsConstructor
+@Setter
+@Getter
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class AlkaidMongodb {
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
+
     String host;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     int port = 27017;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String database;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String username;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String password;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Gson gson = new Gson();
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     MongoClientOptions options = MongoClientOptions.builder().build();
 
-    // 托管 Client 的示例
+    // 托管 Client 的实例
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     MongoClient client = null;
 
     public SyncMongodbConnection sync() {

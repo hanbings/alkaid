@@ -25,27 +25,18 @@ import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@Setter
+@Getter
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class ReflectionActions {
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Class<?> clazz;
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Method method;
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Field field;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Consumer<Exception> error = exception -> {
         throw new RuntimeException(exception);
     };
 
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     ClassLoader loader = Class.class.getClassLoader();
 
     public ReflectionActions load(String classname, Consumer<Exception> error) {
