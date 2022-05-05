@@ -19,6 +19,7 @@ package com.alkaidmc.alkaid.inventory;
 import com.google.common.collect.Multimap;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.Material;
@@ -40,6 +41,7 @@ import java.util.Set;
 
 @Setter
 @Getter
+@NoArgsConstructor
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class ItemMetaBuilder {
