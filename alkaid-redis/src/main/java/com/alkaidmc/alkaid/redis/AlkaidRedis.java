@@ -17,7 +17,6 @@
 package com.alkaidmc.alkaid.redis;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import redis.clients.jedis.Jedis;
@@ -26,7 +25,6 @@ import java.util.Optional;
 
 @Setter
 @Getter
-@NoArgsConstructor
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class AlkaidRedis {

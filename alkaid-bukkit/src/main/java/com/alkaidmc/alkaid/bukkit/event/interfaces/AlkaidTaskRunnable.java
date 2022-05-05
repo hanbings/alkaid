@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alkaidmc.alkaid.bukkit.task.interfaces;
+package com.alkaidmc.alkaid.bukkit.event.interfaces;
 
 @SuppressWarnings("unused")
 public interface AlkaidTaskRunnable {

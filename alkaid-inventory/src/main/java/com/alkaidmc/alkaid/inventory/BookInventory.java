@@ -27,26 +27,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Setter
+@Getter
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class BookInventory {
     // 书信息
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String title = null;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String author = null;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     BookMeta.Generation generation = BookMeta.Generation.ORIGINAL;
 
     // 书内容
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     List<String> pages = new ArrayList<>();
 
     public BookInventory write(String content) {

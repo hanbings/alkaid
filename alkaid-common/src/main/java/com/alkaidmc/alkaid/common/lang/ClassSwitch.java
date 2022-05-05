@@ -16,6 +16,7 @@
 
 package com.alkaidmc.alkaid.common.lang;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -25,32 +26,24 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+@Setter
+@Getter
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class ClassSwitch {
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     List<String> classes;
 
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
+
     Consumer<String> success;
-
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Consumer<Class<?>> nothing;
-
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Predicate<String> fail = x -> false;
 
-    @Getter
-    @Accessors(fluent = true, chain = true)
+    @Setter(AccessLevel.NONE)
+    @Accessors(fluent = true)
     Class<?> clazz = null;
 
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     ClassLoader loader = Class.class.getClassLoader();
 
     public ClassSwitch in(String classname) {

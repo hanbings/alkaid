@@ -1,5 +1,6 @@
 package com.alkaidmc.alkaid.inventory;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -23,39 +24,29 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.IntStream;
 
+@Setter
+@Getter
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class GuiInventory {
     static final Listener LISTENER = new Listener() {
     };
     JavaPlugin plugin;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     String title;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     int rows;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     InventoryHolder holder;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     boolean drag = false;
     // 存储物品
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     List<ItemStack> items = new ArrayList<>(54);
     // 存储点击关系
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     List<Consumer<InventoryClickEvent>> actions = new ArrayList<>(54);
+
     // 操作函数
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Consumer<InventoryOpenEvent> open = null;
-    @Setter
-    @Getter
-    @Accessors(fluent = true, chain = true)
     Consumer<InventoryCloseEvent> close = null;
 
     public GuiInventory(JavaPlugin plugin) {
