@@ -18,28 +18,25 @@ package com.alkaidmc.alkaid.redis;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import redis.clients.jedis.Jedis;
 
-@SuppressWarnings("unused")
+import java.util.Optional;
+
+@Setter
+@Getter
 @NoArgsConstructor
+@SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class AlkaidRedis {
-    @Getter
     String host = "localhost";
-    @Getter
     int port = 6379;
-    @Getter
     String auth = null;
 
-    public AlkaidRedis host(String host) {
-        this.host = host;
-        return this;
-    }
-
-    public AlkaidRedis port(int port) {
-        this.port = port;
-        return this;
-    }
-
     public RedisConnector redis() {
-        return new RedisConnector(host, port);
+        Jedis jedis = new Jedis(host, port);
+        Optional.ofNullable(auth).ifPresent(jedis::auth);
+        return new RedisConnector(jedis);
     }
 }
