@@ -44,7 +44,7 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
     final PluginCommand instance;
     final CommandMap commands;
 
-    // 命令相关信息
+    // 命令相关信息 / Command information.
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
@@ -67,19 +67,20 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
     String permission;
 
     // 三个处理器 两个精准匹配处理器 一个全匹配处理器
+    // Three processors two exact matching processors one full matching processor.
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
     Consumer<CommandSender> match;
     Map<String, AlkaidCommandCallback> executors = new HashMap<>();
     Map<String, AlkaidTabCallback> tabs = new HashMap<>();
-    // 过滤器
+    // 过滤器 / Filter.
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
     AlkaidFilterCallback filter;
 
-    // 过滤器结果
+    // 过滤器结果 / Filter result.
     boolean result = false;
 
     @Override
@@ -89,54 +90,55 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
         instance.setDescription(description);
         instance.setUsage(usage);
         instance.setPermission(permission);
-        // 命令处理器
+        // 命令处理器 / Command processor.
         instance.setExecutor((sender, command, label, args) -> {
-            // 如果有过滤器
+            // 如果有过滤器 / If there is a filter.
             Optional.ofNullable(filter).ifPresent(f -> {
-                // 过滤器结果
+                // 过滤器结果 / Filter result.
                 result = f.filter(sender, command, label, args);
             });
-            // 如果过滤器结果为true
+            // 如果过滤器结果为 true / If the filter result is true.
             if (result) {
                 return false;
             }
-            // 如果有全匹配处理器
+            // 如果有全匹配处理器 / If there is a full matching processor.
             Optional.ofNullable(match).ifPresent(e -> e.accept(sender));
-            // 数组转为字符串 空格分隔
+            // 数组转为字符串 空格分隔 / Array to string with a space as a separator.
             String full = String.join(" ", args);
-            // 精准匹配处理器所返回的结果
+            // 精准匹配处理器所返回的结果 / The result of the exact matching processor.
             List<Boolean> results = new ArrayList<>();
-            // 如果有精准匹配处理器
+            // 如果有精准匹配处理器 / If there is an exact matching processor.
             executors.forEach((k, v) -> {
-                // 如果精准匹配处理器返回 true
+                // 如果精准匹配处理器返回 true / If the exact matching processor returns true.
                 if (full.matches(k)) {
-                    // 将结果添加到结果集合
+                    // 将结果添加到结果集合 / Add the result to the result set.
                     results.add(v.execute(sender, command, label, args));
                 }
             });
             // 遍历结果集合 如果有结果为 false 则返回 false 否则返回 true
+            // Traverse the result set if there is a result is false then return false otherwise return true.
             return results.stream().anyMatch(r -> !r);
         });
-        // 命令 Tab 提示处理器
+        // 命令 Tab 提示处理器 / Command Tab prompt processor.
         instance.setTabCompleter((sender, command, alias, args) -> {
-            // 如果有过滤器
+            // 如果有过滤器 / If there is a filter.
             Optional.ofNullable(filter).ifPresent(f -> {
-                // 过滤器结果
+                // 过滤器结果 / Filter result.
                 result = f.filter(sender, command, alias, args);
             });
-            // 如果过滤器结果为true
+            // 如果过滤器结果为 true / If the filter result is true.
             if (result) {
                 return new ArrayList<>();
             }
-            // 数组转为字符串 空格分隔
+            // 数组转为字符串 空格分隔 / Array to string with a space as a separator.
             String full = String.join(" ", args);
-            // 精准匹配处理器所返回的结果
+            // 精准匹配处理器所返回的结果 / The result of the exact matching processor.
             List<String> results = new ArrayList<>();
-            // 如果有精准匹配处理器
+            // 如果有精准匹配处理器 / If there is an exact matching processor.
             tabs.forEach((k, v) -> {
-                // 如果精准匹配处理器返回 true
+                // 如果精准匹配处理器返回 true / If the exact matching processor returns true.
                 if (full.matches(k)) {
-                    // 返回结果
+                    // 返回结果 / Return the result.
                     results.addAll(v.tab(sender, command, alias, args));
                 }
             });

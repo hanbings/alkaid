@@ -72,5 +72,5 @@ public class AlkaidCommand {
         return null;
     }
 
-    // todo 流式解析器 ParserCommandRegister
+    // todo 流式解析器 ParseCommandRegister
 }
