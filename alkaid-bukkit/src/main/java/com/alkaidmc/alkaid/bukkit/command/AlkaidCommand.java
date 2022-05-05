@@ -72,5 +72,16 @@ public class AlkaidCommand {
         return null;
     }
 
-    // todo 流式解析器 ParseCommandRegister
+    public ParseCommandRegister parse() {
+        try {
+            return new ParseCommandRegister(
+                    plugin,
+                    constructor.newInstance("", plugin),
+                    commandMap
+            );
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException exception) {
+            exception.printStackTrace();
+        }
+        return null;
+    }
 }

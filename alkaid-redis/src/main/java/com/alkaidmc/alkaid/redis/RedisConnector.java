@@ -16,24 +16,14 @@
 
 package com.alkaidmc.alkaid.redis;
 
+import lombok.RequiredArgsConstructor;
 import redis.clients.jedis.Jedis;
 
+@RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class RedisConnector {
 
-    Jedis jedis;
-
-    public RedisConnector(String host, int port) {
-        jedis = new Jedis(host, port);
-    }
-
-    public RedisConnector(String host, int port, int timeout) {
-        jedis = new Jedis(host, port, timeout);
-    }
-
-    public RedisConnector(String host, int port, int timeout, String password) {
-        jedis = new Jedis(host, port, timeout);
-        jedis.auth(password);
-    }
+    final Jedis jedis;
 
     public void set(String key, String value) {
         jedis.set(key, value);
