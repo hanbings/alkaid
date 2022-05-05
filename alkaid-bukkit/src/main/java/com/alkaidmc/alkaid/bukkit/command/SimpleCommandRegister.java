@@ -31,6 +31,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * zh / en <br>
+ * 使用本注册器可以快速注册一个 bukkit 命令 <br>
+ * use this register to register a bukkit command quickly <br>
+ * 需要提供的参数 <br>
+ * need args <br>
+ *
+ * @see JavaPlugin
+ * @see PluginCommand
+ * @see CommandMap
+ */
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class SimpleCommandRegister implements AlkaidCommandRegister {
@@ -38,7 +49,7 @@ public class SimpleCommandRegister implements AlkaidCommandRegister {
     final PluginCommand instance;
     final CommandMap commands;
 
-    // 命令相关信息
+    // 命令相关信息 / Command information
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
