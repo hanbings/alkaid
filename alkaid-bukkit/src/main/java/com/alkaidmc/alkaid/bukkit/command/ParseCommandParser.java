@@ -16,5 +16,45 @@
 
 package com.alkaidmc.alkaid.bukkit.command;
 
+import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidParseCommandCallback;
+import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidParseTabCallback;
+import lombok.RequiredArgsConstructor;
+import org.bukkit.command.CommandSender;
+
+import java.util.Arrays;
+
+@RequiredArgsConstructor
+@SuppressWarnings("unused")
 public class ParseCommandParser {
+    final CommandSender sender;
+    final String[] args;
+    final String[] tokens;
+    final int deep;
+
+    public ParseCommandParser parse(String command) {
+        if (tokens.length <= 0) {
+            return this;
+        }
+
+        if (tokens[0].equalsIgnoreCase(command)) {
+            return new ParseCommandParser(
+                    this.sender,
+                    this.args,
+                    // token 减少一层 / token delete one level
+                    Arrays.copyOfRange(this.tokens, 1, this.tokens.length),
+                    // deep 增加一层 / deep add one level
+                    this.deep + 1
+            );
+        }
+
+        return this;
+    }
+
+    public void execute(AlkaidParseCommandCallback callback) {
+        callback.execute(sender, args, tokens, deep);
+    }
+
+    public void tab(AlkaidParseTabCallback callback) {
+        callback.tab(sender, args, tokens, deep);
+    }
 }

@@ -16,6 +16,9 @@
 
 package com.alkaidmc.alkaid.bukkit.command;
 
+import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidCommandRegister;
+import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidFilterCallback;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -32,7 +35,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
-public class ParseCommandRegister {
+public class ParseCommandRegister implements AlkaidCommandRegister {
     final JavaPlugin plugin;
     final PluginCommand instance;
     final CommandMap commands;
@@ -43,4 +46,22 @@ public class ParseCommandRegister {
     String description;
     String usage;
     String permission;
+
+    // 过滤器 / Filter.
+    AlkaidFilterCallback filter;
+
+    // 过滤器结果 / Filter result.
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    boolean result = false;
+
+    @Override
+    public void register() {
+
+    }
+
+    @Override
+    public void unregister() {
+
+    }
 }
