@@ -41,7 +41,7 @@ public class AlkaidMongodbTest {
     public void connect() {
         SyncMongodbConnection connection = new AlkaidMongodb()
                 .host("localhost")
-                .port(27017)
+                .port(2701)
                 .database("alkaid")
                 .sync();
 
