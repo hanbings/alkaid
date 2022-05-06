@@ -113,6 +113,33 @@ new AlkaidInventory(plugin).gui()
                 .inventory();
 ```
 
+**物品堆构造器**
+
+```java
+new AlkaidInventory(plugin).item()
+                // 使用 of 从现有的 ItemStack ItemMeta 或 Material 创建一个新的 ItemStackBuilder
+                .of(Material.DIAMOND_SWORD)
+                .of(new ItemStack(Material.DIAMOND_SWORD))
+                // 可堆叠物品堆叠数量
+                .amount(1)
+                // 附魔效果
+                .enchantment(Enchantment.DAMAGE_ALL, 1)
+                // 标记位
+                .flag(ItemFlag.HIDE_ENCHANTS)
+                // 名称
+                .display("小蛋糕")
+                // 添加 lore 或 多行 lore
+                .lore("这是一个小蛋糕")
+                .lore("吃掉小蛋糕", "吃掉吃掉")
+                // 本地化键
+                .localized("alkaid.inventory.cake")
+                // custom model data
+                .model(1)
+                // 设置物品的 unbreakable 标签是否为 true.
+                .unbreakable(false)
+                .item();
+```
+
 **辅助反射**
 
 ```java
