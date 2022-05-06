@@ -69,6 +69,7 @@ public class AsyncMongodbConnection implements WriteableActions, AsyncQueryActio
     }
 
     // todo 处理异步
+    // https://github.com/AlkaidMC/alkaid/projects/1#card-81556639
     @Override
     public <T> void read(String collection, Map<String, Object> index, Class<T> type, Consumer<List<T>> consumer) {
         List<T> list = new ArrayList<>();

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 // todo mongodb 测试
+// https://github.com/AlkaidMC/alkaid/projects/1#card-81556681
 @SuppressWarnings("unused")
 public class AlkaidMongodbTest {
     SyncMongodbConnection syncMongodbConnection = new AlkaidMongodb().database("test").sync();

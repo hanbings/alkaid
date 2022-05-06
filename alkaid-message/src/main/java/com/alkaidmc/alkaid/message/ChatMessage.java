@@ -40,6 +40,7 @@ public class ChatMessage {
     }
 
     // todo 悬空字、文字属性等实现
+    // https://github.com/AlkaidMC/alkaid/projects/1#card-81556944
 
     public ChatMessage newline() {
         components.add(new TextComponent("\n"));

@@ -32,6 +32,8 @@ public class AlkaidRedis {
     int port = 6379;
     String auth = null;
 
+    // redis 链式配置文件
+    // https://github.com/AlkaidMC/alkaid/projects/1#card-81556630
     public RedisConnector redis() {
         Jedis jedis = new Jedis(host, port);
         Optional.ofNullable(auth).ifPresent(jedis::auth);
