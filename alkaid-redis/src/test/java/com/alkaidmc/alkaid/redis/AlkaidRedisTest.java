@@ -26,4 +26,13 @@ public class AlkaidRedisTest {
         redis.set("test", "neko");
         System.out.println(redis.get("test"));
     }
+
+    @Test
+    public void delTest() {
+        setTest();
+        System.out.println("exists test:" + redis.exists("test"));
+        redis.del("test");
+        System.out.println("exists test:" + redis.exists("test"));
+        System.out.println(redis.get("test"));
+    }
 }
