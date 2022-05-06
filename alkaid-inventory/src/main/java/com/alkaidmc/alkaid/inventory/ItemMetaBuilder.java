@@ -61,7 +61,7 @@ public class ItemMetaBuilder {
     // 如果没有指定 ItemMeta，则使用默认 ItemMeta / if no ItemMeta, use default ItemMeta.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
-    ItemMeta meta = DEFAULT_META;
+    ItemMeta meta = DEFAULT_META.clone();
 
     public ItemMetaBuilder(ItemMeta meta) {
         this.meta = meta;
