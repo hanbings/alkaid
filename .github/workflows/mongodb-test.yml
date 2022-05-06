@@ -34,4 +34,4 @@ jobs:
         if: failure()
         with:
           name: mongodb-test-failure
-          path: build/reports
+          path: alkaid-mongodb/build/reports
