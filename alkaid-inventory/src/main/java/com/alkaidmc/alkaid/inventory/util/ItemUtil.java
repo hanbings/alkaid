@@ -6,6 +6,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ItemUtil {
@@ -48,8 +49,7 @@ public class ItemUtil {
 
     public static <T> List<T> append(List<T> l, T... o) {
         List<T> temp = new ArrayList<>(l);
-        for (T i : o)
-            temp.add(i);
+        Collections.addAll(temp, o);
         return temp;
     }
 }
