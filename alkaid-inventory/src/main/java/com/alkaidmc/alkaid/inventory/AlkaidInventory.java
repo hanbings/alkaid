@@ -35,8 +35,4 @@ public class AlkaidInventory {
     public ItemStackBuilder item() {
         return new ItemStackBuilder();
     }
-
-    public ItemMetaBuilder meta() {
-        return new ItemMetaBuilder();
-    }
 }
