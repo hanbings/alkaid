@@ -16,19 +16,14 @@
 
 package com.alkaidmc.alkaid.redis;
 
-
-import org.junit.jupiter.api.Test;
-
 public class AlkaidRedisTest {
     RedisConnector redis = new AlkaidRedis().redis();
 
-    @Test
     public void setTest() {
         redis.set("test", "neko");
         System.out.println(redis.get("test"));
     }
 
-    @Test
     public void delTest() {
         setTest();
         System.out.println("exists test:" + redis.exists("test"));
