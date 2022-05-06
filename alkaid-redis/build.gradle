@@ -1,5 +1,5 @@
 dependencies {
-    implementation 'junit:junit:4.13.1'
+    implementation 'junit:junit:4.13.2'
 
     // https://mvnrepository.com/artifact/redis.clients/jedis
     implementation 'redis.clients:jedis:4.2.2'

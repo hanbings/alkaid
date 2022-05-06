@@ -3,7 +3,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 
     // https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
-    implementation 'org.mongodb:mongo-java-driver:3.12.10'
+    implementation 'org.mongodb:mongo-java-driver:3.12.11'
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation 'com.google.code.gson:gson:2.9.0'
