@@ -117,7 +117,7 @@ new AlkaidInventory(plugin).gui()
 
 ```java
 new AlkaidInventory(plugin).item()
-                // 使用 of 从现有的 ItemStack ItemMeta 或 Material 创建一个新的 ItemStackBuilder
+                // 从现有的 ItemStack ItemMeta 或 Material 创建一个新的 ItemStackBuilder
                 .of(Material.DIAMOND_SWORD)
                 .of(new ItemStack(Material.DIAMOND_SWORD))
                 // 可堆叠物品堆叠数量
