@@ -25,4 +25,5 @@ public class ItemStackBuilder {
     ItemMeta meta;
 
     // todo 完成 ItemStack Builder
+    // https://github.com/AlkaidMC/alkaid/projects/1#card-81556708
 }
