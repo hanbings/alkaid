@@ -16,63 +16,97 @@
 
 package com.alkaidmc.alkaid.mongodb;
 
-import org.bson.Document;
+import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
 
-// todo mongodb 测试
-// https://github.com/AlkaidMC/alkaid/projects/1#card-81556681
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @SuppressWarnings("unused")
 public class AlkaidMongodbTest {
-    SyncMongodbConnection syncMongodbConnection = new AlkaidMongodb().database("test").sync();
-    String testCollection = "testAlkaid";
-
-    @Test
-    public void insertTest() {
-        syncMongodbConnection.create(testCollection,
-                new Document("name", "Neko")
-                        .append("age", 4)
-        );
+    @AllArgsConstructor
+    static class Data {
+        String message;
+        int number;
+        boolean flag;
+        HashMap<String, String> map;
+        String[] array;
     }
 
     @Test
-    public void insertListTest() {
-        syncMongodbConnection.create(testCollection,
-                List.of(new Document("name", "Ne")
-                        , new Document("name", "Neko")
-                        , new Document("name", "NekoCore")
-                )
-        );
-    }
+    public void connect() {
+        SyncMongodbConnection connection = new AlkaidMongodb()
+                .host("localhost")
+                .port(27017)
+                .database("alkaid")
+                .sync();
 
-    @Test
-    public void updateTest() {
-        syncMongodbConnection.update(testCollection,
+        // 写入数据
+        connection.create("test",
+                new Data("点一份炒饭",
+                        1919810,
+                        true,
+                        new HashMap<>() {{
+                            put("锟斤拷", "烫烫烫");
+                        }},
+                        new String[]{"1", "1", "4", "5", "1", "4"})
+        );
+        // 读取数据
+        List<Data> data = connection.read("test",
                 new HashMap<>() {{
-                    put("name", "Neko");
+                    put("message", "点一份炒饭");
                 }},
-                new Document("$set", new Document("age", 3))
-        );
-    }
+                Data.class);
+        // 测试数据
+        assertEquals("点一份炒饭", data.get(0).message);
+        assertEquals(1919810, data.get(0).number);
+        assertTrue(data.get(0).flag);
+        assertEquals("烫烫烫", data.get(0).map.get("锟斤拷"));
+        assertEquals("1", data.get(0).array[0]);
 
-    @Test
-    public void deleteTest() {
-        syncMongodbConnection.delete(testCollection,
+        // 删除数据
+        connection.delete("test",
                 new HashMap<>() {{
-                    put("name", "Neko");
-                }}
+                    put("message", "点一份炒饭");
+                }});
+        // 验证删除
+        data = connection.read("test",
+                new HashMap<>() {{
+                    put("message", "点一份炒饭");
+                }}, Data.class);
+        assertEquals(0, data.size());
+
+        // search 方法查询数据
+        connection.create("test",
+                new Data("点一份炒饭",
+                        114514,
+                        true,
+                        new HashMap<>() {{
+                            put("锟斤拷", "烫烫烫");
+                        }}, new String[]{"1", "1", "4", "5", "1", "4"})
         );
-    }
-
-    @Test
-    public void readTest() {
-        syncMongodbConnection.read(testCollection, new Document("name", "Neko"), Object.class).forEach(System.out::println);
-    }
-
-    @Test
-    public void searchTest() {
-        syncMongodbConnection.search(testCollection, "age", 1, 5, 10, Object.class).forEach(System.out::println);
+        connection.create("test",
+                new Data("点一份炒饭",
+                        114515,
+                        true,
+                        new HashMap<>() {{
+                            put("锟斤拷", "烫烫烫");
+                        }}, new String[]{"1", "1", "4", "5", "1", "4"})
+        );
+        connection.create("test",
+                new Data("点一份炒饭",
+                        114516,
+                        true,
+                        new HashMap<>() {{
+                            put("锟斤拷", "烫烫烫");
+                        }}, new String[]{"1", "1", "4", "5", "1", "4"})
+        );
+        // 查询数据
+        data = connection.search("test", "number", 114514, 114516, 10, Data.class);
+        // 测试数据
+        assertEquals(3, data.size());
     }
 }
