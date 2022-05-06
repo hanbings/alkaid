@@ -19,7 +19,6 @@ package com.alkaidmc.alkaid.mongodb;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class AlkaidMongodbTest {
     public void connect() {
         SyncMongodbConnection connection = new AlkaidMongodb()
                 .host("localhost")
-                .port(2701)
+                .port(27017)
                 .database("alkaid")
                 .sync();
 
@@ -109,7 +108,5 @@ public class AlkaidMongodbTest {
         data = connection.search("test", "number", 114514, 114516, 10, Data.class);
         // 测试数据
         assertEquals(3, data.size());
-
-        System.out.println(Arrays.toString(data.toArray()));
     }
 }
