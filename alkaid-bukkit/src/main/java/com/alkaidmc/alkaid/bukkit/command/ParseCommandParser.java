@@ -18,18 +18,29 @@ package com.alkaidmc.alkaid.bukkit.command;
 
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidParseCommandCallback;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidParseTabCallback;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
+@Setter
+@Getter
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class ParseCommandParser {
     final CommandSender sender;
     final String[] args;
     final String[] tokens;
     final int deep;
+
+    Consumer<ParseCommandParser> parser;
+    AlkaidParseCommandCallback execute;
+    AlkaidParseTabCallback tab;
 
     public ParseCommandParser parse(String command) {
         if (tokens.length <= 0) {
@@ -47,14 +58,6 @@ public class ParseCommandParser {
             );
         }
 
-        return this;
-    }
-
-    public void execute(AlkaidParseCommandCallback callback) {
-        callback.execute(sender, args, tokens, deep);
-    }
-
-    public void tab(AlkaidParseTabCallback callback) {
-        callback.tab(sender, args, tokens, deep);
+        return null;
     }
 }

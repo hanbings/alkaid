@@ -29,6 +29,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Setter
 @Getter
@@ -47,6 +48,9 @@ public class ParseCommandRegister implements AlkaidCommandRegister {
     String usage;
     String permission;
 
+    // 解析器 / Parser
+    Consumer<ParseCommandParser> parser;
+
     // 过滤器 / Filter.
     AlkaidFilterCallback filter;
 
@@ -57,11 +61,20 @@ public class ParseCommandRegister implements AlkaidCommandRegister {
 
     @Override
     public void register() {
-
+        instance.setName(command);
+        instance.setAliases(aliases);
+        instance.setDescription(description);
+        instance.setUsage(usage);
+        instance.setPermission(permission);
+        // 命令处理器 / Command processor.
+        instance.setExecutor((sender, command, label, args) -> true);
+        // 命令 Tab 提示处理器 / Command Tab prompt processor.
+        instance.setTabCompleter((sender, command, alias, args) -> null);
+        instance.register(commands);
     }
 
     @Override
     public void unregister() {
-
+        instance.unregister(commands);
     }
 }
