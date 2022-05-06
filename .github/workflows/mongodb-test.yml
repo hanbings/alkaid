@@ -27,7 +27,7 @@ jobs:
           mongodb-version: 4.4
 
       - name: Run Gradle test
-        run: ./gradlew test --tests --stacktrace "com.alkaidmc.alkaid.mongodb.AlkaidMongodbTest"
+        run: ./gradlew :alkaid-mongodb:test -Dtest.single="com/alkaidmc/alkaid/mongodb/AlkaidMongodbTest"
 
       - name: Upload fail reports
         uses: actions/upload-artifact@v2

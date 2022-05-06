@@ -16,9 +16,6 @@
 
 package com.alkaidmc.alkaid.redis;
 
-
-import org.junit.jupiter.api.Test;
-
 public class AlkaidRedisTest {
     RedisConnector redis = new AlkaidRedis().redis();
 
