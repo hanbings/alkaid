@@ -18,6 +18,7 @@ package com.alkaidmc.alkaid.bukkit.command;
 
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidParseCommandCallback;
 import com.alkaidmc.alkaid.bukkit.command.interfaces.AlkaidParseTabCallback;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,8 @@ import lombok.experimental.Accessors;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @Setter
@@ -38,17 +41,22 @@ public class ParseCommandParser {
     final String[] tokens;
     final int deep;
 
-    Consumer<ParseCommandParser> parser;
+    @Getter(AccessLevel.NONE)
     AlkaidParseCommandCallback execute;
+    @Getter(AccessLevel.NONE)
     AlkaidParseTabCallback tab;
 
-    public ParseCommandParser parse(String command) {
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    ParseCommandParser next;
+
+    public void argument(String command, Consumer<ParseCommandParser> parser) {
         if (tokens.length <= 0) {
-            return this;
+            return;
         }
 
         if (tokens[0].equalsIgnoreCase(command)) {
-            return new ParseCommandParser(
+            next = new ParseCommandParser(
                     this.sender,
                     this.args,
                     // token 减少一层 / token delete one level
@@ -56,8 +64,19 @@ public class ParseCommandParser {
                     // deep 增加一层 / deep add one level
                     this.deep + 1
             );
+            parser.accept(next);
         }
+    }
 
-        return null;
+    public boolean execute() {
+        return next != null
+                ? next.execute()
+                : Optional.of(execute.execute(sender, args, tokens, deep)).orElse(false);
+    }
+
+    public List<String> tab() {
+        return next != null
+                ? next.tab()
+                : Optional.of(tab.tab(sender, args, tokens, deep)).orElse(null);
     }
 }
