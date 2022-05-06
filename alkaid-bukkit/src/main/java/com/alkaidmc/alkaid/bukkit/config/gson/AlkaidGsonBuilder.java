@@ -22,16 +22,23 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Optional;
+
 @SuppressWarnings("unused")
 public class AlkaidGsonBuilder {
+    static Gson gson;
+
     public static Gson gson() {
-        return new GsonBuilder()
-                .enableComplexMapKeySerialization()
-                .serializeNulls()
-                .setPrettyPrinting()
-                .registerTypeAdapter(ItemStack.class, new ItemStackGsonAdapter())
-                .registerTypeAdapter(Player.class, new PlayerGsonAdapter())
-                .registerTypeAdapter(Location.class, new LocationGsonAdapter())
-                .create();
+        return Optional.ofNullable(gson).orElseGet(() -> {
+            gson = new GsonBuilder()
+                    .enableComplexMapKeySerialization()
+                    .serializeNulls()
+                    .setPrettyPrinting()
+                    .registerTypeAdapter(ItemStack.class, new ItemStackGsonAdapter())
+                    .registerTypeAdapter(Player.class, new PlayerGsonAdapter())
+                    .registerTypeAdapter(Location.class, new LocationGsonAdapter())
+                    .create();
+            return gson;
+        });
     }
 }
