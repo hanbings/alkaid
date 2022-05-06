@@ -28,7 +28,9 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @Setter
@@ -49,7 +51,7 @@ public class ParseCommandRegister implements AlkaidCommandRegister {
     String permission;
 
     // 解析器 / Parser
-    Consumer<ParseCommandParser> parser;
+    Consumer<ParseCommandParser> parsing;
 
     // 过滤器 / Filter.
     AlkaidFilterCallback filter;
@@ -59,6 +61,11 @@ public class ParseCommandRegister implements AlkaidCommandRegister {
     @Getter(AccessLevel.NONE)
     boolean result = false;
 
+    // 初始解析器 / Initial parser.
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    ParseCommandParser parser;
+
     @Override
     public void register() {
         instance.setName(command);
@@ -67,9 +74,36 @@ public class ParseCommandRegister implements AlkaidCommandRegister {
         instance.setUsage(usage);
         instance.setPermission(permission);
         // 命令处理器 / Command processor.
-        instance.setExecutor((sender, command, label, args) -> true);
+        instance.setExecutor((sender, command, label, args) -> {
+            Optional.ofNullable(filter).ifPresent(f -> result = f.filter(sender, command, label, args));
+            if (result) {
+                return false;
+            }
+
+            parser = new ParseCommandParser(
+                    sender,
+                    args,
+                    // token 减少一层 / token delete one level
+                    Arrays.copyOfRange(args, 1, args.length),
+                    // deep 增加一层 / deep add one level
+                    1
+            );
+            // 处理数据注入完成后的回调 / Callback after data injection.
+            parsing.accept(parser);
+            // 因为已经在子解析器完成了数据处理 故直接返回
+            // Because data processing has been completed in the child parser, so directly return.
+            return parser.execute();
+        });
         // 命令 Tab 提示处理器 / Command Tab prompt processor.
-        instance.setTabCompleter((sender, command, alias, args) -> null);
+        instance.setTabCompleter((sender, command, label, args) -> {
+            Optional.ofNullable(filter).ifPresent(f -> result = f.filter(sender, command, label, args));
+            if (result) {
+                return null;
+            }
+
+            parsing.accept(parser);
+            return parser.tab();
+        });
         instance.register(commands);
     }
 

@@ -102,16 +102,16 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
             return results.stream().anyMatch(r -> !r);
         });
         // 命令 Tab 提示处理器 / Command Tab prompt processor.
-        instance.setTabCompleter((sender, command, alias, args) -> {
-            Optional.ofNullable(filter).ifPresent(f -> result = f.filter(sender, command, alias, args));
+        instance.setTabCompleter((sender, command, label, args) -> {
+            Optional.ofNullable(filter).ifPresent(f -> result = f.filter(sender, command, label, args));
             if (result) {
-                return new ArrayList<>();
+                return null;
             }
             String full = String.join(" ", args);
             List<String> results = new ArrayList<>();
             tabs.forEach((k, v) -> {
                 if (full.matches(k)) {
-                    results.addAll(v.tab(sender, command, alias, args));
+                    results.addAll(v.tab(sender, command, label, args));
                 }
             });
             return results;
