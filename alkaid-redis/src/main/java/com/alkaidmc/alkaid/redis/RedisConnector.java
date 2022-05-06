@@ -33,6 +33,10 @@ public class RedisConnector {
         jedis.setex(key, seconds, value);
     }
 
+    public void expire(String key, int seconds) {
+        jedis.expire(key, seconds);
+    }
+
     public String get(String key) {
         return jedis.get(key);
     }
