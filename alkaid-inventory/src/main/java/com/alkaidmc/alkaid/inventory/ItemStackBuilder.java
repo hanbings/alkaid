@@ -16,14 +16,76 @@
 
 package com.alkaidmc.alkaid.inventory;
 
+import com.alkaidmc.alkaid.inventory.util.ItemUtil;
+import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.Constructor;
+
 @SuppressWarnings("unused")
 public class ItemStackBuilder {
-    ItemStack item;
-    ItemMeta meta;
-
     // todo 完成 ItemStack Builder
     // https://github.com/AlkaidMC/alkaid/projects/1#card-81556708
+
+    private ItemStack itemStack;
+
+    public ItemStackBuilder() {
+        try {
+            Constructor<ItemStack> con = ItemStack.class.getDeclaredConstructor();
+            con.setAccessible(true);
+            itemStack = con.newInstance();
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ItemStackBuilder(ItemStack is) {
+        this.itemStack = is;
+    }
+
+    public ItemStackBuilder setType(Material m) {
+        this.itemStack.setType(m);
+        return this;
+    }
+
+    public ItemStackBuilder setAmount(int m) {
+        this.itemStack.setAmount(m);
+        return this;
+    }
+
+    public ItemStackBuilder setDamage(short d) {
+        this.itemStack.setDurability(d);
+        return this;
+    }
+
+    public ItemStackBuilder setItemMeta(ItemMeta i) {
+        this.itemStack.setItemMeta(i);
+        return this;
+    }
+
+    public ItemStackBuilder setDisplayName(String name) {
+        ItemUtil.setDisplayName(this.itemStack, name);
+        return this;
+    }
+
+    public ItemStackBuilder setSkullOwner(OfflinePlayer p) {
+        ItemUtil.setSkullOwner(this.itemStack, p);
+        return this;
+    }
+
+    public ItemStackBuilder addLore(String... l) {
+        ItemUtil.addLore(this.itemStack, l);
+        return this;
+    }
+
+    public ItemStackBuilder setLore(String... l) {
+        ItemUtil.setLore(this.itemStack, l);
+        return this;
+    }
+
+    public ItemStack create() {
+        return this.itemStack;
+    }
 }
