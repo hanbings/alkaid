@@ -30,7 +30,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
 @Setter
@@ -56,11 +55,6 @@ public class ParseCommandRegister implements AlkaidCommandRegister {
     // 过滤器 / Filter.
     AlkaidFilterCallback filter;
 
-    // 过滤器结果 / Filter result.
-    @Setter(AccessLevel.NONE)
-    @Getter(AccessLevel.NONE)
-    boolean result = false;
-
     // 初始解析器 / Initial parser.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
@@ -75,8 +69,7 @@ public class ParseCommandRegister implements AlkaidCommandRegister {
         instance.setPermission(permission);
         // 命令处理器 / Command processor.
         instance.setExecutor((sender, command, label, args) -> {
-            Optional.ofNullable(filter).ifPresent(f -> result = f.filter(sender, command, label, args));
-            if (result) {
+            if (filter != null && filter.filter(sender, command, label, args)) {
                 return false;
             }
 
@@ -96,8 +89,7 @@ public class ParseCommandRegister implements AlkaidCommandRegister {
         });
         // 命令 Tab 提示处理器 / Command Tab prompt processor.
         instance.setTabCompleter((sender, command, label, args) -> {
-            Optional.ofNullable(filter).ifPresent(f -> result = f.filter(sender, command, label, args));
-            if (result) {
+            if (filter != null && filter.filter(sender, command, label, args)) {
                 return null;
             }
 
