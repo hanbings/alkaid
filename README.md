@@ -144,6 +144,16 @@ new AlkaidCommon().reflection()
 | alkaid-mongodb    | 对于 MongoDB 数据库的封装      | ✔️           | ✔️                | ✔️                             |
 | alkaid-redis      | 对于 Redis 中间件的封装        | ✔️           | ✔️                | ✔️                             |
 
+## 🐌 计划列表
+
+通过计划列表可以知道我们正在进行什么工作以及计划进行什么工作。
+
+同样的，欢迎 PR 为龙龙添加功能，但最好事先与我们讨论一下，避免重复实现。
+
+[Alkaid Development](https://github.com/AlkaidMC/alkaid/projects/1)
+
+如果希望我们实现某些功能可以通过 Issues 告诉我们，关于 Issues / PR 有一些要求，请往下阅读。
+
 ## ⚡️ 快速开始
 
 目前 Alkaid Lib 发布在 https://repository.alkaidmc.com
@@ -196,7 +206,7 @@ maven {
 
 贡献是协助或参与我们开发的过程，包括但不限于向我们报告漏洞、请求合理的新功能和提交代码。
 
-对于这一个流程我们有一些特殊的要求，还请仔细看一看，感谢支持 w
+对于 Issues / PR 以及其他可能的一些贡献我们有一些特殊的要求，还请仔细看一看，感谢支持 w
 
 [查看贡献指南](CONTRIBUTING.md)
 
