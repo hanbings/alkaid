@@ -25,24 +25,28 @@ public class RedisConnector {
 
     final Jedis jedis;
 
-    public void set(String key, String value) {
+    public RedisConnector set(String key, String value) {
         jedis.set(key, value);
+        return this;
     }
 
-    public void set(String key, String value, int seconds) {
+    public RedisConnector set(String key, String value, int seconds) {
         jedis.setex(key, seconds, value);
+        return this;
     }
 
-    public void expire(String key, int seconds) {
+    public RedisConnector expire(String key, int seconds) {
         jedis.expire(key, seconds);
+        return this;
     }
 
     public String get(String key) {
         return jedis.get(key);
     }
 
-    public void del(String key) {
+    public RedisConnector del(String key) {
         jedis.del(key);
+        return this;
     }
 
     public boolean exists(String key) {
