@@ -66,11 +66,6 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
     // 过滤器 / Filter.
     AlkaidFilterCallback filter;
 
-    // 过滤器结果 / Filter result.
-    @Setter(AccessLevel.NONE)
-    @Getter(AccessLevel.NONE)
-    boolean result = false;
-
     @Override
     public void register() {
         instance.setName(command);
@@ -80,10 +75,10 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
         instance.setPermission(permission);
         // 命令处理器 / Command processor.
         instance.setExecutor((sender, command, label, args) -> {
-            Optional.ofNullable(filter).ifPresent(f -> result = f.filter(sender, command, label, args));
-            if (result) {
+            if (filter != null && filter.filter(sender, command, label, args)) {
                 return false;
             }
+
             // 如果有全匹配处理器 / If there is a full matching processor.
             Optional.ofNullable(match).ifPresent(e -> e.accept(sender));
             String full = String.join(" ", args);
@@ -103,10 +98,10 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
         });
         // 命令 Tab 提示处理器 / Command Tab prompt processor.
         instance.setTabCompleter((sender, command, label, args) -> {
-            Optional.ofNullable(filter).ifPresent(f -> result = f.filter(sender, command, label, args));
-            if (result) {
+            if (filter != null && filter.filter(sender, command, label, args)) {
                 return null;
             }
+
             String full = String.join(" ", args);
             List<String> results = new ArrayList<>();
             tabs.forEach((k, v) -> {
