@@ -25,8 +25,12 @@ import lombok.experimental.Accessors;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 @Setter
@@ -47,7 +51,18 @@ public class ConditionalEventRegister<T extends Event> implements AlkaidEventReg
     EventPriority priority = EventPriority.NORMAL;
     // 是否忽略  Bukkit 事件的取消标志
     boolean ignore = false;
+    // 是否区分玩家监听事件
+    boolean multi = false;
 
+    // 事件是否挂起
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    boolean hangup = false;
+    // 区分玩家的监听事件
+    // todo 懒加载这张 Set
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    Set<UUID> players = new HashSet<>();
     // 注销事件
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
@@ -61,20 +76,49 @@ public class ConditionalEventRegister<T extends Event> implements AlkaidEventReg
                 new Listener() {
                 },
                 priority,
-                (l, e) -> {
-                    // 判断该事件是否注销
-                    if (cancel) {
-                        e.getHandlers().unregister(l);
-                        return;
-                    }
-                    listener.accept((T) e);
-                },
+                multi ?
+                        (l, e) -> {
+                            // 检查事件是否已经被挂起
+                            if (e instanceof PlayerEvent) {
+                                if (players.contains(((PlayerEvent) e).getPlayer().getUniqueId())) {
+                                    return;
+                                }
+                            }
+                            // 判断该事件是否注销
+                            if (cancel) {
+                                e.getHandlers().unregister(l);
+                                return;
+                            }
+                            listener.accept((T) e);
+                        } :
+                        (l, e) -> {
+                            // 检查事件是否已经被挂起
+                            if (hangup) {
+                                return;
+                            }
+                            // 判断该事件是否注销
+                            if (cancel) {
+                                e.getHandlers().unregister(l);
+                                return;
+                            }
+                            listener.accept((T) e);
+                        },
                 plugin,
                 ignore
         );
         plugin.getServer().getPluginManager().registerEvent(
                 interrupt, new Listener() {
-                }, priority, (l, e) -> cancel = true, plugin, ignore
+                },
+                priority,
+                multi ?
+                        (l, e) -> {
+                            if (e instanceof PlayerEvent) {
+                                players.add(((PlayerEvent) e).getPlayer().getUniqueId());
+                            }
+                        } :
+                        (l, e) -> hangup = true,
+                plugin,
+                ignore
         );
     }
 
