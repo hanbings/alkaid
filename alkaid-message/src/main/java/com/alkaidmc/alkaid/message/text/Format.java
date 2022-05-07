@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package com.alkaidmc.alkaid.message;
+package com.alkaidmc.alkaid.message.text;
 
-import com.alkaidmc.alkaid.message.text.JSONTextBuilder;
-import lombok.RequiredArgsConstructor;
-import org.bukkit.plugin.java.JavaPlugin;
+public enum Format {
 
-@RequiredArgsConstructor
-@SuppressWarnings("unused")
-public class AlkaidMessage {
-    final JavaPlugin plugin;
+    /** <strong>SAMPLE</strong> */
+    BOLD,
 
-    public JSONTextBuilder builder() {
-        return new JSONTextBuilder();
-    }
+    /** <em>SAMPLE</em> */
+    ITALIC,
+
+    /** <span style="text-decoration: underline">SAMPLE</span> */
+    UNDERLINED,
+
+    /** <span style="text-decoration: line-through">SAMPLE</span> */
+    STRIKETHROUGH,
+
+    /** Make the text randomly change every tick. */
+    OBFUSCATED
+
 }
