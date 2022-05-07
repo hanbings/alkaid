@@ -42,19 +42,19 @@ public class AlkaidEvent {
         return count;
     }
 
-    class SimpleEventFactory {
+    public class SimpleEventFactory {
         public <T extends Event> SimpleEventRegister<T> event(Class<T> event) {
             return new SimpleEventRegister<>(plugin, event);
         }
     }
 
-    class CountEventFactory {
+    public class CountEventFactory {
         public <T extends Event> CountEventRegister<T> event(Class<T> event) {
             return new CountEventRegister<>(plugin, event);
         }
     }
 
-    class ConditionalEventFactory {
+    public class ConditionalEventFactory {
         public <T extends Event> ConditionalEventRegister<T> event(Class<T> event) {
             return new ConditionalEventRegister<>(plugin, event);
         }
