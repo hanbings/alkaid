@@ -44,6 +44,8 @@ public class AlkaidMongodbTest {
                 .database("alkaid")
                 .sync();
 
+        // 清空数据
+        connection.delete("test", new HashMap<>());
         // 写入数据
         connection.create("test",
                 new Data("点一份炒饭",
