@@ -16,7 +16,7 @@
 
 package com.alkaidmc.alkaid.message.text.hover;
 
-import com.alkaidmc.alkaid.message.text.JSONTextBuilder;
+import com.alkaidmc.alkaid.message.text.JsonTextBuilder;
 import net.md_5.bungee.api.chat.hover.content.Content;
 
 /**
@@ -40,8 +40,8 @@ public interface ContentBuilder<T extends Content> {
             return new ItemContentBuilder();
         }
 
-        public JSONTextBuilder text() {
-            return new JSONTextBuilder();
+        public JsonTextBuilder text() {
+            return new JsonTextBuilder();
         }
     }
 }
