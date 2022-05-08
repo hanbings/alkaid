@@ -16,17 +16,18 @@
 
 package com.alkaidmc.alkaid.message.text;
 
+import com.alkaidmc.alkaid.message.text.hover.ContentBuilder;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.hover.content.Content;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import net.md_5.bungee.chat.ComponentSerializer;
-import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static net.md_5.bungee.api.ChatColor.*;
 
@@ -37,11 +38,18 @@ import static net.md_5.bungee.api.ChatColor.*;
  * @author Milkory
  */
 @SuppressWarnings("unused")
-public class JSONTextBuilder {
+public class JSONTextBuilder implements ContentBuilder<Text> {
 
     List<BaseComponent> components = new ArrayList<>();
 
-    BaseComponent[] components() {
+    BaseComponent parent = new TextComponent();
+
+    public BaseComponent[] components() {
+        parent.setExtra(components);
+        return new BaseComponent[]{parent};
+    }
+
+    public BaseComponent[] pureComponents() {
         return components.toArray(new BaseComponent[0]);
     }
 
@@ -123,15 +131,12 @@ public class JSONTextBuilder {
         return component(new KeybindComponent(keybind), color, formats);
     }
 
-
     public JSONTextBuilder newLine() {
         return text("\n");
     }
 
     public JSONTextBuilder modify(Consumer<BaseComponent> consumer) {
-        for (BaseComponent component : components) {
-            consumer.accept(component);
-        }
+        consumer.accept(parent);
         return this;
     }
 
@@ -158,9 +163,16 @@ public class JSONTextBuilder {
         return modify(it -> it.setHoverEvent(event));
     }
 
-    public JSONTextBuilder hoverEvent() {
-        // TODO
-        return this;
+    public JSONTextBuilder hoverEvent(Content content) {
+        return hoverEvent(new HoverEvent(content.requiredAction(), content));
+    }
+
+    public JSONTextBuilder hoverEvent(ContentBuilder<?> builder) {
+        return hoverEvent(builder.buildContent());
+    }
+
+    public JSONTextBuilder hoverEvent(Function<ContentBuilder.Provider, ContentBuilder<?>> function) {
+        return hoverEvent(function.apply(ContentBuilder.provider()));
     }
 
     public JSONTextBuilder insertion(String insertion) {
@@ -393,14 +405,19 @@ public class JSONTextBuilder {
             switch (format) {
                 case BOLD:
                     component.setBold(true);
+                    break;
                 case ITALIC:
                     component.setItalic(true);
+                    break;
                 case UNDERLINED:
                     component.setUnderlined(true);
+                    break;
                 case STRIKETHROUGH:
                     component.setStrikethrough(true);
+                    break;
                 case OBFUSCATED:
                     component.setObfuscated(true);
+                    break;
             }
         }
         return component;
@@ -414,12 +431,11 @@ public class JSONTextBuilder {
         return TextComponent.toPlainText(components());
     }
 
-    public void sendTo(Player sender) {
-        sender.spigot().sendMessage(components());
-    }
-
     @Override public String toString() {
         return raw();
     }
 
+    @Override public Text buildContent() {
+        return new Text(components());
+    }
 }

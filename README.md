@@ -140,6 +140,30 @@ new AlkaidInventory(plugin).item()
                 .item();
 ```
 
+**JSON 文本生成**
+
+```java
+var message = new AlkaidMessage(this).builder()
+    .append(it -> it.yellow().bold().underlined()
+        .text("Hello")
+        .hoverEvent(iti -> iti.text().text("一眼翻译，鉴定为：再见")))
+    .red(", ")
+    .text("World", "#E682A0", Format.BOLD);
+event.getPlayer().spigot().sendMessage(message.components());
+```
+
+<details>
+
+<summary>生成效果</summary>
+
+![效果图](https://picture.hanbings.com/2022/05/08/56562eb28cce1.png)
+
+```json
+{"extra":[{"bold":true,"underlined":true,"color":"yellow","hoverEvent":{"action":"show_text","contents":[{"extra":[{"text":"一眼翻译，鉴定为：再见"}],"text":""}]},"extra":[{"text":"Hello"}],"text":""},{"color":"red","text":", "},{"bold":true,"color":"#E682A0","text":"World"}],"text":""}
+```
+
+</details>
+
 **辅助反射**
 
 ```java
