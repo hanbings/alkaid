@@ -16,17 +16,9 @@
 
 package com.alkaidmc.alkaid.mongodb;
 
-import com.google.gson.Gson;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
-import com.mongodb.MongoCredential;
-import com.mongodb.ServerAddress;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-
-import java.util.Optional;
 
 @Setter
 @Getter
@@ -34,46 +26,11 @@ import java.util.Optional;
 @Accessors(fluent = true, chain = true)
 public class AlkaidMongodb {
 
-    String host;
-    int port = 27017;
-    String database;
-    String username;
-    String password;
-    Gson gson = new Gson();
-    MongoClientOptions options = MongoClientOptions.builder().build();
-
-    // 托管 Client 的实例
-    @Setter(AccessLevel.NONE)
-    @Getter(AccessLevel.NONE)
-    MongoClient client = null;
-
-    public SyncMongodbConnection sync() {
-        client = Optional.ofNullable(client).orElseGet(() -> {
-            if (username != null && password != null) {
-                MongoCredential credential =
-                        MongoCredential.createCredential(username, database, password.toCharArray());
-                return new MongoClient(new ServerAddress(host, port), credential, options);
-            } else {
-                return new MongoClient(new ServerAddress(host, port), options);
-            }
-        });
-        return new SyncMongodbConnection(gson, client.getDatabase(database));
+    public SyncMongodbConnector sync() {
+        return new SyncMongodbConnector();
     }
 
-    public AsyncMongodbConnection async() {
-        client = Optional.ofNullable(client).orElseGet(() -> {
-            if (username != null && password != null) {
-                MongoCredential credential =
-                        MongoCredential.createCredential(username, database, password.toCharArray());
-                return new MongoClient(new ServerAddress(host, port), credential, options);
-            } else {
-                return new MongoClient(new ServerAddress(host, port), options);
-            }
-        });
-        return new AsyncMongodbConnection(gson, client.getDatabase(database));
-    }
-
-    public void close() {
-        Optional.ofNullable(client).ifPresent(MongoClient::close);
+    public AsyncMongodbConnector async() {
+        return new AsyncMongodbConnector();
     }
 }

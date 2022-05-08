@@ -39,11 +39,12 @@ public class AlkaidMongodbTest {
 
     @Test
     public void connect() {
-        SyncMongodbConnection connection = new AlkaidMongodb()
+        SyncMongodbConnection connection = new AlkaidMongodb().sync()
                 .host("localhost")
                 .port(27017)
                 .database("alkaid")
-                .sync();
+                .connect()
+                .connection();
 
         // 清空数据
         connection.delete("test", new HashMap<>());
