@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -82,32 +83,21 @@ public class AlkaidMongodbTest {
         assertEquals(0, data.size());
 
         // search 方法查询数据
-        connection.create("test",
-                new Data("点一份炒饭",
-                        114514,
-                        true,
-                        new HashMap<>() {{
-                            put("锟斤拷", "烫烫烫");
-                        }}, new String[]{"1", "1", "4", "5", "1", "4"})
-        );
-        connection.create("test",
-                new Data("点一份炒饭",
-                        114515,
-                        true,
-                        new HashMap<>() {{
-                            put("锟斤拷", "烫烫烫");
-                        }}, new String[]{"1", "1", "4", "5", "1", "4"})
-        );
-        connection.create("test",
-                new Data("点一份炒饭",
-                        114516,
-                        true,
-                        new HashMap<>() {{
-                            put("锟斤拷", "烫烫烫");
-                        }}, new String[]{"1", "1", "4", "5", "1", "4"})
-        );
+        IntStream.range(114514, 114517).forEach(count -> {
+            connection.create("test",
+                    new Data("点一份炒饭",
+                            count,
+                            true,
+                            new HashMap<>() {{
+                                put("锟斤拷", "烫烫烫");
+                            }}, new String[]{"1", "1", "4", "5", "1", "4"})
+            );
+        });
+
         // 查询数据
-        data = connection.search("test", "number", 114514, 114516, 10, Data.class);
+        data = connection.search("test", "number",
+                114514, 114516, 10,
+                Data.class);
         // 测试数据
         assertEquals(3, data.size());
     }
