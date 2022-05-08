@@ -16,7 +16,7 @@
 
 package com.alkaidmc.alkaid.message;
 
-import com.alkaidmc.alkaid.message.text.JSONTextBuilder;
+import com.alkaidmc.alkaid.message.text.JsonTextBuilder;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AlkaidMessage {
     final JavaPlugin plugin;
 
-    public JSONTextBuilder builder() {
-        return new JSONTextBuilder();
+    public JsonTextBuilder builder() {
+        return new JsonTextBuilder();
     }
 }
