@@ -16,19 +16,47 @@
 
 package com.alkaidmc.alkaid.redis;
 
-public class AlkaidRedisTest {
-    RedisConnector redis = new AlkaidRedis().redis();
+import com.google.gson.Gson;
+import lombok.AllArgsConstructor;
+import org.junit.jupiter.api.Test;
 
-    public void setTest() {
-        redis.set("test", "neko");
-        System.out.println(redis.get("test"));
+import java.util.HashMap;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class AlkaidRedisTest {
+    @lombok.Data
+    @AllArgsConstructor
+    static class Data {
+        String message;
+        int number;
+        boolean flag;
+        HashMap<String, String> map;
+        String[] array;
     }
 
-    public void delTest() {
-        setTest();
-        System.out.println("exists test:" + redis.exists("test"));
+    @Test
+    public void test() {
+        RedisConnector redis = new AlkaidRedis().redis();
+        Gson gson = new Gson();
+
+        Data dataWrite = new Data("点一份炒饭",
+                1919810,
+                true,
+                new HashMap<>() {{
+                    put("锟斤拷", "烫烫烫");
+                }},
+                new String[]{"1", "1", "4", "5", "1", "4"});
+
+        // 写入数据
+        redis.set("test", gson.toJson(dataWrite));
+        // 读取数据
+        Data dataRead = gson.fromJson(redis.get("test"), Data.class);
+        // 测试数据
+        assertNotNull(dataRead);
+        assertEquals(dataWrite, dataRead);
+        // 删除数据
         redis.del("test");
-        System.out.println("exists test:" + redis.exists("test"));
-        System.out.println(redis.get("test"));
+        assertNull(redis.get("test"));
     }
 }
