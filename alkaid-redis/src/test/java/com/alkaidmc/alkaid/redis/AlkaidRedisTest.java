@@ -2,6 +2,8 @@ package com.alkaidmc.alkaid.redis;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.stream.IntStream;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -16,7 +18,9 @@ public class AlkaidRedisTest {
                 .connection();
 
         // 写入数据
-        connection.set("114514", "191810");
+        IntStream.range(114514, 114517).forEach(count -> {
+            connection.set(String.valueOf(count), "191810");
+        });
         // 读取数据
         String data = connection.get("114514");
         assertEquals("191810", data);
