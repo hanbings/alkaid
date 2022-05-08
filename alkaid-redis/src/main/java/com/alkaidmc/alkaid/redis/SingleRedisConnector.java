@@ -43,6 +43,8 @@ public class SingleRedisConnector {
     JedisPool pool;
 
     public SingleRedisConnector connect() {
+        config.setMaxTotal(connect);
+
         pool = Optional.ofNullable(auth)
                 .map(password -> new JedisPool(config, host, port, timeout, password))
                 .orElseGet(() -> new JedisPool(config, host, port, timeout));
