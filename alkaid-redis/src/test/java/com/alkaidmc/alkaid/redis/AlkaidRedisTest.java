@@ -16,7 +16,6 @@
 
 package com.alkaidmc.alkaid.redis;
 
-import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +37,6 @@ public class AlkaidRedisTest {
     @Test
     public void test() {
         RedisConnector redis = new AlkaidRedis().redis();
-        Gson gson = new Gson();
 
         Data dataWrite = new Data("点一份炒饭",
                 1919810,
@@ -49,9 +47,9 @@ public class AlkaidRedisTest {
                 new String[]{"1", "1", "4", "5", "1", "4"});
 
         // 写入数据
-        redis.set("test", gson.toJson(dataWrite));
+        redis.setObj("test", dataWrite);
         // 读取数据
-        Data dataRead = gson.fromJson(redis.get("test"), Data.class);
+        Data dataRead = (Data) redis.getObj("test", Data.class);
         // 测试数据
         assertNotNull(dataRead);
         assertEquals(dataWrite, dataRead);

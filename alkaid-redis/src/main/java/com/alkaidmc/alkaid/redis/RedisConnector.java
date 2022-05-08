@@ -16,17 +16,23 @@
 
 package com.alkaidmc.alkaid.redis;
 
+import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import redis.clients.jedis.Jedis;
 
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class RedisConnector {
-
+    private static final Gson gson = new Gson();
     final Jedis jedis;
 
     public RedisConnector set(String key, String value) {
         jedis.set(key, value);
+        return this;
+    }
+
+    public RedisConnector setObj(String key, Object value) {
+        jedis.set(key, gson.toJson(value));
         return this;
     }
 
@@ -42,6 +48,10 @@ public class RedisConnector {
 
     public String get(String key) {
         return jedis.get(key);
+    }
+
+    public Object getObj(String key, Class<?> clazz) {
+        return gson.fromJson(jedis.get(key), clazz);
     }
 
     public RedisConnector del(String key) {
