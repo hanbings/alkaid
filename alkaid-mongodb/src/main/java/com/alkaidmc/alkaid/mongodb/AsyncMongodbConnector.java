@@ -27,6 +27,8 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Setter
 @Getter
@@ -41,12 +43,19 @@ public class AsyncMongodbConnector {
     Gson gson = new Gson();
     MongoClientOptions options = null;
 
+    // 线程池参数
+    int thread = 16;
+
     // 托管 Client 的实例
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     MongoClient client = null;
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    ExecutorService pool = null;
 
     public AsyncMongodbConnector connect() {
+        pool = Executors.newFixedThreadPool(thread);
         client = Optional.ofNullable(client).orElseGet(() -> {
             if (username != null && password != null) {
                 MongoCredential credential =
@@ -71,7 +80,7 @@ public class AsyncMongodbConnector {
 
 
     public AsyncMongodbConnection connection() {
-        return new AsyncMongodbConnection(gson, client.getDatabase(database));
+        return new AsyncMongodbConnection(gson, client.getDatabase(database), pool);
     }
 
     public void disconnect() {
