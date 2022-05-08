@@ -10,7 +10,7 @@ public class AlkaidRedisTest {
     @Test
     public void single() {
         SingleRedisConnection connection = new AlkaidRedis().single()
-                .host("localhost")
+                .host("127.0.0.1")
                 .port(6379)
                 .connect()
                 .connection();
