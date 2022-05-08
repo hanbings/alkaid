@@ -21,22 +21,20 @@ import com.alkaidmc.alkaid.mongodb.interfaces.WriteableActions;
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoDatabase;
+import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class SyncMongodbConnection implements WriteableActions, SyncQueryActions {
-    Gson gson;
-    MongoDatabase database;
-
-    public SyncMongodbConnection(Gson gson, MongoDatabase database) {
-        this.gson = gson;
-        this.database = database;
-    }
+    final Gson gson;
+    final MongoDatabase database;
 
     @Override
     public void create(String collection, Object data) {

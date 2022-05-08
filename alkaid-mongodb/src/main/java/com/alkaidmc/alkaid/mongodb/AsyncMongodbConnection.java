@@ -21,23 +21,22 @@ import com.alkaidmc.alkaid.mongodb.interfaces.WriteableActions;
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.MongoDatabase;
+import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class AsyncMongodbConnection implements WriteableActions, AsyncQueryActions {
-    Gson gson;
-    MongoDatabase database;
-
-    public AsyncMongodbConnection(Gson gson, MongoDatabase database) {
-        this.gson = gson;
-        this.database = database;
-    }
+    final Gson gson;
+    final MongoDatabase database;
+    final ExecutorService pool;
 
     @Override
     public void create(String collection, Object data) {
@@ -68,40 +67,45 @@ public class AsyncMongodbConnection implements WriteableActions, AsyncQueryActio
                 .deleteMany(Document.parse(gson.toJsonTree(index, Map.class).toString()));
     }
 
-    // todo 处理异步
-    // https://github.com/AlkaidMC/alkaid/projects/1#card-81556639
     @Override
     public <T> void read(String collection, Map<String, Object> index, Class<T> type, Consumer<List<T>> consumer) {
-        List<T> list = new ArrayList<>();
-        // 获取数据库连接
-        database.getCollection(collection)
-                .find(Document.parse(gson.toJsonTree(index, Map.class).toString()))
-                .iterator()
-                .forEachRemaining(document -> {
-                    // 将 document 转换回对象
-                    list.add(gson.fromJson(document.toJson(), type));
-                });
-        consumer.accept(list);
+        pool.submit(() -> {
+            List<T> list = new ArrayList<>();
+            // 获取数据库连接
+            database.getCollection(collection)
+                    .find(Document.parse(gson.toJsonTree(index, Map.class).toString()))
+                    .iterator()
+                    .forEachRemaining(document -> {
+                        // 将 document 转换回对象
+                        list.add(gson.fromJson(document.toJson(), type));
+                    });
+            consumer.accept(list);
+        });
     }
 
     @Override
-    public <T, V> void search(String collection, String data, V top, V bottom, int limit, Class<T> type, Consumer<List<T>> consumer) {
-        List<T> list = new ArrayList<>();
-        // 获取数据库连接
-        database.getCollection(collection)
-                .find(new BasicDBObject() {{
-                    put(data, new BasicDBObject() {{
-                        put("$gte", top);
-                        put("$lte", bottom);
-                    }});
-                }})
-                .skip(0)
-                .limit(limit)
-                .iterator()
-                .forEachRemaining(document -> {
-                    // 将 document 转换回对象
-                    list.add(gson.fromJson(document.toJson(), type));
-                });
-        consumer.accept(list);
+    public <T, V> void search(String collection, String data,
+                              V top, V bottom, int limit,
+                              Class<T> type,
+                              Consumer<List<T>> consumer) {
+        pool.submit(() -> {
+            List<T> list = new ArrayList<>();
+            // 获取数据库连接
+            database.getCollection(collection)
+                    .find(new BasicDBObject() {{
+                        put(data, new BasicDBObject() {{
+                            put("$gte", top);
+                            put("$lte", bottom);
+                        }});
+                    }})
+                    .skip(0)
+                    .limit(limit)
+                    .iterator()
+                    .forEachRemaining(document -> {
+                        // 将 document 转换回对象
+                        list.add(gson.fromJson(document.toJson(), type));
+                    });
+            consumer.accept(list);
+        });
     }
 }
