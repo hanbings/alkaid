@@ -140,15 +140,17 @@ new AlkaidInventory(plugin).item()
                 .item();
 ```
 
-**JSON 文本生成**
+**Json 文本生成**
 
 ```java
-var message = new AlkaidMessage(plugin).builder()
-    .append(it -> it.yellow().bold().underlined()
-        .text("Hello")
-        .hoverEvent(iti -> iti.text().text("一眼翻译，鉴定为：再见")))
-    .red(", ")
-    .text("World", "#E682A0", Format.BOLD);
+JsonTextBuilder message = new AlkaidMessage(plugin).builder()
+                .append(it -> it.text("Hello")
+                        .yellow()
+                        .bold()
+                        .underlined()
+                        .hoverEvent(hover -> hover.text().text("一眼翻译，鉴定为：再见")))
+                .red(", ")
+                .text("World", "#E682A0", Format.BOLD);
 player.spigot().sendMessage(message.components());
 ```
 
@@ -159,7 +161,34 @@ player.spigot().sendMessage(message.components());
 ![效果图](https://picture.hanbings.com/2022/05/08/56562eb28cce1.png)
 
 ```json
-{"extra":[{"bold":true,"underlined":true,"color":"yellow","hoverEvent":{"action":"show_text","contents":[{"extra":[{"text":"一眼翻译，鉴定为：再见"}],"text":""}]},"extra":[{"text":"Hello"}],"text":""},{"color":"red","text":", "},{"bold":true,"color":"#E682A0","text":"World"}],"text":""}
+{
+	"extra": [{
+		"bold": true,
+		"underlined": true,
+		"color": "yellow",
+		"hoverEvent": {
+			"action": "show_text",
+			"contents": [{
+				"extra": [{
+					"text": "一眼翻译，鉴定为：再见"
+				}],
+				"text": ""
+			}]
+		},
+		"extra": [{
+			"text": "Hello"
+		}],
+		"text": ""
+	}, {
+		"color": "red",
+		"text": ", "
+	}, {
+		"bold": true,
+		"color": "#E682A0",
+		"text": "World"
+	}],
+	"text": ""
+}
 ```
 
 </details>

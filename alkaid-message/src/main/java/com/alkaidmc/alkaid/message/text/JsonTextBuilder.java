@@ -38,7 +38,7 @@ import static net.md_5.bungee.api.ChatColor.*;
  * @author Milkory
  */
 @SuppressWarnings("unused")
-public class JSONTextBuilder implements ContentBuilder<Text> {
+public class JsonTextBuilder implements ContentBuilder<Text> {
 
     List<BaseComponent> components = new ArrayList<>();
 
@@ -53,159 +53,159 @@ public class JSONTextBuilder implements ContentBuilder<Text> {
         return components.toArray(new BaseComponent[0]);
     }
 
-    public JSONTextBuilder component(BaseComponent components) {
+    public JsonTextBuilder component(BaseComponent components) {
         this.components.add(components);
         return this;
     }
 
-    public JSONTextBuilder component(BaseComponent... components) {
+    public JsonTextBuilder component(BaseComponent... components) {
         this.components.addAll(Arrays.asList(components));
         return this;
     }
 
-    public JSONTextBuilder component(BaseComponent component, Format... formats) {
+    public JsonTextBuilder component(BaseComponent component, Format... formats) {
         components.add(addFormats(component, formats));
         return this;
     }
 
-    public JSONTextBuilder component(BaseComponent component, ChatColor color, Format... formats) {
+    public JsonTextBuilder component(BaseComponent component, ChatColor color, Format... formats) {
         component.setColor(color);
         return component(component, formats);
     }
 
-    public JSONTextBuilder component(BaseComponent component, String color, Format... formats) {
+    public JsonTextBuilder component(BaseComponent component, String color, Format... formats) {
         return component(component, ChatColor.of(color), formats);
     }
 
-    public JSONTextBuilder append(JSONTextBuilder builder) {
+    public JsonTextBuilder append(JsonTextBuilder builder) {
         return component(builder.components());
     }
 
-    public JSONTextBuilder append(Consumer<JSONTextBuilder> consumer) {
-        var builder = new JSONTextBuilder();
+    public JsonTextBuilder append(Consumer<JsonTextBuilder> consumer) {
+        var builder = new JsonTextBuilder();
         consumer.accept(builder);
         return append(builder);
     }
 
-    public JSONTextBuilder text(String text, Format... formats) {
+    public JsonTextBuilder text(String text, Format... formats) {
         return component(new TextComponent(text), formats);
     }
 
-    public JSONTextBuilder text(String text, ChatColor color, Format... formats) {
+    public JsonTextBuilder text(String text, ChatColor color, Format... formats) {
         return component(new TextComponent(text), color, formats);
     }
 
-    public JSONTextBuilder text(String text, String color, Format... formats) {
+    public JsonTextBuilder text(String text, String color, Format... formats) {
         return component(new TextComponent(text), color, formats);
     }
 
-    public JSONTextBuilder translate(String key, Format... formats) {
+    public JsonTextBuilder translate(String key, Format... formats) {
         return component(new TranslatableComponent(key), formats);
     }
 
-    public JSONTextBuilder translate(String key, Object[] with, Format... formats) {
+    public JsonTextBuilder translate(String key, Object[] with, Format... formats) {
         return component(new TranslatableComponent(key, with), formats);
     }
 
-    public JSONTextBuilder translate(String key, ChatColor color, Format... formats) {
+    public JsonTextBuilder translate(String key, ChatColor color, Format... formats) {
         return component(new TranslatableComponent(key), color, formats);
     }
 
-    public JSONTextBuilder translate(String key, Object[] with, ChatColor color, Format... formats) {
+    public JsonTextBuilder translate(String key, Object[] with, ChatColor color, Format... formats) {
         return component(new TranslatableComponent(key, with), color, formats);
     }
 
-    public JSONTextBuilder translate(String key, Object[] with, String color, Format... formats) {
+    public JsonTextBuilder translate(String key, Object[] with, String color, Format... formats) {
         return component(new TranslatableComponent(key, with), color, formats);
     }
 
-    public JSONTextBuilder keybind(String keybind, Format... formats) {
+    public JsonTextBuilder keybind(String keybind, Format... formats) {
         return component(new KeybindComponent(keybind), formats);
     }
 
-    public JSONTextBuilder keybind(String keybind, ChatColor color, Format... formats) {
+    public JsonTextBuilder keybind(String keybind, ChatColor color, Format... formats) {
         return component(new KeybindComponent(keybind), color, formats);
     }
 
-    public JSONTextBuilder keybind(String keybind, String color, Format... formats) {
+    public JsonTextBuilder keybind(String keybind, String color, Format... formats) {
         return component(new KeybindComponent(keybind), color, formats);
     }
 
-    public JSONTextBuilder newLine() {
+    public JsonTextBuilder newLine() {
         return text("\n");
     }
 
-    public JSONTextBuilder modify(Consumer<BaseComponent> consumer) {
+    public JsonTextBuilder modify(Consumer<BaseComponent> consumer) {
         consumer.accept(parent);
         return this;
     }
 
     /** Set the global color. */
-    public JSONTextBuilder color(ChatColor color) {
+    public JsonTextBuilder color(ChatColor color) {
         return modify(it -> it.setColor(color));
     }
 
     /** Set the global color. */
-    public JSONTextBuilder color(String hex) {
+    public JsonTextBuilder color(String hex) {
         var color = ChatColor.of(hex);
         return color(color);
     }
 
-    public JSONTextBuilder clickEvent(ClickEvent event) {
+    public JsonTextBuilder clickEvent(ClickEvent event) {
         return modify(it -> it.setClickEvent(event));
     }
 
-    public JSONTextBuilder clickEvent(ClickEvent.Action action, String value) {
+    public JsonTextBuilder clickEvent(ClickEvent.Action action, String value) {
         return clickEvent(new ClickEvent(action, value));
     }
 
-    public JSONTextBuilder hoverEvent(HoverEvent event) {
+    public JsonTextBuilder hoverEvent(HoverEvent event) {
         return modify(it -> it.setHoverEvent(event));
     }
 
-    public JSONTextBuilder hoverEvent(Content content) {
+    public JsonTextBuilder hoverEvent(Content content) {
         return hoverEvent(new HoverEvent(content.requiredAction(), content));
     }
 
-    public JSONTextBuilder hoverEvent(ContentBuilder<?> builder) {
+    public JsonTextBuilder hoverEvent(ContentBuilder<?> builder) {
         return hoverEvent(builder.buildContent());
     }
 
-    public JSONTextBuilder hoverEvent(Function<ContentBuilder.Provider, ContentBuilder<?>> function) {
+    public JsonTextBuilder hoverEvent(Function<ContentBuilder.Provider, ContentBuilder<?>> function) {
         return hoverEvent(function.apply(ContentBuilder.provider()));
     }
 
-    public JSONTextBuilder insertion(String insertion) {
+    public JsonTextBuilder insertion(String insertion) {
         return modify(it -> it.setInsertion(insertion));
     }
 
-    public JSONTextBuilder font(String font) {
+    public JsonTextBuilder font(String font) {
         return modify(it -> it.setFont(font));
     }
 
     // region Less-used content types
 
-    public JSONTextBuilder score(String name, String objective, Format... formats) {
+    public JsonTextBuilder score(String name, String objective, Format... formats) {
         return component(new ScoreComponent(name, objective), formats);
     }
 
-    public JSONTextBuilder score(String name, String objective, ChatColor color, Format... formats) {
+    public JsonTextBuilder score(String name, String objective, ChatColor color, Format... formats) {
         return component(new ScoreComponent(name, objective), color, formats);
     }
 
-    public JSONTextBuilder score(String name, String objective, String color, Format... formats) {
+    public JsonTextBuilder score(String name, String objective, String color, Format... formats) {
         return component(new ScoreComponent(name, objective), color, formats);
     }
 
-    public JSONTextBuilder selector(String selector, Format... formats) {
+    public JsonTextBuilder selector(String selector, Format... formats) {
         return component(new SelectorComponent(selector), formats);
     }
 
-    public JSONTextBuilder selector(String selector, ChatColor color, Format... formats) {
+    public JsonTextBuilder selector(String selector, ChatColor color, Format... formats) {
         return component(new SelectorComponent(selector), color, formats);
     }
 
-    public JSONTextBuilder selector(String selector, String color, Format... formats) {
+    public JsonTextBuilder selector(String selector, String color, Format... formats) {
         return component(new SelectorComponent(selector), color, formats);
     }
 
@@ -213,23 +213,23 @@ public class JSONTextBuilder implements ContentBuilder<Text> {
 
     // region Add text with format
 
-    public JSONTextBuilder bold(String text) {
+    public JsonTextBuilder bold(String text) {
         return text(text, Format.BOLD);
     }
 
-    public JSONTextBuilder italic(String text) {
+    public JsonTextBuilder italic(String text) {
         return text(text, Format.ITALIC);
     }
 
-    public JSONTextBuilder underlined(String text) {
+    public JsonTextBuilder underlined(String text) {
         return text(text, Format.UNDERLINED);
     }
 
-    public JSONTextBuilder strikethrough(String text) {
+    public JsonTextBuilder strikethrough(String text) {
         return text(text, Format.STRIKETHROUGH);
     }
 
-    public JSONTextBuilder obfuscated(String text) {
+    public JsonTextBuilder obfuscated(String text) {
         return text(text, Format.OBFUSCATED);
     }
 
@@ -238,27 +238,27 @@ public class JSONTextBuilder implements ContentBuilder<Text> {
     // region Set the global format
 
     /** Make all components included bold. */
-    public JSONTextBuilder bold() {
+    public JsonTextBuilder bold() {
         return modify(it -> it.setBold(true));
     }
 
     /** Make all components included italic. */
-    public JSONTextBuilder italic() {
+    public JsonTextBuilder italic() {
         return modify(it -> it.setItalic(true));
     }
 
     /** Make all components included underlined. */
-    public JSONTextBuilder underlined() {
+    public JsonTextBuilder underlined() {
         return modify(it -> it.setUnderlined(true));
     }
 
     /** Make all components included strikethrough. */
-    public JSONTextBuilder strikethrough() {
+    public JsonTextBuilder strikethrough() {
         return modify(it -> it.setStrikethrough(true));
     }
 
     /** Make all components included obfuscated. */
-    public JSONTextBuilder obfuscated() {
+    public JsonTextBuilder obfuscated() {
         return modify(it -> it.setObfuscated(true));
     }
 
@@ -266,67 +266,67 @@ public class JSONTextBuilder implements ContentBuilder<Text> {
 
     // region Add text with color
 
-    public JSONTextBuilder black(String text, Format... formats) {
+    public JsonTextBuilder black(String text, Format... formats) {
         return text(text, BLACK, formats);
     }
 
-    public JSONTextBuilder darkBlue(String text, Format... formats) {
+    public JsonTextBuilder darkBlue(String text, Format... formats) {
         return text(text, DARK_BLUE, formats);
     }
 
-    public JSONTextBuilder darkGreen(String text, Format... formats) {
+    public JsonTextBuilder darkGreen(String text, Format... formats) {
         return text(text, DARK_GREEN, formats);
     }
 
-    public JSONTextBuilder darkAqua(String text, Format... formats) {
+    public JsonTextBuilder darkAqua(String text, Format... formats) {
         return text(text, DARK_AQUA, formats);
     }
 
-    public JSONTextBuilder darkRed(String text, Format... formats) {
+    public JsonTextBuilder darkRed(String text, Format... formats) {
         return text(text, DARK_RED, formats);
     }
 
-    public JSONTextBuilder darkPurple(String text, Format... formats) {
+    public JsonTextBuilder darkPurple(String text, Format... formats) {
         return text(text, DARK_PURPLE, formats);
     }
 
-    public JSONTextBuilder gold(String text, Format... formats) {
+    public JsonTextBuilder gold(String text, Format... formats) {
         return text(text, GOLD, formats);
     }
 
-    public JSONTextBuilder gray(String text, Format... formats) {
+    public JsonTextBuilder gray(String text, Format... formats) {
         return text(text, GRAY, formats);
     }
 
-    public JSONTextBuilder darkGray(String text, Format... formats) {
+    public JsonTextBuilder darkGray(String text, Format... formats) {
         return text(text, DARK_GRAY, formats);
     }
 
-    public JSONTextBuilder blue(String text, Format... formats) {
+    public JsonTextBuilder blue(String text, Format... formats) {
         return text(text, BLUE, formats);
     }
 
-    public JSONTextBuilder green(String text, Format... formats) {
+    public JsonTextBuilder green(String text, Format... formats) {
         return text(text, GREEN, formats);
     }
 
-    public JSONTextBuilder aqua(String text, Format... formats) {
+    public JsonTextBuilder aqua(String text, Format... formats) {
         return text(text, AQUA, formats);
     }
 
-    public JSONTextBuilder red(String text, Format... formats) {
+    public JsonTextBuilder red(String text, Format... formats) {
         return text(text, RED, formats);
     }
 
-    public JSONTextBuilder lightPurple(String text, Format... formats) {
+    public JsonTextBuilder lightPurple(String text, Format... formats) {
         return text(text, LIGHT_PURPLE, formats);
     }
 
-    public JSONTextBuilder yellow(String text, Format... formats) {
+    public JsonTextBuilder yellow(String text, Format... formats) {
         return text(text, YELLOW, formats);
     }
 
-    public JSONTextBuilder white(String text, Format... formats) {
+    public JsonTextBuilder white(String text, Format... formats) {
         return text(text, WHITE, formats);
     }
 
@@ -334,67 +334,67 @@ public class JSONTextBuilder implements ContentBuilder<Text> {
 
     // region Set the global color
 
-    public JSONTextBuilder black() {
+    public JsonTextBuilder black() {
         return color(BLACK);
     }
 
-    public JSONTextBuilder darkBlue() {
+    public JsonTextBuilder darkBlue() {
         return color(DARK_BLUE);
     }
 
-    public JSONTextBuilder darkGreen() {
+    public JsonTextBuilder darkGreen() {
         return color(DARK_GREEN);
     }
 
-    public JSONTextBuilder darkAqua() {
+    public JsonTextBuilder darkAqua() {
         return color(DARK_AQUA);
     }
 
-    public JSONTextBuilder darkRed() {
+    public JsonTextBuilder darkRed() {
         return color(DARK_RED);
     }
 
-    public JSONTextBuilder darkPurple() {
+    public JsonTextBuilder darkPurple() {
         return color(DARK_PURPLE);
     }
 
-    public JSONTextBuilder gold() {
+    public JsonTextBuilder gold() {
         return color(GOLD);
     }
 
-    public JSONTextBuilder gray() {
+    public JsonTextBuilder gray() {
         return color(GRAY);
     }
 
-    public JSONTextBuilder darkGray() {
+    public JsonTextBuilder darkGray() {
         return color(DARK_GRAY);
     }
 
-    public JSONTextBuilder blue() {
+    public JsonTextBuilder blue() {
         return color(BLUE);
     }
 
-    public JSONTextBuilder green() {
+    public JsonTextBuilder green() {
         return color(GREEN);
     }
 
-    public JSONTextBuilder aqua() {
+    public JsonTextBuilder aqua() {
         return color(AQUA);
     }
 
-    public JSONTextBuilder red() {
+    public JsonTextBuilder red() {
         return color(RED);
     }
 
-    public JSONTextBuilder lightPurple() {
+    public JsonTextBuilder lightPurple() {
         return color(LIGHT_PURPLE);
     }
 
-    public JSONTextBuilder yellow() {
+    public JsonTextBuilder yellow() {
         return color(YELLOW);
     }
 
-    public JSONTextBuilder white() {
+    public JsonTextBuilder white() {
         return color(WHITE);
     }
 
