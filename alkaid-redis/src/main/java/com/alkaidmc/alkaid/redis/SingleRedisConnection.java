@@ -16,7 +16,6 @@
 
 package com.alkaidmc.alkaid.redis;
 
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
@@ -31,20 +30,19 @@ import java.util.function.Consumer;
 public class SingleRedisConnection {
     final static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     final JedisPool pool;
-    final Gson gson;
     final long sleep;
     // 监听控制器
     boolean listening = false;
 
-    public <T> void set(String key, T value) {
-        pool.getResource().set(key, gson.toJson(value));
+    public void set(String key, String value) {
+        pool.getResource().set(key, value);
         pool.close();
     }
 
-    public <T> T get(String key, Class<T> clazz) {
+    public String get(String key) {
         String value = pool.getResource().get(key);
         pool.close();
-        return gson.fromJson(value, clazz);
+        return value;
     }
 
     public void del(String key) {
