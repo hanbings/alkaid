@@ -143,13 +143,13 @@ new AlkaidInventory(plugin).item()
 **JSON 文本生成**
 
 ```java
-var message = new AlkaidMessage(this).builder()
+var message = new AlkaidMessage(plugin).builder()
     .append(it -> it.yellow().bold().underlined()
         .text("Hello")
         .hoverEvent(iti -> iti.text().text("一眼翻译，鉴定为：再见")))
     .red(", ")
     .text("World", "#E682A0", Format.BOLD);
-event.getPlayer().spigot().sendMessage(message.components());
+player.spigot().sendMessage(message.components());
 ```
 
 <details>
