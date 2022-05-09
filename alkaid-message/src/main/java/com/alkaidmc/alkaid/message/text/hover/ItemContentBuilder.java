@@ -46,7 +46,8 @@ public class ItemContentBuilder implements ContentBuilder<Item> {
         return this;
     }
 
-    @Override public Item buildContent() {
+    @Override
+    public Item buildContent() {
         return new Item(id, count, tag);
     }
 }

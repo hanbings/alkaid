@@ -18,7 +18,14 @@ package com.alkaidmc.alkaid.message.text;
 
 import com.alkaidmc.alkaid.message.text.hover.ContentBuilder;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.*;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.KeybindComponent;
+import net.md_5.bungee.api.chat.ScoreComponent;
+import net.md_5.bungee.api.chat.SelectorComponent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.TranslatableComponent;
 import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -29,7 +36,22 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static net.md_5.bungee.api.ChatColor.*;
+import static net.md_5.bungee.api.ChatColor.AQUA;
+import static net.md_5.bungee.api.ChatColor.BLACK;
+import static net.md_5.bungee.api.ChatColor.BLUE;
+import static net.md_5.bungee.api.ChatColor.DARK_AQUA;
+import static net.md_5.bungee.api.ChatColor.DARK_BLUE;
+import static net.md_5.bungee.api.ChatColor.DARK_GRAY;
+import static net.md_5.bungee.api.ChatColor.DARK_GREEN;
+import static net.md_5.bungee.api.ChatColor.DARK_PURPLE;
+import static net.md_5.bungee.api.ChatColor.DARK_RED;
+import static net.md_5.bungee.api.ChatColor.GOLD;
+import static net.md_5.bungee.api.ChatColor.GRAY;
+import static net.md_5.bungee.api.ChatColor.GREEN;
+import static net.md_5.bungee.api.ChatColor.LIGHT_PURPLE;
+import static net.md_5.bungee.api.ChatColor.RED;
+import static net.md_5.bungee.api.ChatColor.WHITE;
+import static net.md_5.bungee.api.ChatColor.YELLOW;
 
 /**
  * See <a href="https://minecraft.fandom.com/wiki/Raw_JSON_text_format">Raw JSON text format</a>
@@ -43,6 +65,29 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
     List<BaseComponent> components = new ArrayList<>();
 
     BaseComponent parent = new TextComponent();
+
+    public static BaseComponent formats(BaseComponent component, Format[] formats) {
+        for (Format format : formats) {
+            switch (format) {
+                case BOLD:
+                    component.setBold(true);
+                    break;
+                case ITALIC:
+                    component.setItalic(true);
+                    break;
+                case UNDERLINED:
+                    component.setUnderlined(true);
+                    break;
+                case STRIKETHROUGH:
+                    component.setStrikethrough(true);
+                    break;
+                case OBFUSCATED:
+                    component.setObfuscated(true);
+                    break;
+            }
+        }
+        return component;
+    }
 
     public BaseComponent[] components() {
         parent.setExtra(components);
@@ -64,7 +109,7 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
     }
 
     public JsonTextBuilder component(BaseComponent component, Format... formats) {
-        components.add(addFormats(component, formats));
+        components.add(formats(component, formats));
         return this;
     }
 
@@ -119,14 +164,17 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return component(new TranslatableComponent(key, with), color, formats);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public JsonTextBuilder keybind(String keybind, Format... formats) {
         return component(new KeybindComponent(keybind), formats);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public JsonTextBuilder keybind(String keybind, ChatColor color, Format... formats) {
         return component(new KeybindComponent(keybind), color, formats);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public JsonTextBuilder keybind(String keybind, String color, Format... formats) {
         return component(new KeybindComponent(keybind), color, formats);
     }
@@ -140,50 +188,54 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return this;
     }
 
-    /** Set the global color. */
+    /**
+     * Set the global color.
+     */
     public JsonTextBuilder color(ChatColor color) {
         return modify(it -> it.setColor(color));
     }
 
-    /** Set the global color. */
+    /**
+     * Set the global color.
+     */
     public JsonTextBuilder color(String hex) {
         var color = ChatColor.of(hex);
         return color(color);
     }
 
-    public JsonTextBuilder clickEvent(ClickEvent event) {
+    public JsonTextBuilder click(ClickEvent event) {
         return modify(it -> it.setClickEvent(event));
     }
 
-    public JsonTextBuilder clickEvent(ClickEvent.Action action, String value) {
-        return clickEvent(new ClickEvent(action, value));
+    public JsonTextBuilder click(ClickEvent.Action action, String value) {
+        return click(new ClickEvent(action, value));
     }
 
-    public JsonTextBuilder hoverEvent(HoverEvent event) {
+    public JsonTextBuilder hover(HoverEvent event) {
         return modify(it -> it.setHoverEvent(event));
     }
 
-    public JsonTextBuilder hoverEvent(Content content) {
-        return hoverEvent(new HoverEvent(content.requiredAction(), content));
+    public JsonTextBuilder hover(Content content) {
+        return hover(new HoverEvent(content.requiredAction(), content));
     }
 
-    public JsonTextBuilder hoverEvent(ContentBuilder<?> builder) {
-        return hoverEvent(builder.buildContent());
+    public JsonTextBuilder hover(ContentBuilder<?> builder) {
+        return hover(builder.buildContent());
     }
 
-    public JsonTextBuilder hoverEvent(Function<ContentBuilder.Provider, ContentBuilder<?>> function) {
-        return hoverEvent(function.apply(ContentBuilder.provider()));
+    public JsonTextBuilder hover(Function<ContentBuilder.Provider, ContentBuilder<?>> function) {
+        return hover(function.apply(ContentBuilder.provider()));
     }
 
     public JsonTextBuilder insertion(String insertion) {
         return modify(it -> it.setInsertion(insertion));
     }
 
+    // region Less-used content types
+
     public JsonTextBuilder font(String font) {
         return modify(it -> it.setFont(font));
     }
-
-    // region Less-used content types
 
     public JsonTextBuilder score(String name, String objective, Format... formats) {
         return component(new ScoreComponent(name, objective), formats);
@@ -205,13 +257,13 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return component(new SelectorComponent(selector), color, formats);
     }
 
-    public JsonTextBuilder selector(String selector, String color, Format... formats) {
-        return component(new SelectorComponent(selector), color, formats);
-    }
-
     // endregion
 
     // region Add text with format
+
+    public JsonTextBuilder selector(String selector, String color, Format... formats) {
+        return component(new SelectorComponent(selector), color, formats);
+    }
 
     public JsonTextBuilder bold(String text) {
         return text(text, Format.BOLD);
@@ -229,42 +281,52 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return text(text, Format.STRIKETHROUGH);
     }
 
-    public JsonTextBuilder obfuscated(String text) {
-        return text(text, Format.OBFUSCATED);
-    }
-
     // endregion
 
     // region Set the global format
 
-    /** Make all components included bold. */
+    public JsonTextBuilder obfuscated(String text) {
+        return text(text, Format.OBFUSCATED);
+    }
+
+    /**
+     * Make all components included bold.
+     */
     public JsonTextBuilder bold() {
         return modify(it -> it.setBold(true));
     }
 
-    /** Make all components included italic. */
+    /**
+     * Make all components included italic.
+     */
     public JsonTextBuilder italic() {
         return modify(it -> it.setItalic(true));
     }
 
-    /** Make all components included underlined. */
+    /**
+     * Make all components included underlined.
+     */
     public JsonTextBuilder underlined() {
         return modify(it -> it.setUnderlined(true));
     }
 
-    /** Make all components included strikethrough. */
+    /**
+     * Make all components included strikethrough.
+     */
     public JsonTextBuilder strikethrough() {
         return modify(it -> it.setStrikethrough(true));
-    }
-
-    /** Make all components included obfuscated. */
-    public JsonTextBuilder obfuscated() {
-        return modify(it -> it.setObfuscated(true));
     }
 
     // endregion
 
     // region Add text with color
+
+    /**
+     * Make all components included obfuscated.
+     */
+    public JsonTextBuilder obfuscated() {
+        return modify(it -> it.setObfuscated(true));
+    }
 
     public JsonTextBuilder black(String text, Format... formats) {
         return text(text, BLACK, formats);
@@ -326,13 +388,13 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return text(text, YELLOW, formats);
     }
 
-    public JsonTextBuilder white(String text, Format... formats) {
-        return text(text, WHITE, formats);
-    }
-
     // endregion
 
     // region Set the global color
+
+    public JsonTextBuilder white(String text, Format... formats) {
+        return text(text, WHITE, formats);
+    }
 
     public JsonTextBuilder black() {
         return color(BLACK);
@@ -394,33 +456,10 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return color(YELLOW);
     }
 
-    public JsonTextBuilder white() {
-        return color(WHITE);
-    }
-
     // endregion
 
-    public static BaseComponent addFormats(BaseComponent component, Format[] formats) {
-        for (Format format : formats) {
-            switch (format) {
-                case BOLD:
-                    component.setBold(true);
-                    break;
-                case ITALIC:
-                    component.setItalic(true);
-                    break;
-                case UNDERLINED:
-                    component.setUnderlined(true);
-                    break;
-                case STRIKETHROUGH:
-                    component.setStrikethrough(true);
-                    break;
-                case OBFUSCATED:
-                    component.setObfuscated(true);
-                    break;
-            }
-        }
-        return component;
+    public JsonTextBuilder white() {
+        return color(WHITE);
     }
 
     public String raw() {
@@ -431,11 +470,13 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return TextComponent.toPlainText(components());
     }
 
-    @Override public String toString() {
+    @Override
+    public String toString() {
         return raw();
     }
 
-    @Override public Text buildContent() {
+    @Override
+    public Text buildContent() {
         return new Text(components());
     }
 }

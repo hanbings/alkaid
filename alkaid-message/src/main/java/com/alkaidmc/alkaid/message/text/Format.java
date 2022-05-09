@@ -18,19 +18,29 @@ package com.alkaidmc.alkaid.message.text;
 
 public enum Format {
 
-    /** <strong>SAMPLE</strong> */
+    /**
+     * <strong>SAMPLE</strong>
+     */
     BOLD,
 
-    /** <em>SAMPLE</em> */
+    /**
+     * <em>SAMPLE</em>
+     */
     ITALIC,
 
-    /** <span style="text-decoration: underline">SAMPLE</span> */
+    /**
+     * <span style="text-decoration: underline">SAMPLE</span>
+     */
     UNDERLINED,
 
-    /** <span style="text-decoration: line-through">SAMPLE</span> */
+    /**
+     * <span style="text-decoration: line-through">SAMPLE</span>
+     */
     STRIKETHROUGH,
 
-    /** Make the text randomly change every tick. */
+    /**
+     * Make the text randomly change every tick.
+     */
     OBFUSCATED
 
 }

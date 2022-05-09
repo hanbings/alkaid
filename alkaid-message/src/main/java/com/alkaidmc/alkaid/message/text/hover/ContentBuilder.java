@@ -23,11 +23,11 @@ import net.md_5.bungee.api.chat.hover.content.Content;
  * @author Milkory
  */
 public interface ContentBuilder<T extends Content> {
-    T buildContent();
-
     static Provider provider() {
         return Provider.instance;
     }
+
+    T buildContent();
 
     class Provider {
         static Provider instance = new Provider();

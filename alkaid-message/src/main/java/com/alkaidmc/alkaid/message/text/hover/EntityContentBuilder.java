@@ -42,7 +42,8 @@ public class EntityContentBuilder implements ContentBuilder<Entity> {
         return this;
     }
 
-    @Override public Entity buildContent() {
+    @Override
+    public Entity buildContent() {
         return new Entity(type, id, name);
     }
 }

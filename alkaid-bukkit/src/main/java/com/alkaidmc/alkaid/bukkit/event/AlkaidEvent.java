@@ -30,14 +30,32 @@ public class AlkaidEvent {
         this.plugin = plugin;
     }
 
+    /**
+     * Register a simple event
+     *
+     * @return the event factory
+     * @see com.alkaidmc.alkaid.bukkit.event.SimpleEventRegister
+     */
     public SimpleEventFactory simple() {
         return simple;
     }
 
+    /**
+     * Register a section event
+     *
+     * @return the event factory
+     * @see com.alkaidmc.alkaid.bukkit.event.SectionEventRegister
+     */
     public SectionEventFactory section() {
         return section;
     }
 
+    /**
+     * Register a count event
+     *
+     * @return the event factory
+     * @see com.alkaidmc.alkaid.bukkit.event.CountEventRegister
+     */
     public CountEventFactory count() {
         return count;
     }

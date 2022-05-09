@@ -25,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AlkaidMessage {
     final JavaPlugin plugin;
 
-    public JsonTextBuilder builder() {
+    public JsonTextBuilder text() {
         return new JsonTextBuilder();
     }
 }

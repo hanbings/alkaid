@@ -9,11 +9,11 @@
 
 这是一个工具库，封装 Bukkit BungeeCord 以及其他计划中的 Minecraft 服务端 API
 
-通常的封装会将原先的 API 转换为 stream + lambda 以获得更高的效率
+通常的封装会将原先的 API 转换为 stream + lambda 以获得更高的效率。
 
 **来点简单的事件监听**
 
-使用 Alkaid 提供的流式 API，可以省去原先使用 Bukkit API 定义监听器所需的继承再重写的繁杂步骤
+使用 Alkaid 提供的流式 API，可以省去原先使用 Bukkit API 定义监听器所需的继承再重写的繁杂步骤。
 
 ```java
 new AlkaidEvent(plugin).simple()
@@ -31,14 +31,20 @@ new AlkaidEvent(plugin).simple()
                 .register();
 ```
 
-**遇到特定事件停止监听**
+**事件段落**
+
+事件段落由头部事件 - 主逻辑事件处理器 - 尾部事件组成。
+
+监听到头部事件后才会执行事件处理器，最后由尾部事件挂起监听器，直到监听到下一个头部事件重新开始段落。
 
 ```java
-new AlkaidEvent(plugin).conditional()
+new AlkaidEvent(plugin).section()
                 .event(PlayerBedEnterEvent.class)
                 .listener(event -> {
                     event.getPlayer().sendMessage("晚安");
                 })
+                // 监听到此事件时开始监听
+                .commence(PlayerBedEnterEvent.class)
                 // 监听到此事件时停止监听
                 .interrupt(PlayerBedLeaveEvent.class)
                 .ignore(true)
@@ -143,15 +149,15 @@ new AlkaidInventory(plugin).item()
 **Json 文本生成**
 
 ```java
-JsonTextBuilder message = new AlkaidMessage(plugin).builder()
+new AlkaidMessage(plugin).text()
                 .append(it -> it.text("Hello")
                         .yellow()
                         .bold()
                         .underlined()
-                        .hoverEvent(hover -> hover.text().text("一眼翻译，鉴定为：再见")))
+                        .hover(hover -> hover.text().text("一眼翻译，鉴定为：再见")))
                 .red(", ")
-                .text("World", "#E682A0", Format.BOLD);
-player.spigot().sendMessage(message.components());
+                .text("World", "#E682A0", Format.BOLD)
+                .components();
 ```
 
 <details>
@@ -238,7 +244,7 @@ new AlkaidCommon().reflection()
 
 目前 Alkaid Lib 发布在 https://repository.alkaidmc.com
 
-需要通过 Maven 或 Gradle 添加自定义仓库再添加对应模块依赖
+需要通过 Maven 或 Gradle 添加自定义仓库再添加对应模块依赖：
 
 **Maven**
 
@@ -297,7 +303,7 @@ maven {
 该协议**允许**基于本项目开发的项目**进行商用**，但需要注意的是，本项目中的图片（包括 Readme.md 文件中所展示的吉祥物狼龙摇光和可能出现的其他图片）**不属于开源的范围**
 它们属于开发者 [寒冰 hanbings](https://github.com/hanbings) 个人所有，~~是寒冰的崽子~~，请在复制、修改本项目时**移除它们**。
 
-**版权警示：吉祥物狼龙摇光图片中所使用 Alkaid 字样字体为商业需授权字体 Snap ITC**
+**版权警告：吉祥物狼龙摇光图片中所使用 Alkaid 字样字体为商业需授权字体 Snap ITC**
 
 ## 🍀 关于开源
 
