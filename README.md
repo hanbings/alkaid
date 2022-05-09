@@ -43,6 +43,8 @@ new AlkaidEvent(plugin).section()
                 .listener(event -> {
                     event.getPlayer().sendMessage("晚安");
                 })
+                // 分别处理每一位玩家 也就是说每一个玩家对应一个段落
+                .multi(true)
                 // 监听到此事件时开始监听
                 .commence(PlayerBedEnterEvent.class)
                 // 监听到此事件时停止监听
