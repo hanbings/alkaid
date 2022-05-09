@@ -33,7 +33,7 @@ public class AlkaidRedisTest {
 
         // 定时删除数据
         connection.set("114514", "191810");
-        connection.expire("114514", 5);
+        connection.expire("114514", 3);
         // 读取数据
         data = connection.get("114514");
         assertEquals("191810", data);
