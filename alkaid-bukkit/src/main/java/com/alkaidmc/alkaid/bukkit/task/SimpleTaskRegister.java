@@ -16,8 +16,8 @@
 
 package com.alkaidmc.alkaid.bukkit.task;
 
-import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidTaskRegister;
-import com.alkaidmc.alkaid.bukkit.event.interfaces.AlkaidTaskRunnable;
+import com.alkaidmc.alkaid.bukkit.task.interfaces.AlkaidTaskRegister;
+import com.alkaidmc.alkaid.bukkit.task.interfaces.AlkaidTaskRunnable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
