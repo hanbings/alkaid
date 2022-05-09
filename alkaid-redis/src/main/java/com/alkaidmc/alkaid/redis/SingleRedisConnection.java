@@ -44,7 +44,7 @@ public class SingleRedisConnection {
     public String get(String key) {
         Jedis jedis = pool.getResource();
         String value = jedis.get(key);
-        pool.close();
+        jedis.close();
         return value;
     }
 

@@ -33,7 +33,7 @@ public class SingleRedisConnector {
     String host = "127.0.0.1";
     int port = 6379;
     String auth = null;
-    int connect = 8;
+    int connect = 32;
     int timeout = 1000;
     long sleep = 1000;
     JedisPoolConfig config = new JedisPoolConfig();
