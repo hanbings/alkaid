@@ -139,8 +139,9 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                 ignore
         );
 
+        // 注册段落头事件 / Register section head event.
         plugin.getServer().getPluginManager().registerEvent(
-                interrupt,
+                commence,
                 NULL_LISTENER,
                 priority,
                 multi ?
@@ -151,7 +152,7 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                             }
 
                             if (e instanceof PlayerEvent) {
-                                players.remove(((PlayerEvent) e).getPlayer().getUniqueId());
+                                players.add(((PlayerEvent) e).getPlayer().getUniqueId());
                             }
                         } :
                         (l, e) -> {
@@ -165,6 +166,8 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                 plugin,
                 ignore
         );
+
+        // 注册段落尾事件 / Register section tail event.
         plugin.getServer().getPluginManager().registerEvent(
                 interrupt,
                 NULL_LISTENER,
