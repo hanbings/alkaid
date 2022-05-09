@@ -26,18 +26,35 @@ import lombok.experimental.Accessors;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 /**
+ * <p> zh ver. </p>
  * 这一个注册器是计数器事件注册器 <br>
  * 它可以按一定次数监听某一个事件 <br>
- * 计数器开始前会触发一次 before 回调 <br>
- * 当计数器到达指定次数后会触发一次 after 回调 然后对该事件的监听将被挂起 <br>
- * unregister 方法调用后将从 Bukkit 中取消监听 <br>
+ * 计数器开始前会触发一次 {@link #before(AlkaidEventCallback)} 回调 <br>
+ * 当计数器到达指定次数后会触发一次 {@link #after(AlkaidEventCallback)} 回调 然后对该事件的监听将被挂起 <br>
+ * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
+ * 默认的情况下计数器将监听所有被触发的事件
+ * 如果需要针对玩家区分监听 则需要将 {@link #multi(boolean)} 方法标记为 true <br>
+ * <p> en ver. </p>
+ * This is a counter event register. <br>
+ * It can listen to a specific event by a certain times. <br>
+ * It will trigger a {@link #before(AlkaidEventCallback)} callback when the counter is started. <br>
+ * It will trigger a {@link #after(AlkaidEventCallback)} callback when the counter is reached.
+ * The listener of this event will be suspended after the counter is reached. <br>
+ * {@link #unregister()} method will cancel the listener from Bukkit. <br>
+ * The default situation is that the counter will listen to all triggered events.
+ * If you need to differentiate the listener between players, you need to mark {@link #multi(boolean)} as true.
  *
- * @param <T> 事件类型
+ * @param <T> 事件类型 / Event type
  */
 @Setter
 @Getter
@@ -46,27 +63,33 @@ import java.util.function.Consumer;
 @Accessors(fluent = true, chain = true)
 public class CountEventRegister<T extends Event> implements AlkaidEventRegister {
     final JavaPlugin plugin;
-    // 需要监听的事件
+    // 需要监听的事件 / Event to listen.
     final Class<T> event;
 
-    // 事件处理器
+    // 事件处理器 / Event handler.
     Consumer<T> listener;
-    // 事件剩余次数
+    // 事件剩余次数 / Event remaining times.
     int count = 0;
-    // 开始监听前的调用
+    // 开始监听前的调用 / Callback before listening.
     AlkaidEventCallback before = null;
-    // 停止监听后的调用
+    // 停止监听后的调用 / Callback after stopping.
     AlkaidEventCallback after = null;
-    // Bukkit 事件优先级
+    // Bukkit 事件优先级 / Bukkit event priority.
     EventPriority priority = EventPriority.NORMAL;
-    // 是否忽略  Bukkit 事件的取消标志
+    // 是否忽略  Bukkit 事件的取消标志 / Whether to ignore Bukkit event cancellation flag.
     boolean ignore = false;
+    // 是否区分玩家监听事件 / Whether to differentiate player listener event.
+    boolean multi = false;
 
-    // 事件是否挂起
+    // 事件是否挂起 / Whether the event is suspended.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     boolean hangup = false;
-    // 注销事件
+    // 区分玩家的监听事件 / Differentiate player listener event.
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    HashMap<UUID, Integer> hangups;
+    // 注销事件 / Unregister event.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     boolean cancel = false;
@@ -84,32 +107,61 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
     @Override
     @SuppressWarnings("unchecked")
     public void register() {
+        // 初始化事件处理器 / Initialize event handler.
+        EventExecutor executor;
+
+        if (multi) {
+            hangups = new HashMap<>();
+            executor = (l, e) -> {
+                // 判断该事件是否注销 / Check if the event is cancelled.
+                if (cancel) {
+                    e.getHandlers().unregister(l);
+                    return;
+                }
+                // 检查玩家的事件计数是否已经等于 0
+                // Check if the player's event count is equal to 0.
+                if (!(e instanceof PlayerEvent)) {
+                    return;
+                }
+                UUID uuid = ((PlayerEvent) e).getPlayer().getUniqueId();
+                // 判断是否存在该玩家的计数 没有则初始化 存在但为 0 不执行
+                // counter is not exist, then initialize it. if the counter is existed and is 0, then do not execute.
+                if (!hangups.containsKey(uuid)) {
+                    listener.accept((T) e);
+                    hangups.put(uuid, count - 1);
+                }
+                if (hangups.get(uuid) != 0) {
+                    listener.accept((T) e);
+                    hangups.put(uuid, hangups.get((uuid)) - 1);
+                }
+            };
+        } else {
+            executor = (l, e) -> {
+                if (cancel) {
+                    e.getHandlers().unregister(l);
+                    return;
+                }
+                if (hangup) {
+                    return;
+                }
+                // count 不为 0 不小于 0 即继续运行 / count is not 0 and not less than 0, then continue running.
+                if (!(count > 0)) {
+                    this.hangup();
+                    return;
+                }
+                listener.accept((T) e);
+                // 执行计数 / Execute count
+                count--;
+            };
+        }
+
         this.reset();
         plugin.getServer().getPluginManager().registerEvent(
                 event,
                 new Listener() {
                 },
                 priority,
-                (l, e) -> {
-                    // 判断该事件是否注销
-                    if (cancel) {
-                        e.getHandlers().unregister(l);
-                        return;
-                    }
-                    // 检查事件是否已经被挂起
-                    if (hangup) {
-                        return;
-                    }
-                    // count 不为 0 不小于 0 即继续运行
-                    if (!(count > 0)) {
-                        this.hangup();
-                        return;
-                    }
-                    listener.accept((T) e);
-                    // 执行计数
-                    count--;
-
-                },
+                executor,
                 plugin,
                 ignore
         );

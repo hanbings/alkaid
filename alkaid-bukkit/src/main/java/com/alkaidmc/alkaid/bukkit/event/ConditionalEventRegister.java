@@ -34,6 +34,10 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+/**
+ *
+ * @param <T> 事件类型 / Event type
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor
@@ -74,16 +78,16 @@ public class ConditionalEventRegister<T extends Event> implements AlkaidEventReg
     @SuppressWarnings("unchecked")
     public void register() {
         EventExecutor executor;
-        // 根据是否区分玩家监听事件设置处理器
+        // 根据是否区分玩家监听事件设置处理器 / Set the handler according to the multiplayer flag.
         if (multi) {
             players = new HashSet<>();
             executor = (l, e) -> {
-                // 判断该事件是否注销
+                // 判断该事件是否注销 / Check if the event is canceled.
                 if (cancel) {
                     e.getHandlers().unregister(l);
                     return;
                 }
-                // 检查事件是否已经被挂起
+                // 检查事件是否已经被挂起 / Check if the event is hangup.
                 if (e instanceof PlayerEvent) {
                     if (players.contains(((PlayerEvent) e).getPlayer().getUniqueId())) {
                         return;
@@ -133,7 +137,7 @@ public class ConditionalEventRegister<T extends Event> implements AlkaidEventReg
                                 e.getHandlers().unregister(l);
                                 return;
                             }
-                            
+
                             hangup = true;
                         },
                 plugin,
