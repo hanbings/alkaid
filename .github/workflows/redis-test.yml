@@ -1,4 +1,4 @@
-name: Tests for Mongodb
+name: Tests for Redis
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  mongodb:
+  redis:
     runs-on: ubuntu-latest
     if: "! contains(github.event.head_commit.message, '#Skip')"
     steps:
@@ -18,20 +18,20 @@ jobs:
         with:
           java-version: 11
 
-      - name: Set up MongoDB 4.4
-        uses: supercharge/mongodb-github-action@1.7.0
+      - name: Set up Redis 6
+        uses: supercharge/redis-github-action@1.4.0
         with:
-          mongodb-version: 4.4
+          redis-version: 6
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Run Gradle test
-        run: ./gradlew :alkaid-mongodb:test -Dtest.single="com/alkaidmc/alkaid/mongodb/AlkaidMongodbTest"
+        run: ./gradlew :alkaid-redis:test -Dtest.single="com/alkaidmc/alkaid/redis/AlkaidRedisTest"
 
       - name: Upload fail reports
         uses: actions/upload-artifact@v2
         if: failure()
         with:
-          name: mongodb-test-failure
-          path: alkaid-mongodb/build/reports
+          name: redis-test-failure
+          path: alkaid-redis/build/reports

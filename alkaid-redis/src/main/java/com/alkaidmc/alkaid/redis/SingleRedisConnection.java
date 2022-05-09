@@ -16,8 +16,8 @@
 
 package com.alkaidmc.alkaid.redis;
 
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
@@ -31,52 +31,60 @@ import java.util.function.Consumer;
 public class SingleRedisConnection {
     final static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     final JedisPool pool;
-    final Gson gson;
     final long sleep;
     // 监听控制器
     boolean listening = false;
 
-    public <T> void set(String key, T value) {
-        pool.getResource().set(key, gson.toJson(value));
-        pool.close();
+    public void set(String key, String value) {
+        Jedis jedis = pool.getResource();
+        jedis.set(key, value);
+        jedis.close();
     }
 
-    public <T> T get(String key, Class<T> clazz) {
-        String value = pool.getResource().get(key);
-        pool.close();
-        return gson.fromJson(value, clazz);
+    public String get(String key) {
+        Jedis jedis = pool.getResource();
+        String value = jedis.get(key);
+        jedis.close();
+        return value;
     }
 
     public void del(String key) {
-        pool.getResource().del(key);
-        pool.close();
+        Jedis jedis = pool.getResource();
+        jedis.del(key);
+        jedis.close();
     }
 
     public void expire(String key, int seconds) {
-        pool.getResource().expire(key, seconds);
-        pool.close();
+        Jedis jedis = pool.getResource();
+        jedis.expire(key, seconds);
+        jedis.close();
     }
 
     public boolean exists(String key) {
-        boolean exists = pool.getResource().exists(key);
-        pool.close();
+        Jedis jedis = pool.getResource();
+        boolean exists = jedis.exists(key);
+        jedis.close();
         return exists;
     }
 
     public void publish(String channel, String message) {
-        pool.getResource().publish(channel, message);
-        pool.close();
+        Jedis jedis = pool.getResource();
+        jedis.publish(channel, message);
+        jedis.close();
     }
 
     public void subscribe(String channel, Consumer<String> message) {
+
         scheduler.schedule(() -> {
             if (listening) {
-                pool.getResource().subscribe(new JedisPubSub() {
+                Jedis jedis = pool.getResource();
+                jedis.subscribe(new JedisPubSub() {
                     @Override
                     public void onMessage(String ch, String msg) {
                         message.accept(msg);
                     }
                 }, channel);
+                jedis.close();
             }
         }, sleep, TimeUnit.MILLISECONDS);
     }

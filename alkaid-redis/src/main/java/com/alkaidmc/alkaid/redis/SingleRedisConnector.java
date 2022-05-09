@@ -16,7 +16,6 @@
 
 package com.alkaidmc.alkaid.redis;
 
-import com.google.gson.Gson;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,10 +33,9 @@ public class SingleRedisConnector {
     String host = "127.0.0.1";
     int port = 6379;
     String auth = null;
-    int connect = 8;
+    int connect = 32;
     int timeout = 1000;
     long sleep = 1000;
-    Gson gson;
     JedisPoolConfig config = new JedisPoolConfig();
 
     @Setter(AccessLevel.NONE)
@@ -45,6 +43,8 @@ public class SingleRedisConnector {
     JedisPool pool;
 
     public SingleRedisConnector connect() {
+        config.setMaxTotal(connect);
+
         pool = Optional.ofNullable(auth)
                 .map(password -> new JedisPool(config, host, port, timeout, password))
                 .orElseGet(() -> new JedisPool(config, host, port, timeout));
@@ -57,6 +57,6 @@ public class SingleRedisConnector {
     }
 
     public SingleRedisConnection connection() {
-        return new SingleRedisConnection(pool, Optional.ofNullable(gson).orElse(new Gson()), sleep);
+        return new SingleRedisConnection(pool, sleep);
     }
 }
