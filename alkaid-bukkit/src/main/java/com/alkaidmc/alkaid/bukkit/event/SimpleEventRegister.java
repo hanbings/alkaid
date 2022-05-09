@@ -29,6 +29,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
+/**
+ * 这是一个简单的事件注册器 可以注册一个事件 <br>
+ * 提供优先级与忽略取消标记位的设置 <br>
+ *
+ * @param <T> 事件类型
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor

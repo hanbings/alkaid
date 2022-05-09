@@ -30,6 +30,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
+/**
+ * 这一个注册器是计数器事件注册器 <br>
+ * 它可以按一定次数监听某一个事件 <br>
+ * 计数器开始前会触发一次 before 回调 <br>
+ * 当计数器到达指定次数后会触发一次 after 回调 然后对该事件的监听将被挂起 <br>
+ * unregister 方法调用后将从 Bukkit 中取消监听 <br>
+ *
+ * @param <T> 事件类型
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor
@@ -62,7 +71,7 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
     @Getter(AccessLevel.NONE)
     boolean cancel = false;
 
-    public void listen() {
+    public void reset() {
         this.before.callback(plugin, this);
         this.hangup = false;
     }
@@ -75,25 +84,25 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
     @Override
     @SuppressWarnings("unchecked")
     public void register() {
-        this.listen();
+        this.reset();
         plugin.getServer().getPluginManager().registerEvent(
                 event,
                 new Listener() {
                 },
                 priority,
                 (l, e) -> {
+                    // 判断该事件是否注销
+                    if (cancel) {
+                        e.getHandlers().unregister(l);
+                        return;
+                    }
                     // 检查事件是否已经被挂起
                     if (hangup) {
                         return;
                     }
                     // count 不为 0 不小于 0 即继续运行
                     if (!(count > 0)) {
-                        after.callback(plugin, CountEventRegister.this);
-                        return;
-                    }
-                    // 判断该事件是否注销
-                    if (cancel) {
-                        e.getHandlers().unregister(l);
+                        this.hangup();
                         return;
                     }
                     listener.accept((T) e);

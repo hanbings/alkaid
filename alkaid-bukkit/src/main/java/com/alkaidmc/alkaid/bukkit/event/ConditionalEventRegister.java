@@ -44,6 +44,8 @@ public class ConditionalEventRegister<T extends Event> implements AlkaidEventReg
     // 需要监听的事件
     final Class<T> event;
 
+    // 开始条件的事件
+    Class<? extends Event> commence;
     // 结束条件的事件
     Class<? extends Event> interrupt;
     // 事件处理器
@@ -76,26 +78,26 @@ public class ConditionalEventRegister<T extends Event> implements AlkaidEventReg
         if (multi) {
             players = new HashSet<>();
             executor = (l, e) -> {
+                // 判断该事件是否注销
+                if (cancel) {
+                    e.getHandlers().unregister(l);
+                    return;
+                }
                 // 检查事件是否已经被挂起
                 if (e instanceof PlayerEvent) {
                     if (players.contains(((PlayerEvent) e).getPlayer().getUniqueId())) {
                         return;
                     }
                 }
-                // 判断该事件是否注销
-                if (cancel) {
-                    e.getHandlers().unregister(l);
-                    return;
-                }
                 listener.accept((T) e);
             };
         } else {
             executor = (l, e) -> {
-                if (hangup) {
-                    return;
-                }
                 if (cancel) {
                     e.getHandlers().unregister(l);
+                    return;
+                }
+                if (hangup) {
                     return;
                 }
                 listener.accept((T) e);
@@ -117,11 +119,23 @@ public class ConditionalEventRegister<T extends Event> implements AlkaidEventReg
                 priority,
                 multi ?
                         (l, e) -> {
+                            if (cancel) {
+                                e.getHandlers().unregister(l);
+                                return;
+                            }
+
                             if (e instanceof PlayerEvent) {
                                 players.add(((PlayerEvent) e).getPlayer().getUniqueId());
                             }
                         } :
-                        (l, e) -> hangup = true,
+                        (l, e) -> {
+                            if (cancel) {
+                                e.getHandlers().unregister(l);
+                                return;
+                            }
+                            
+                            hangup = true;
+                        },
                 plugin,
                 ignore
         );
