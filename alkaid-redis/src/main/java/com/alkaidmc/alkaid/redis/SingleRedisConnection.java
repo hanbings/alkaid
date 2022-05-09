@@ -17,6 +17,7 @@
 package com.alkaidmc.alkaid.redis;
 
 import lombok.RequiredArgsConstructor;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
@@ -35,46 +36,55 @@ public class SingleRedisConnection {
     boolean listening = false;
 
     public void set(String key, String value) {
-        pool.getResource().set(key, value);
-        pool.close();
+        Jedis jedis = pool.getResource();
+        jedis.set(key, value);
+        jedis.close();
     }
 
     public String get(String key) {
-        String value = pool.getResource().get(key);
+        Jedis jedis = pool.getResource();
+        String value = jedis.get(key);
         pool.close();
         return value;
     }
 
     public void del(String key) {
-        pool.getResource().del(key);
-        pool.close();
+        Jedis jedis = pool.getResource();
+        jedis.del(key);
+        jedis.close();
     }
 
     public void expire(String key, int seconds) {
-        pool.getResource().expire(key, seconds);
-        pool.close();
+        Jedis jedis = pool.getResource();
+        jedis.expire(key, seconds);
+        jedis.close();
     }
 
     public boolean exists(String key) {
-        boolean exists = pool.getResource().exists(key);
-        pool.close();
+        Jedis jedis = pool.getResource();
+        boolean exists = jedis.exists(key);
+        jedis.close();
         return exists;
     }
 
     public void publish(String channel, String message) {
-        pool.getResource().publish(channel, message);
-        pool.close();
+        Jedis jedis = pool.getResource();
+        jedis.publish(channel, message);
+        jedis.close();
     }
 
     public void subscribe(String channel, Consumer<String> message) {
+
         scheduler.schedule(() -> {
             if (listening) {
-                pool.getResource().subscribe(new JedisPubSub() {
+                Jedis jedis = pool.getResource();
+                jedis.subscribe(new JedisPubSub() {
                     @Override
                     public void onMessage(String ch, String msg) {
                         message.accept(msg);
                     }
                 }, channel);
+                jedis.close();
             }
         }, sleep, TimeUnit.MILLISECONDS);
     }
