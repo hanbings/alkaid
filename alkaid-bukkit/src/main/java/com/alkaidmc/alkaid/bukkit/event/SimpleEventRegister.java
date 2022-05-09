@@ -30,10 +30,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.function.Consumer;
 
 /**
+ * <p> zh </p>
  * 这是一个简单的事件注册器 可以注册一个事件 <br>
  * 提供优先级与忽略取消标记位的设置 <br>
+ * <p> en </p>
+ * This is a simple event register can register a event. <br>
+ * Provide priority and ignore cancel flag setting. <br>
  *
- * @param <T> 事件类型
+ * @param <T> 事件类型 / Event type
  */
 @Setter
 @Getter
@@ -42,17 +46,17 @@ import java.util.function.Consumer;
 @Accessors(fluent = true, chain = true)
 public class SimpleEventRegister<T extends Event> implements AlkaidEventRegister {
     final JavaPlugin plugin;
-    // 需要监听的事件
+    // 需要监听的事件 / Event to listen.
     final Class<T> event;
 
-    // 事件处理器
+    // 事件处理器 / Event handler.
     Consumer<T> listener;
-    // Bukkit 事件优先级
+    // Bukkit 事件优先级 / Bukkit event priority.
     EventPriority priority = EventPriority.NORMAL;
-    // 是否忽略  Bukkit 事件的取消标志
+    // 是否忽略  Bukkit 事件的取消标志 / Whether to ignore Bukkit event cancellation flag.
     boolean ignore = false;
 
-    // 注销事件标志
+    // 注销事件标志 / Unregister event flag.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     boolean cancel = false;
@@ -66,7 +70,7 @@ public class SimpleEventRegister<T extends Event> implements AlkaidEventRegister
                 },
                 priority,
                 (l, e) -> {
-                    // 判断该事件是否注销
+                    // 判断该事件是否注销 / Check if the event is cancelled.
                     if (cancel) {
                         e.getHandlers().unregister(l);
                         return;

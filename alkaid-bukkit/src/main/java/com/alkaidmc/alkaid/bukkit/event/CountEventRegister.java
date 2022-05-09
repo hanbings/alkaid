@@ -31,7 +31,6 @@ import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 

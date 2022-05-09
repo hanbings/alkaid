@@ -23,7 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AlkaidEvent {
     final JavaPlugin plugin;
     final SimpleEventFactory simple = new SimpleEventFactory();
-    final ConditionalEventFactory conditional = new ConditionalEventFactory();
+    final SectionEventFactory section = new SectionEventFactory();
     final CountEventFactory count = new CountEventFactory();
 
     public AlkaidEvent(JavaPlugin plugin) {
@@ -34,8 +34,8 @@ public class AlkaidEvent {
         return simple;
     }
 
-    public ConditionalEventFactory conditional() {
-        return conditional;
+    public SectionEventFactory section() {
+        return section;
     }
 
     public CountEventFactory count() {
@@ -54,9 +54,9 @@ public class AlkaidEvent {
         }
     }
 
-    public class ConditionalEventFactory {
-        public <T extends Event> ConditionalEventRegister<T> event(Class<T> event) {
-            return new ConditionalEventRegister<>(plugin, event);
+    public class SectionEventFactory {
+        public <T extends Event> SectionEventRegister<T> event(Class<T> event) {
+            return new SectionEventRegister<>(plugin, event);
         }
     }
 }
