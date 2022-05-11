@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 
 @RequiredArgsConstructor
@@ -41,12 +42,15 @@ public class ChainEventRegister implements AlkaidEventRegister {
     @Getter
     @Accessors(fluent = true, chain = true)
     boolean ignore = false;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
+    boolean multi = false;
 
     List<SimpleEventRegister<? extends Event>> chain = new ArrayList<>();
     Map<Class<? extends Event>, Integer> index = new HashMap<>();
     Map<UUID, Integer> schedules;
     int schedule;
-    boolean multi = false;
 
     public <T extends Event> ChainEventRegister skewer(Class<T> event) {
         return skewer(event, t -> {
@@ -146,6 +150,11 @@ public class ChainEventRegister implements AlkaidEventRegister {
 
     @Override
     public void register() {
+        // 创建索引 / Create the index.
+        IntStream.range(0, chain.size())
+                .forEach(count -> index.put(chain.get(count).event(), count));
+
+        // 注册事件 / Register events.
         chain.forEach(SimpleEventRegister::register);
     }
 

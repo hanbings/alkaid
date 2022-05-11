@@ -60,6 +60,16 @@ public class AlkaidEvent {
         return count;
     }
 
+    /**
+     * Register an event chain.
+     *
+     * @return the event chain
+     * @see com.alkaidmc.alkaid.bukkit.event.ChainEventRegister
+     */
+    public ChainEventRegister chain() {
+        return new ChainEventRegister(plugin);
+    }
+
     public class SimpleEventFactory {
         public <T extends Event> SimpleEventRegister<T> event(Class<T> event) {
             return new SimpleEventRegister<>(plugin, event);
