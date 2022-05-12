@@ -19,6 +19,7 @@ package com.alkaidmc.alkaid.bukkit.event.interfaces;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @SuppressWarnings("unused")
+@FunctionalInterface
 public interface AlkaidEventCallback {
     void callback(JavaPlugin plugin, AlkaidEventRegister register);
 }
