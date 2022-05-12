@@ -83,14 +83,14 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
     // 是否区分玩家监听事件 / Whether to distinguish player listening events.
     boolean multi = false;
 
-    // 事件是否挂起 / Event is suspended.
+    // 是否已经进入段落 / Whether to enter the section.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
-    boolean hangup = false;
+    boolean schedule = false;
     // 区分玩家的监听事件 / Distinguish player listening event.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
-    Set<UUID> players;
+    Set<UUID> schedules;
     // 注销事件 / Unregister event flag.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
@@ -102,7 +102,7 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
         EventExecutor executor;
         // 根据是否区分玩家监听事件设置处理器 / Set the handler according to the multiplayer flag.
         if (multi) {
-            players = new HashSet<>();
+            schedules = new HashSet<>();
             executor = (l, e) -> {
                 // 判断该事件是否注销 / Check if the event is canceled.
                 if (cancel) {
@@ -111,11 +111,10 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                 }
                 // 检查事件是否已经被挂起 / Check if the event is hangup.
                 if (e instanceof PlayerEvent) {
-                    if (players.contains(((PlayerEvent) e).getPlayer().getUniqueId())) {
-                        return;
+                    if (schedules.contains(((PlayerEvent) e).getPlayer().getUniqueId())) {
+                        listener.accept((T) e);
                     }
                 }
-                listener.accept((T) e);
             };
         } else {
             executor = (l, e) -> {
@@ -123,10 +122,9 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                     e.getHandlers().unregister(l);
                     return;
                 }
-                if (hangup) {
-                    return;
+                if (schedule) {
+                    listener.accept((T) e);
                 }
-                listener.accept((T) e);
             };
         }
 
@@ -152,7 +150,7 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                             }
 
                             if (e instanceof PlayerEvent) {
-                                players.add(((PlayerEvent) e).getPlayer().getUniqueId());
+                                schedules.add(((PlayerEvent) e).getPlayer().getUniqueId());
                             }
                         } :
                         (l, e) -> {
@@ -161,7 +159,7 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                                 return;
                             }
 
-                            hangup = true;
+                            schedule = true;
                         },
                 plugin,
                 ignore
@@ -180,7 +178,7 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                             }
 
                             if (e instanceof PlayerEvent) {
-                                players.remove(((PlayerEvent) e).getPlayer().getUniqueId());
+                                schedules.remove(((PlayerEvent) e).getPlayer().getUniqueId());
                             }
                         } :
                         (l, e) -> {
@@ -189,7 +187,7 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                                 return;
                             }
 
-                            hangup = true;
+                            schedule = false;
                         },
                 plugin,
                 ignore
