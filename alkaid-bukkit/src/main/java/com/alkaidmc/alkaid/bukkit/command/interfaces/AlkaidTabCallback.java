@@ -21,6 +21,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
+@FunctionalInterface
 @SuppressWarnings("unused")
 public interface AlkaidTabCallback {
     List<String> tab(CommandSender sender, Command command, String aliases, String[] args);

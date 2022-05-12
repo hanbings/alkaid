@@ -19,6 +19,7 @@ package com.alkaidmc.alkaid.bukkit.command.interfaces;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+@FunctionalInterface
 @SuppressWarnings("unused")
 public interface AlkaidFilterCallback {
     boolean filter(CommandSender sender, Command command, String label, String[] args);

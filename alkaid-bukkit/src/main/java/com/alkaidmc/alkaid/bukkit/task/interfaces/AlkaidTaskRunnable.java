@@ -16,6 +16,7 @@
 
 package com.alkaidmc.alkaid.bukkit.task.interfaces;
 
+@FunctionalInterface
 @SuppressWarnings("unused")
 public interface AlkaidTaskRunnable {
     void run();

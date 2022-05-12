@@ -20,6 +20,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
+@FunctionalInterface
 @SuppressWarnings("unused")
 public interface AlkaidParseTabCallback {
     List<String> tab(CommandSender sender, String[] args, String[] tokens, int deep);

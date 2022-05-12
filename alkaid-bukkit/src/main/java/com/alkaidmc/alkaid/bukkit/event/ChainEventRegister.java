@@ -145,15 +145,14 @@ public class ChainEventRegister implements AlkaidEventRegister {
     @SuppressWarnings("unused")
     @Accessors(fluent = true, chain = true)
     public static class SkewerEventRegister<T extends Event> implements AlkaidEventRegister {
+        // 空监听器
+        final static Listener NULL_LISTENER = new Listener() {
+        };
         final JavaPlugin plugin;
         // 需要监听的事件 / Event to listen.
         final Class<T> event;
         // 事件链引用 / Event chain reference.
         final ChainEventRegister chain;
-        // 空监听器
-        final static Listener NULL_LISTENER = new Listener() {
-        };
-
         // 事件处理器 / Event handler.
         Predicate<T> listener;
         // Bukkit 事件优先级 / Bukkit event priority.
