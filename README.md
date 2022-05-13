@@ -60,7 +60,7 @@ new AlkaidEvent(plugin).section()
 new AlkaidCommand(plugin).simple()
                 .command("alkaid")
                 .description("须臾曈昽开晓晴 烂银一色摇光晶")
-                .permission("apj.20fans")
+                .permission("alkaid.permission")
                 .usage("/alkaid")
                 .aliases(List.of("alias"))
                 .executor((sender, command, label, args) -> {
