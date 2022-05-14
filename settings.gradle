@@ -1,5 +1,4 @@
 rootProject.name = 'alkaid'
-include 'alkaid-block'
 include 'alkaid-bukkit'
 include 'alkaid-bungeecord'
 include 'alkaid-common'
@@ -8,4 +7,5 @@ include 'alkaid-log'
 include 'alkaid-message'
 include 'alkaid-mongodb'
 include 'alkaid-redis'
+include 'alkaid-world'
 
