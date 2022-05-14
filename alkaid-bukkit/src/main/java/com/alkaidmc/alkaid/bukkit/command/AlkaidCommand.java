@@ -20,7 +20,6 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.SimplePluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -28,11 +27,11 @@ import java.lang.reflect.InvocationTargetException;
 
 @SuppressWarnings("unused")
 public class AlkaidCommand {
-    JavaPlugin plugin;
+    Plugin plugin;
     Constructor<PluginCommand> constructor;
     CommandMap commandMap;
 
-    public AlkaidCommand(JavaPlugin plugin) {
+    public AlkaidCommand(Plugin plugin) {
         this.plugin = plugin;
         try {
             // 这不得上反射

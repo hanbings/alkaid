@@ -18,12 +18,12 @@ package com.alkaidmc.alkaid.message;
 
 import com.alkaidmc.alkaid.message.text.JsonTextBuilder;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class AlkaidMessage {
-    final JavaPlugin plugin;
+    final Plugin plugin;
 
     public JsonTextBuilder text() {
         return new JsonTextBuilder();

@@ -17,7 +17,7 @@
 package com.alkaidmc.alkaid.bukkit.config;
 
 import com.google.gson.Gson;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -42,7 +42,7 @@ public class AlkaidJsonConfiguration {
      * @param <T>      数据实体类型
      * @return 依赖注入后的数据实体
      */
-    public <T> T load(JavaPlugin plugin, Gson gson, String resource, String path, Class<T> type) {
+    public <T> T load(Plugin plugin, Gson gson, String resource, String path, Class<T> type) {
         // 检查资源文件
         File file = new File(plugin.getDataFolder(), path);
         // 否则尝试提取

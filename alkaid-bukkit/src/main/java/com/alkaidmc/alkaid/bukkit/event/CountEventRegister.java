@@ -28,7 +28,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.EventExecutor;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -61,7 +61,7 @@ import java.util.function.Consumer;
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class CountEventRegister<T extends Event> implements AlkaidEventRegister {
-    final JavaPlugin plugin;
+    final Plugin plugin;
     // 需要监听的事件 / Event to listen.
     final Class<T> event;
 

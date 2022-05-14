@@ -18,7 +18,6 @@ package com.alkaidmc.alkaid.bukkit.server;
 
 import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
@@ -34,7 +33,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class DependOptional {
-    final JavaPlugin plugin;
+    final Plugin plugin;
 
     String depend;
     Consumer<Plugin> success;

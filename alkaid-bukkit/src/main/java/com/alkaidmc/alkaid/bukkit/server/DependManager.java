@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.function.Consumer;
 
@@ -45,7 +44,7 @@ import java.util.function.Consumer;
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class DependManager<T extends Plugin> {
-    final JavaPlugin plugin;
+    final Plugin plugin;
     final Class<T> type;
 
     String depend;

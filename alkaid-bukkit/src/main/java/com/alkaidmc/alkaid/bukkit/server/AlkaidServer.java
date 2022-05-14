@@ -18,12 +18,11 @@ package com.alkaidmc.alkaid.bukkit.server;
 
 import lombok.RequiredArgsConstructor;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.java.JavaPlugin;
 
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class AlkaidServer {
-    final JavaPlugin plugin;
+    final Plugin plugin;
 
     public DependManagerFactory dependent() {
         return new DependManagerFactory();

@@ -25,7 +25,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +38,7 @@ import java.util.function.Consumer;
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class ParseCommandRegister implements AlkaidCommandRegister {
-    final JavaPlugin plugin;
+    final Plugin plugin;
     final PluginCommand instance;
     final CommandMap commands;
 

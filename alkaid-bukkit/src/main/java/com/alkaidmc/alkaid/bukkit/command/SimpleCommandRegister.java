@@ -25,7 +25,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ import java.util.Optional;
  * 需要提供的参数 <br>
  * need args <br>
  *
- * @see JavaPlugin
+ * @see Plugin
  * @see PluginCommand
  * @see CommandMap
  */
@@ -48,7 +48,7 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class SimpleCommandRegister implements AlkaidCommandRegister {
-    final JavaPlugin plugin;
+    final Plugin plugin;
     final PluginCommand instance;
     final CommandMap commands;
 

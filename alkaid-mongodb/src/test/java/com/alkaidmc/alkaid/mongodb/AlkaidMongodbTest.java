@@ -28,15 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SuppressWarnings("unused")
 public class AlkaidMongodbTest {
-    @AllArgsConstructor
-    static class Data {
-        String message;
-        int number;
-        boolean flag;
-        HashMap<String, String> map;
-        String[] array;
-    }
-
     @Test
     public void sync() {
         SyncMongodbConnection connection = new AlkaidMongodb().sync()
@@ -171,5 +162,14 @@ public class AlkaidMongodbTest {
                 114514, 114516, 10,
                 Data.class,
                 (data) -> assertEquals(3, data.size()));
+    }
+
+    @AllArgsConstructor
+    static class Data {
+        String message;
+        int number;
+        boolean flag;
+        HashMap<String, String> map;
+        String[] array;
     }
 }

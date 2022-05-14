@@ -17,12 +17,12 @@
 package com.alkaidmc.alkaid.bukkit.task;
 
 import lombok.RequiredArgsConstructor;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class AlkaidTask {
-    final JavaPlugin plugin;
+    final Plugin plugin;
 
     public SimpleTaskRegister simple() {
         return new SimpleTaskRegister(plugin);

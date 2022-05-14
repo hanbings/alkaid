@@ -44,7 +44,7 @@ public class AlkaidRedisTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        
+
         // 读取数据
         data = connection.get("114514");
         assertNull(data);

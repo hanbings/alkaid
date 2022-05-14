@@ -30,7 +30,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +47,7 @@ import java.util.stream.IntStream;
 public class GuiInventory {
     static final Listener LISTENER = new Listener() {
     };
-    JavaPlugin plugin;
+    Plugin plugin;
     String title;
     int rows;
     InventoryHolder holder;
@@ -65,7 +65,7 @@ public class GuiInventory {
     Consumer<InventoryOpenEvent> open = null;
     Consumer<InventoryCloseEvent> close = null;
 
-    public GuiInventory(JavaPlugin plugin) {
+    public GuiInventory(Plugin plugin) {
         this.plugin = plugin;
         // 填充数组
         IntStream.range(0, 54).forEach(count -> {

@@ -17,16 +17,16 @@
 package com.alkaidmc.alkaid.bukkit.event;
 
 import org.bukkit.event.Event;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 @SuppressWarnings("unused")
 public class AlkaidEvent {
-    final JavaPlugin plugin;
+    final Plugin plugin;
     final SimpleEventFactory simple = new SimpleEventFactory();
     final SectionEventFactory section = new SectionEventFactory();
     final CountEventFactory count = new CountEventFactory();
 
-    public AlkaidEvent(JavaPlugin plugin) {
+    public AlkaidEvent(Plugin plugin) {
         this.plugin = plugin;
     }
 

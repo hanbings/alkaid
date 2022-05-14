@@ -27,7 +27,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.EventExecutor;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +65,7 @@ import java.util.stream.IntStream;
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class ChainEventRegister implements AlkaidEventRegister {
-    final JavaPlugin plugin;
+    final Plugin plugin;
 
     // Bukkit 事件优先级 / Bukkit event priority.
     @Setter
@@ -148,7 +148,7 @@ public class ChainEventRegister implements AlkaidEventRegister {
         // 空监听器
         final static Listener NULL_LISTENER = new Listener() {
         };
-        final JavaPlugin plugin;
+        final Plugin plugin;
         // 需要监听的事件 / Event to listen.
         final Class<T> event;
         // 事件链引用 / Event chain reference.

@@ -23,7 +23,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -33,7 +33,7 @@ import org.bukkit.scheduler.BukkitTask;
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class SimpleTaskRegister implements AlkaidTaskRegister {
-    final JavaPlugin plugin;
+    final Plugin plugin;
 
     // 在任务执行前等待的时间 / tick
     long delay = 0;

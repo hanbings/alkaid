@@ -17,12 +17,12 @@
 package com.alkaidmc.alkaid.inventory;
 
 import lombok.RequiredArgsConstructor;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class AlkaidInventory {
-    final JavaPlugin plugin;
+    final Plugin plugin;
 
     public BookInventory book() {
         return new BookInventory();
