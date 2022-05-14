@@ -183,16 +183,12 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return text("\n");
     }
 
-    public JsonTextBuilder modify(Consumer<BaseComponent> consumer) {
-        consumer.accept(parent);
-        return this;
-    }
-
     /**
      * Set the global color.
      */
     public JsonTextBuilder color(ChatColor color) {
-        return modify(it -> it.setColor(color));
+        parent.setColor(color);
+        return this;
     }
 
     /**
@@ -204,7 +200,8 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
     }
 
     public JsonTextBuilder click(ClickEvent event) {
-        return modify(it -> it.setClickEvent(event));
+        parent.setClickEvent(event);
+        return this;
     }
 
     public JsonTextBuilder click(ClickEvent.Action action, String value) {
@@ -212,7 +209,8 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
     }
 
     public JsonTextBuilder hover(HoverEvent event) {
-        return modify(it -> it.setHoverEvent(event));
+        parent.setHoverEvent(event);
+        return this;
     }
 
     public JsonTextBuilder hover(Content content) {
@@ -228,13 +226,15 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
     }
 
     public JsonTextBuilder insertion(String insertion) {
-        return modify(it -> it.setInsertion(insertion));
+        parent.setInsertion(insertion);
+        return this;
     }
 
     // region Less-used content types
 
     public JsonTextBuilder font(String font) {
-        return modify(it -> it.setFont(font));
+        parent.setFont(font);
+        return this;
     }
 
     public JsonTextBuilder score(String name, String objective, Format... formats) {
@@ -293,28 +293,32 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
      * Make all components included bold.
      */
     public JsonTextBuilder bold() {
-        return modify(it -> it.setBold(true));
+        parent.setBold(true);
+        return this;
     }
 
     /**
      * Make all components included italic.
      */
     public JsonTextBuilder italic() {
-        return modify(it -> it.setItalic(true));
+        parent.setItalic(true);
+        return this;
     }
 
     /**
      * Make all components included underlined.
      */
     public JsonTextBuilder underlined() {
-        return modify(it -> it.setUnderlined(true));
+        parent.setUnderlined(true);
+        return this;
     }
 
     /**
      * Make all components included strikethrough.
      */
     public JsonTextBuilder strikethrough() {
-        return modify(it -> it.setStrikethrough(true));
+        parent.setStrikethrough(true);
+        return this;
     }
 
     // endregion
@@ -325,7 +329,8 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
      * Make all components included obfuscated.
      */
     public JsonTextBuilder obfuscated() {
-        return modify(it -> it.setObfuscated(true));
+        parent.setObfuscated(true);
+        return this;
     }
 
     public JsonTextBuilder black(String text, Format... formats) {
