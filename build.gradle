@@ -5,6 +5,20 @@ task collect(type: Copy) {
     }
 }
 
+task build() {
+    doFirst {
+        println("   _____  .__   __           .__    .___       \n" +
+                "  /  _  \\ |  | |  | _______  |__| __| _/      \n" +
+                " /  /_\\  \\|  | |  |/ /\\__  \\ |  |/ __ |    \n" +
+                "/    |    \\  |_|    <  / __ \\|  / /_/ |      \n" +
+                "\\____|__  /____/__|_ \\(____  /__\\____ |     \n" +
+                "        \\/          \\/     \\/        \\/    \n")
+
+        println("Thanks for using Alkaid ! Welcome to the world of Alkaid !")
+        println("Maybe you should be using 'gradle build -x test' pass local unit test.")
+    }
+}
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'maven-publish'
