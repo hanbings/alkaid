@@ -17,7 +17,10 @@
 package com.alkaidmc.alkaid.bukkit.server;
 
 import lombok.RequiredArgsConstructor;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.function.Consumer;
 
 /**
  * <p> zh </p>
@@ -32,4 +35,34 @@ import org.bukkit.plugin.java.JavaPlugin;
 @SuppressWarnings("unused")
 public class DependOptional {
     final JavaPlugin plugin;
+
+    String depend;
+    Consumer<Plugin> success;
+    Consumer<Exception> fail;
+
+    /**
+     * <p> zh </p>
+     * 判断依赖是否加载 <br>
+     * 如果加载则调用 success 回调 <br>
+     * 如果未加载则调用 fail 回调 <br>
+     * <p> en </p>
+     * Judge whether the dependency is loaded or not. <br>
+     * If the dependency is loaded, call the success callback <br>
+     * If the dependency is not loaded, call the fail callback <br>
+     */
+    public void load() {
+        if (depend == null) {
+            fail.accept(new NullPointerException("Request depend should be not null."));
+            return;
+        }
+
+        Plugin target = plugin.getServer().getPluginManager().getPlugin(depend);
+
+        if (target == null) {
+            fail.accept(new NullPointerException("Request depend not found."));
+            return;
+        }
+
+        success.accept(target);
+    }
 }

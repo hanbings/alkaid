@@ -52,6 +52,14 @@ public class DependManager<T extends Plugin> {
     Consumer<T> success;
     Consumer<Exception> fail;
 
+    /**
+     * <p> zh </p>
+     * 获取依赖插件实例 <br>
+     * 如果依赖插件不存在则抛出异常 <br>
+     * <p> en </p>
+     * Get dependency plugin instance. <br>
+     * If the dependency plugin does not exist, throw an exception. <br>
+     */
     @SuppressWarnings("unchecked")
     public void load() {
         if (depend == null) {
