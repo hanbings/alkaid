@@ -16,39 +16,36 @@
 
 package com.alkaidmc.alkaid.world.block;
 
-import com.alkaidmc.alkaid.world.block.interfaces.BlockFilter;
-import com.alkaidmc.alkaid.world.block.interfaces.LocationFilter;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @Setter
 @Getter
-@RequiredArgsConstructor
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
-public class BlockCopier {
-    final Plugin plugin;
+public class BlockSelector {
+    Location original;
+    Location destination;
 
-    Consumer<BlockSelector> from;
-    Consumer<BlockSelector> to;
-
-    BlockFilter block;
-    LocationFilter location;
-
-    boolean async;
-    boolean segment;
-    int limit;
-
-    public BlockClipboard clipboard() {
-        return null;
+    public void original(Consumer<Location> original) {
+        original.accept(Optional.ofNullable(this.original)
+                .orElseGet(() -> new Location(
+                        Bukkit.getWorlds().get(0), 0, 0, 0)
+                )
+        );
     }
 
-    public void paste() {
-
+    public void destination(Consumer<Location> destination) {
+        destination.accept(Optional.ofNullable(this.destination)
+                .orElseGet(() -> new Location(
+                        Bukkit.getWorlds().get(0), 0, 0, 0)
+                )
+        );
     }
 }
