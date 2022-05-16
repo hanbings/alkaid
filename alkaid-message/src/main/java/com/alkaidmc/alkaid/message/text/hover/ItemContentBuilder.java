@@ -42,7 +42,7 @@ public class ItemContentBuilder implements ContentBuilder<Item> {
     public ItemContentBuilder item(ItemStack item) {
         this.id = item.getType().getKey().toString();
         this.count = item.getAmount();
-        // TODO: get item nbt
+        // todo get item nbt
         return this;
     }
 

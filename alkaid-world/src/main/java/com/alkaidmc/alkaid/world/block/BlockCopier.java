@@ -24,6 +24,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Optional;
@@ -49,6 +50,7 @@ public class BlockCopier {
     boolean segment;
     int limit;
 
+    // fixme 完全不可用以及过滤和每 ticks 限制功能未实现
     public BlockClipboard clipboard() {
         if (clipboard != null) {
             return clipboard;
@@ -91,6 +93,47 @@ public class BlockCopier {
     }
 
     public void paste() {
+        BlockClipboard clipboard = Optional.ofNullable(this.clipboard)
+                .orElse(this.clipboard());
 
+        // 遍历目标坐标方块
+        to.andThen(selector -> {
+            IntStream x = selector.original.getBlockX() > selector.destination().getBlockX()
+                    ? IntStream.range(selector.original.getBlockX(), selector.destination().getBlockX() + 1)
+                    : IntStream.range(selector.destination().getBlockX(), selector.original.getBlockX() + 1);
+            IntStream y = selector.original.getBlockY() > selector.destination().getBlockY()
+                    ? IntStream.range(selector.original.getBlockY(), selector.destination().getBlockY() + 1)
+                    : IntStream.range(selector.destination().getBlockY(), selector.original.getBlockY() + 1);
+            IntStream z = selector.original.getBlockZ() > selector.destination().getBlockZ()
+                    ? IntStream.range(selector.original.getBlockZ(), selector.destination().getBlockZ() + 1)
+                    : IntStream.range(selector.destination().getBlockZ(), selector.original.getBlockZ() + 1);
+
+            // 获取世界
+            World world = Optional.ofNullable(selector.original.getWorld())
+                    .orElse(Bukkit.getWorlds().get(0));
+
+            Runnable runnable = () -> {
+                final int[] count = {0};
+                // 遍历目标坐标方块
+                x.forEach(i ->
+                        y.forEach(j ->
+                                z.forEach(k -> {
+                                    Block block = clipboard.blocks().get(count[0]);
+                                    Block target = world.getBlockAt(i, j, k);
+
+                                    target.setType(block.getType());
+                                    target.setBlockData(block.getBlockData());
+                                    target.setBiome(block.getBiome());
+
+                                    count[0]++;
+                                })));
+            };
+
+            if (async) {
+                Bukkit.getScheduler().runTaskAsynchronously(plugin, runnable);
+            } else {
+                runnable.run();
+            }
+        }).accept(new BlockSelector());
     }
 }

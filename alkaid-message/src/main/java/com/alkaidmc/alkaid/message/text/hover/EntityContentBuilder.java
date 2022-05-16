@@ -38,7 +38,7 @@ public class EntityContentBuilder implements ContentBuilder<Entity> {
         this.type = entity.getType().getKey().toString();
         this.id = entity.getUniqueId().toString();
         this.name = new TextComponent(entity.getCustomName());
-        // TODO: entity's name is a component, but bukkit only provided a String :(
+        // todo entity's name is a component, but bukkit only provided a String :(
         return this;
     }
 
