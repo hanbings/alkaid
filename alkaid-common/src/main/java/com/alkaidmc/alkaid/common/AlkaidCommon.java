@@ -16,11 +16,16 @@
 
 package com.alkaidmc.alkaid.common;
 
+import com.alkaidmc.alkaid.common.lang.FileWatchdog;
 import com.alkaidmc.alkaid.common.lang.ReflectionActions;
 
 @SuppressWarnings("unused")
 public class AlkaidCommon {
     public ReflectionActions reflection() {
         return new ReflectionActions();
+    }
+
+    public FileWatchdog filewatchdog() {
+        return new FileWatchdog();
     }
 }

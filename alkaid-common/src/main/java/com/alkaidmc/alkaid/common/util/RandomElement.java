@@ -17,7 +17,7 @@
 package com.alkaidmc.alkaid.common.util;
 
 @SuppressWarnings("unused")
-public class RandomUtils {
+public class RandomElement {
     public static int number() {
         return (int) (Math.random() * 100);
     }
