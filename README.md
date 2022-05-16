@@ -219,6 +219,22 @@ new AlkaidCommon().reflection()
                 .invoke("test", "Alkaid", "Common");
 ```
 
+**文件监控**
+
+```java
+new AlkaidCommon().filewatchdog()
+                .path(Paths.get("alkaid.txt"))
+                // 监听变化的频率
+                .delay(1000)
+                // 状态变更时触发
+                .create(f -> System.out.println("创建"))
+                .modify(f -> System.out.println("修改"))
+                .delete(f -> System.out.println("删除"))
+                // 自定义异常处理
+                .exception(e -> System.out.println("异常"))
+                .watch();
+```
+
 ## ✨ 模块
 
 | 模块              | 描述                           | Bukkit 支持 | Bungee Cord 支持 | 不依赖于 Bukkit / Bungee Cord |
