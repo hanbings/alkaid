@@ -16,6 +16,7 @@
 
 package com.alkaidmc.alkaid.common;
 
+import com.alkaidmc.alkaid.common.lang.ClassSwitch;
 import com.alkaidmc.alkaid.common.lang.FileWatchdog;
 import com.alkaidmc.alkaid.common.lang.ReflectionActions;
 
@@ -27,5 +28,9 @@ public class AlkaidCommon {
 
     public FileWatchdog filewatchdog() {
         return new FileWatchdog();
+    }
+
+    public ClassSwitch classswitch() {
+        return new ClassSwitch();
     }
 }
