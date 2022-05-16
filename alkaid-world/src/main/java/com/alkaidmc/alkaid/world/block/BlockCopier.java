@@ -22,9 +22,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 
+import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.stream.IntStream;
 
 @Setter
 @Getter
@@ -39,13 +43,51 @@ public class BlockCopier {
 
     BlockFilter block;
     LocationFilter location;
+    BlockClipboard clipboard;
 
     boolean async;
     boolean segment;
     int limit;
 
     public BlockClipboard clipboard() {
-        return null;
+        if (clipboard != null) {
+            return clipboard;
+        } else {
+            clipboard = new BlockClipboard();
+        }
+
+        // 遍历源坐标方块
+        from.andThen(selector -> {
+            IntStream x = selector.original.getBlockX() > selector.destination().getBlockX()
+                    ? IntStream.range(selector.original.getBlockX(), selector.destination().getBlockX() + 1)
+                    : IntStream.range(selector.destination().getBlockX(), selector.original.getBlockX() + 1);
+            IntStream y = selector.original.getBlockY() > selector.destination().getBlockY()
+                    ? IntStream.range(selector.original.getBlockY(), selector.destination().getBlockY() + 1)
+                    : IntStream.range(selector.destination().getBlockY(), selector.original.getBlockY() + 1);
+            IntStream z = selector.original.getBlockZ() > selector.destination().getBlockZ()
+                    ? IntStream.range(selector.original.getBlockZ(), selector.destination().getBlockZ() + 1)
+                    : IntStream.range(selector.destination().getBlockZ(), selector.original.getBlockZ() + 1);
+
+            // 获取世界
+            World world = Optional.ofNullable(selector.original.getWorld())
+                    .orElse(Bukkit.getWorlds().get(0));
+
+            Runnable runnable = () -> {
+                // 遍历目标坐标方块
+                x.forEach(i ->
+                        y.forEach(j ->
+                                z.forEach(k -> clipboard.blocks().add(world.getBlockAt(i, j, k)))));
+            };
+
+            if (async) {
+                Bukkit.getScheduler().runTaskAsynchronously(plugin, runnable);
+            } else {
+                runnable.run();
+            }
+
+        }).accept(new BlockSelector());
+
+        return clipboard;
     }
 
     public void paste() {

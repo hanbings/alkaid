@@ -16,7 +16,18 @@
 
 package com.alkaidmc.alkaid.world.block;
 
-@SuppressWarnings("unused")
-public class BlockClipboard {
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+import org.bukkit.block.Block;
 
+import java.util.LinkedList;
+import java.util.List;
+
+@Setter
+@Getter
+@SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
+public class BlockClipboard {
+    final List<Block> blocks = new LinkedList<>();
 }
