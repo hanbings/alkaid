@@ -19,11 +19,9 @@ package com.alkaidmc.alkaid.world.block;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
-import java.util.Optional;
-import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @Setter
 @Getter
@@ -33,19 +31,11 @@ public class BlockSelector {
     Location original;
     Location destination;
 
-    public void original(Consumer<Location> original) {
-        original.accept(Optional.ofNullable(this.original)
-                .orElseGet(() -> new Location(
-                        Bukkit.getWorlds().get(0), 0, 0, 0)
-                )
-        );
+    public void original(Supplier<Location> original) {
+        this.original = original.get();
     }
 
-    public void destination(Consumer<Location> destination) {
-        destination.accept(Optional.ofNullable(this.destination)
-                .orElseGet(() -> new Location(
-                        Bukkit.getWorlds().get(0), 0, 0, 0)
-                )
-        );
+    public void destination(Supplier<Location> destination) {
+        this.destination = destination.get();
     }
 }
