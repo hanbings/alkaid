@@ -16,29 +16,7 @@
 
 package com.alkaidmc.alkaid.common.function;
 
-import java.util.function.Supplier;
-
 @SuppressWarnings("unused")
-public class Lazy<T> {
-    private final Supplier<T> supplier;
-    private volatile T value;
+public class Try<T> {
 
-    public Lazy(Supplier<T> supplier) {
-        this.supplier = supplier;
-    }
-
-    public static <T> Lazy<T> of(Supplier<T> supplier) {
-        return new Lazy<>(supplier);
-    }
-
-    public T get() {
-        if (value == null) {
-            synchronized (this) {
-                if (value == null) {
-                    value = supplier.get();
-                }
-            }
-        }
-        return value;
-    }
 }
