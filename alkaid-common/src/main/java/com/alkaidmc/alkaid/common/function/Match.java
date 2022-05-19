@@ -18,5 +18,5 @@ package com.alkaidmc.alkaid.common.function;
 
 @SuppressWarnings("unused")
 public class Match<T> {
-    
+
 }
