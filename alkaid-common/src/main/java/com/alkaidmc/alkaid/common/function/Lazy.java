@@ -41,4 +41,8 @@ public class Lazy<T> {
         }
         return value;
     }
+
+    public boolean done() {
+        return value != null;
+    }
 }

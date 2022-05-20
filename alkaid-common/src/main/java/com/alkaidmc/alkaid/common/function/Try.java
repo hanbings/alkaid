@@ -16,51 +16,46 @@
 
 package com.alkaidmc.alkaid.common.function;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
-@Setter
-@Getter
 @SuppressWarnings("unused")
-@Accessors(fluent = true, chain = true)
 public class Try<T> {
-    Supplier<T> trying;
-    Consumer<T> success;
-    Consumer<Throwable> fail;
-    Lazy<List<Function<Throwable, Throwable>>> cases = Lazy.of(ArrayList::new);
 
-    public Try(Supplier<T> trying) {
-        this.trying = trying;
+    volatile T value;
+    volatile Throwable throwable;
+
+    public Try(T value) {
+        this.value = value;
+    }
+
+    public Try(Throwable throwable) {
+        this.throwable = throwable;
     }
 
     public static <T> Try<T> of(Supplier<T> trying) {
-        return new Try<>(trying);
+        try {
+            return new Try<>(trying.get());
+        } catch (Throwable throwable) {
+            return new Try<>(throwable);
+        }
     }
 
-    public T get() {
-        try {
-            T t = trying.get();
-            success.accept(t);
-            return t;
-        } catch (Throwable e) {
-            // 处理特定错误
-            cases.get().forEach(f -> {
-                if (f.getClass().equals(e.getClass())) {
-                    f.apply(e);
-                }
-            });
+    public boolean success() {
+        return throwable == null;
+    }
 
-            if (fail != null) {
-                fail.accept(e);
-            }
-            return null;
+    public Try<T> success(Consumer<T> consumer) {
+        if (success()) {
+            consumer.accept(value);
         }
+        return this;
+    }
+
+    public Try<T> fail(Consumer<Throwable> consumer) {
+        if (!success()) {
+            consumer.accept(throwable);
+        }
+        return this;
     }
 }
