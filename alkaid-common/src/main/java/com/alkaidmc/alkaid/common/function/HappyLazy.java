@@ -22,6 +22,7 @@ import java.util.function.Supplier;
 public class HappyLazy<T> {
     final Supplier<T> supplier;
     volatile T value;
+    volatile boolean initialized;
 
     public HappyLazy(Supplier<T> supplier) {
         this.supplier = supplier;
@@ -33,16 +34,13 @@ public class HappyLazy<T> {
 
     public T get() {
         if (value == null) {
-            synchronized (this) {
-                if (value == null) {
-                    value = supplier.get();
-                }
-            }
+            value = supplier.get();
+            initialized = true;
         }
         return value;
     }
 
-    public boolean done() {
-        return value != null;
+    public boolean initialized() {
+        return initialized;
     }
 }

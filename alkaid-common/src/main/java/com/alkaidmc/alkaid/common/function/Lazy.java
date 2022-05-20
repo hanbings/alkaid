@@ -22,6 +22,7 @@ import java.util.function.Supplier;
 public class Lazy<T> {
     final Supplier<T> supplier;
     volatile T value;
+    volatile boolean initialized;
 
     public Lazy(Supplier<T> supplier) {
         this.supplier = supplier;
@@ -33,12 +34,17 @@ public class Lazy<T> {
 
     public T get() {
         if (value == null) {
-            value = supplier.get();
+            synchronized (this) {
+                if (value == null) {
+                    value = supplier.get();
+                    initialized = true;
+                }
+            }
         }
         return value;
     }
 
-    public boolean done() {
-        return value != null;
+    public boolean initialized() {
+        return initialized;
     }
 }
