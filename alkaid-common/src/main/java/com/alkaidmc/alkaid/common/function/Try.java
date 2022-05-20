@@ -17,11 +17,13 @@
 package com.alkaidmc.alkaid.common.function;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 @Setter
@@ -32,6 +34,7 @@ public class Try<T> {
     Supplier<T> trying;
     Consumer<T> success;
     Consumer<Throwable> fail;
+    Lazy<List<Function<Throwable, Throwable>>> cases = Lazy.of(ArrayList::new);
 
     public Try(Supplier<T> trying) {
         this.trying = trying;
@@ -47,6 +50,13 @@ public class Try<T> {
             success.accept(t);
             return t;
         } catch (Throwable e) {
+            // 处理特定错误
+            cases.get().forEach(f -> {
+                if (f.getClass().equals(e.getClass())) {
+                    f.apply(e);
+                }
+            });
+
             if (fail != null) {
                 fail.accept(e);
             }
