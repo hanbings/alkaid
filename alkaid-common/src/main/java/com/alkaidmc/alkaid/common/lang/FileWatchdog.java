@@ -31,6 +31,33 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Consumer;
 
+/**
+ * <p> zh </p>
+ * 文件监视器 <br>
+ * 通过该工具可以监听文件的变化，当文件发生变化时，会触发回调函数 <br>
+ * 参数：
+ * <ul>
+ *     <li>path：文件路径</li>
+ *     <li>create：创建文件时的回调</li>
+ *     <li>modify：修改文件时的回调</li>
+ *     <li>delete：删除文件时的回调</li>
+ *     <li>delay：监听间隔</li>
+ *     <li>exception：自定义异常</li>
+ * </ul>
+ * <p> en </p>
+ * File Watchdog. <br>
+ * This tool can monitor the file changes.
+ * When the file changes, it will trigger the callback function. <br>
+ * Parameters:
+ * <ul>
+ *     <li>path: file path</li>
+ *     <li>create: callback function when the file is created</li>
+ *     <li>modify: callback function when the file is modified</li>
+ *     <li>delete: callback function when the file is deleted</li>
+ *     <li>delay: monitor interval</li>
+ *     <li>exception: custom exception</li>
+ * </ul>
+ */
 @Setter
 @Getter
 @SuppressWarnings("unused")
