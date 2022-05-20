@@ -16,21 +16,33 @@
 
 package com.alkaidmc.alkaid.common.function;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import java.util.function.Supplier;
 
-@Setter
-@Getter
-@AllArgsConstructor
 @SuppressWarnings("unused")
-@Accessors(fluent = true)
-public class Either<F, S> {
-    F first;
-    S second;
+public class HappyLazy<T> {
+    final Supplier<T> supplier;
+    volatile T value;
 
-    public static <F, S> Either<F, S> of(F first, S second) {
-        return new Either<>(first, second);
+    public HappyLazy(Supplier<T> supplier) {
+        this.supplier = supplier;
+    }
+
+    public static <T> HappyLazy<T> of(Supplier<T> supplier) {
+        return new HappyLazy<>(supplier);
+    }
+
+    public T get() {
+        if (value == null) {
+            synchronized (this) {
+                if (value == null) {
+                    value = supplier.get();
+                }
+            }
+        }
+        return value;
+    }
+
+    public boolean done() {
+        return value != null;
     }
 }

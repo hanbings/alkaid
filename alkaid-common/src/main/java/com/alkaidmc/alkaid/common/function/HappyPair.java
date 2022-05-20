@@ -16,21 +16,19 @@
 
 package com.alkaidmc.alkaid.common.function;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 
-@Setter
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 @SuppressWarnings("unused")
 @Accessors(fluent = true)
-public class Pair<F, S> {
-    F first;
-    S second;
+public class HappyPair<F, S> {
+    final F first;
+    final S second;
 
-    public static <F, S> Pair<F, S> of(F first, S second) {
-        return new Pair<>(first, second);
+    public static <F, S> HappyPair<F, S> of(F first, S second) {
+        return new HappyPair<>(first, second);
     }
 }

@@ -33,11 +33,7 @@ public class Lazy<T> {
 
     public T get() {
         if (value == null) {
-            synchronized (this) {
-                if (value == null) {
-                    value = supplier.get();
-                }
-            }
+            value = supplier.get();
         }
         return value;
     }
