@@ -20,8 +20,8 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class Lazy<T> {
-    private final Supplier<T> supplier;
-    private volatile T value;
+    final Supplier<T> supplier;
+    volatile T value;
 
     public Lazy(Supplier<T> supplier) {
         this.supplier = supplier;
