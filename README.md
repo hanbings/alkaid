@@ -305,7 +305,7 @@ maven {
 
 我们正在编写文档...
 
-[查看文档](https://docs.alkaidmc.com/)
+[查看文档](https://alkaid.alkaidmc.com/docs/#/zh-cn/readme)
 
 ## 💬 贡献
 
@@ -315,7 +315,7 @@ maven {
 
 对于 Issues / PR 以及其他可能的一些贡献我们有一些特殊的要求，还请仔细看一看，感谢支持 w
 
-[查看贡献指南](CONTRIBUTING.md)
+[查看贡献指南](https://alkaid.alkaidmc.com/docs/#/zh-cn/contributing)
 
 ## ⚖ 开源许可
 
