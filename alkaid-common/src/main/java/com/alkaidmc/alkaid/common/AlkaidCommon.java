@@ -18,12 +18,12 @@ package com.alkaidmc.alkaid.common;
 
 import com.alkaidmc.alkaid.common.lang.ClassSwitch;
 import com.alkaidmc.alkaid.common.lang.FileWatchdog;
-import com.alkaidmc.alkaid.common.lang.ReflectionActions;
+import com.alkaidmc.alkaid.common.lang.ReflectionChain;
 
 @SuppressWarnings("unused")
 public class AlkaidCommon {
-    public ReflectionActions reflection() {
-        return new ReflectionActions();
+    public ReflectionChain reflection() {
+        return new ReflectionChain();
     }
 
     public FileWatchdog filewatchdog() {

@@ -205,18 +205,24 @@ new AlkaidMessage(plugin).text()
 
 ```java
 new AlkaidCommon().reflection()
-                // 设置加载器
-                .loader(AlkaidCommon.class.getClassLoader())
-                // 设置类名 第二个参数为异常处理 可选
-                .load("com.alkaidmc.alkaid.common.AlkaidCommon", Throwable::printStackTrace)
-                .load("com.alkaidmc.alkaid.common.lang.ClassSwitch")
-                // 查找方法 第二个参数为异常处理 可选
-                .method("test", String.class, String.class)
-                .method("test", Throwable::printStackTrace, String.class)
-                // 默认异常处理
-                .error(Throwable::printStackTrace)
-                // 执行方法
-                .invoke("test", "Alkaid", "Common");
+                // 设置类 / 字符串类路径
+                .clazz(AlkaidCommon.class)
+                // 指定类加载器
+                .loader(this.getClass().getClassLoader())
+                // 是否初始化类
+                .initialize(true)
+                // 设置方法名
+                .method("test")
+                // 设置执行方法实例
+                .instance(null)
+                // 设置方法参数
+                .args(null)
+                // 自定义异常
+                .exception(Throwable::printStackTrace)
+                // 设置执行结果处理器
+                .result(System.out::println)
+                // 执行
+                .call();
 ```
 
 **文件监控**
