@@ -46,8 +46,8 @@ import java.util.stream.IntStream;
  * 它可以将多个事件串起来 并且从第二个事件开始以前一个条件为监听条件 <br>
  * 即第一个事件被触发后第二个事件才会被触发 依次类推 <br>
  * 事件链条不限制长度 允许相同的事件添加到链 <br>
- * 使用 {@link #skewer(Class)} 添加事件到链条 <br>
- * 也可以使用 {@link #skewer(Class, Predicate)} 添加事件到链条 Predicate 参数为事件监听器
+ * 使用 {@link #depend(Class)} 添加事件到链条 <br>
+ * 也可以使用 {@link #depend(Class, Predicate)} 添加事件到链条 Predicate 参数为事件监听器
  * 返回 true 表示继续监听链条的下一个事件 返回 false 表示复位当前链条从头开始监听 <br>
  * 使用 {@link #unregister()} 从 bukkit 中注销当前链条 <br>
  * <p> en </p>
@@ -55,8 +55,8 @@ import java.util.stream.IntStream;
  * It can chain multiple events and the second event will be listened by the first event's condition <br>
  * Such as the first event will be triggered and the second event will be triggered after the first event <br>
  * Event chain is not limited to the length and can add the same event to the chain <br>
- * Use {@link #skewer(Class)} to add event to the chain <br>
- * Also can use {@link #skewer(Class, Predicate)} to add event to the chain.
+ * Use {@link #depend(Class)} to add event to the chain <br>
+ * Also can use {@link #depend(Class, Predicate)} to add event to the chain.
  * Predicate parameter is the event listener.
  * Return true means continue listening the next event.
  * Return false means reset the chain to listen the first event again. <br>
@@ -87,23 +87,23 @@ public class ChainEventRegister implements AlkaidEventRegister {
     Map<UUID, Integer> schedules;
     int schedule;
 
-    public <T extends Event> ChainEventRegister skewer(Class<T> event) {
-        return skewer(event,
+    public <T extends Event> ChainEventRegister depend(Class<T> event) {
+        return depend(event,
                 l -> true,
                 this.priority,
                 this.ignore,
                 this.chain.size());
     }
 
-    public <T extends Event> ChainEventRegister skewer(Class<T> event, Predicate<T> listener) {
-        return skewer(event,
+    public <T extends Event> ChainEventRegister depend(Class<T> event, Predicate<T> listener) {
+        return depend(event,
                 listener,
                 this.priority,
                 this.ignore,
                 this.chain.size());
     }
 
-    public <T extends Event> ChainEventRegister skewer(Class<T> event, Predicate<T> listener,
+    public <T extends Event> ChainEventRegister depend(Class<T> event, Predicate<T> listener,
                                                        EventPriority priority, boolean ignore,
                                                        int index) {
         this.chain.add(index,
@@ -196,14 +196,12 @@ public class ChainEventRegister implements AlkaidEventRegister {
                             // 过滤掉不符合条件的事件 / Filter out the event that does not meet the condition.
                             .filter(index -> progress == 0 || progress == index - 1)
                             .findFirst()
-                            .ifPresent(index -> {
-                                Optional.ofNullable(chain.schedules).ifPresent(map -> {
-                                    chain.schedules.put(
+                            .ifPresent(index -> Optional
+                                    .ofNullable(chain.schedules)
+                                    .ifPresent(map -> chain.schedules.put(
                                             ((PlayerEvent) e).getPlayer().getUniqueId(),
                                             listener.test((T) e) ? index : 0
-                                    );
-                                });
-                            });
+                                    )));
                 };
             } else {
                 executor = (l, e) -> {
