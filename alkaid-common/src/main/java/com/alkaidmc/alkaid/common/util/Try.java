@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alkaidmc.alkaid.common.function;
+package com.alkaidmc.alkaid.common.util;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
