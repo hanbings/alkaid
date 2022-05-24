@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alkaidmc.alkaid.common.util;
+package com.alkaidmc.alkaid.common.function;
 
 import lombok.RequiredArgsConstructor;
 
