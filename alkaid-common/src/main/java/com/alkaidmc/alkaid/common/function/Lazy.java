@@ -16,21 +16,16 @@
 
 package com.alkaidmc.alkaid.common.function;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
+@RequiredArgsConstructor(staticName = "of")
 public class Lazy<T> {
     final Supplier<T> supplier;
     volatile T value;
     volatile boolean initialized;
-
-    public Lazy(Supplier<T> supplier) {
-        this.supplier = supplier;
-    }
-
-    public static <T> Lazy<T> of(Supplier<T> supplier) {
-        return new Lazy<>(supplier);
-    }
 
     public T get() {
         if (value == null) {
