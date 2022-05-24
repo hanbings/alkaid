@@ -16,6 +16,15 @@
 
 package com.alkaidmc.alkaid.common.function;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
+
+@Getter
 @SuppressWarnings("unused")
-public class Tuple2 {
+@RequiredArgsConstructor(staticName = "of")
+@Accessors(fluent = true)
+public class Tuple2<T1, T2> {
+    final T1 t1;
+    final T2 t2;
 }

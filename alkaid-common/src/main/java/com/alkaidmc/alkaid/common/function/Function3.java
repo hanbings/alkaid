@@ -16,6 +16,17 @@
 
 package com.alkaidmc.alkaid.common.function;
 
+@FunctionalInterface
 @SuppressWarnings("unused")
-public class Function3 {
+public interface Function3<T1, T2, T3, R> {
+    R apply(T1 t1, T2 t2, T3 t3);
+
+    default Function3<T1, T2, T3, R> andThen(Function1<? super R, ? extends R> after) {
+        return (t1, t2, t3) -> after.apply(apply(t1, t2, t3));
+    }
+
+    default Function3<T1, T2, T3, R> compose(Function1<? super T1, ? extends T1> before) {
+        return (t1, t2, t3) -> apply(before.apply(t1), t2, t3);
+    }
+
 }

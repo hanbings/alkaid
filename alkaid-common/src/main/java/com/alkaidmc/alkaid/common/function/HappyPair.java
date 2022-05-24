@@ -23,14 +23,10 @@ import lombok.experimental.Accessors;
 
 @Setter
 @Getter
-@AllArgsConstructor
 @SuppressWarnings("unused")
+@AllArgsConstructor(staticName = "of")
 @Accessors(fluent = true)
 public class HappyPair<F, S> {
     F first;
     S second;
-
-    public static <F, S> HappyPair<F, S> of(F first, S second) {
-        return new HappyPair<>(first, second);
-    }
 }
