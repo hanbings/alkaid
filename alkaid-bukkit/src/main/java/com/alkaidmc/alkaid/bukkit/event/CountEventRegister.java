@@ -30,9 +30,12 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * <p> zh ver. </p>
@@ -43,6 +46,7 @@ import java.util.function.Consumer;
  * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
  * 默认的情况下计数器将监听所有被触发的事件
  * 如果需要针对玩家区分监听 则需要将 {@link #multi(boolean)} 方法标记为 true <br>
+ * 使用 {@link #filter(Predicate)} 进行条件过滤 用法参照 {@link PredicateEventRegister} <br>
  * <p> en ver. </p>
  * This is a counter event register. <br>
  * It can listen to a specific event by a certain times. <br>
@@ -51,7 +55,8 @@ import java.util.function.Consumer;
  * The listener of this event will be suspended after the counter is reached. <br>
  * {@link #unregister()} method will cancel the listener from Bukkit. <br>
  * The default situation is that the counter will listen to all triggered events.
- * If you need to differentiate the listener between players, you need to mark {@link #multi(boolean)} as true.
+ * If you need to differentiate the listener between players, you need to mark {@link #multi(boolean)} as true. <br>
+ * Use {@link #filter(Predicate)} to filter conditions, Usage is the same as {@link PredicateEventRegister} <br>
  *
  * @param <T> 事件类型 / Event type
  */
@@ -93,6 +98,16 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
     @Getter(AccessLevel.NONE)
     boolean cancel = false;
 
+    // 过滤器 / Filter.
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    List<Predicate<T>> filters = new ArrayList<>();
+
+    public CountEventRegister<T> filter(Predicate<T> filter) {
+        filters.add(filter);
+        return this;
+    }
+
     public void reset() {
         this.before.callback(plugin, this);
         this.hangup = false;
@@ -112,6 +127,10 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
         if (multi) {
             hangups = new HashMap<>();
             executor = (l, e) -> {
+                // 过滤 / Filter.
+                if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                    return;
+                }
                 // 判断该事件是否注销 / Check if the event is cancelled.
                 if (cancel) {
                     e.getHandlers().unregister(l);
@@ -136,6 +155,10 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
             };
         } else {
             executor = (l, e) -> {
+                // 过滤 / Filter.
+                if (filters.stream().anyMatch(filter -> filter.test((T) e))) {
+                    return;
+                }
                 if (cancel) {
                     e.getHandlers().unregister(l);
                     return;

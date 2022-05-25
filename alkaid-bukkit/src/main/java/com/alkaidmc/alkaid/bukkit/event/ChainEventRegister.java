@@ -37,6 +37,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
@@ -92,7 +93,19 @@ public class ChainEventRegister implements AlkaidEventRegister {
                 l -> true,
                 this.priority,
                 this.ignore,
-                this.chain.size());
+                this.chain.size(),
+                null
+        );
+    }
+
+    public <T extends Event> ChainEventRegister depend(Class<T> event, Consumer<List<Predicate<T>>> filters) {
+        return depend(event,
+                l -> true,
+                this.priority,
+                this.ignore,
+                this.chain.size(),
+                filters
+        );
     }
 
     public <T extends Event> ChainEventRegister depend(Class<T> event, Predicate<T> listener) {
@@ -100,18 +113,42 @@ public class ChainEventRegister implements AlkaidEventRegister {
                 listener,
                 this.priority,
                 this.ignore,
-                this.chain.size());
+                this.chain.size(),
+                null
+        );
+    }
+
+    public <T extends Event> ChainEventRegister depend(Class<T> event,
+                                                       Predicate<T> listener,
+                                                       Consumer<List<Predicate<T>>> filters) {
+        return depend(event,
+                listener,
+                this.priority,
+                this.ignore,
+                this.chain.size(),
+                filters
+        );
     }
 
     public <T extends Event> ChainEventRegister depend(Class<T> event, Predicate<T> listener,
                                                        EventPriority priority, boolean ignore,
-                                                       int index) {
-        this.chain.add(index,
-                new SkewerEventRegister<>(plugin, event, this)
-                        .listener(listener)
-                        .priority(priority)
-                        .ignore(ignore)
-        );
+                                                       int index,
+                                                       Consumer<List<Predicate<T>>> filters) {
+        if (filters == null) {
+            this.chain.add(index, new SkewerEventRegister<>(plugin, event, this)
+                    .listener(listener)
+                    .priority(priority)
+                    .ignore(ignore)
+            );
+            return this;
+        }
+
+        filters.andThen(f -> this.chain.add(index, new SkewerEventRegister<>(plugin, event, this)
+                .listener(listener)
+                .priority(priority)
+                .ignore(ignore)
+                .filters(f)
+        )).accept(new ArrayList<>());
         return this;
     }
 
@@ -165,6 +202,9 @@ public class ChainEventRegister implements AlkaidEventRegister {
         @Getter(AccessLevel.NONE)
         boolean cancel = false;
 
+        // 过滤 / Filter.
+        List<Predicate<T>> filters = new ArrayList<>();
+
         @Override
         @SuppressWarnings("unchecked")
         public void register() {
@@ -175,6 +215,10 @@ public class ChainEventRegister implements AlkaidEventRegister {
                 }
 
                 executor = (l, e) -> {
+                    // 过滤 / Filter.
+                    if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                        return;
+                    }
                     // 判断该事件是否注销 / Check if the event is cancelled.
                     // 判断事件是否在索引中 / Check if the event is in the index.
                     if (cancel ||
@@ -205,6 +249,10 @@ public class ChainEventRegister implements AlkaidEventRegister {
                 };
             } else {
                 executor = (l, e) -> {
+                    // 过滤 / Filter.
+                    if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                        return;
+                    }
                     if (cancel ||
                             !chain.indexes.containsKey(e.getClass())
                     ) {

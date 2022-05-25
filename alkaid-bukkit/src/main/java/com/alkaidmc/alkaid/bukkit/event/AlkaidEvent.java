@@ -23,8 +23,9 @@ import org.bukkit.plugin.Plugin;
 public class AlkaidEvent {
     final Plugin plugin;
     final SimpleEventFactory simple = new SimpleEventFactory();
-    final SectionEventFactory section = new SectionEventFactory();
+    final PredicateEventFactory predicate = new PredicateEventFactory();
     final CountEventFactory count = new CountEventFactory();
+    final SectionEventFactory section = new SectionEventFactory();
 
     public AlkaidEvent(Plugin plugin) {
         this.plugin = plugin;
@@ -38,6 +39,16 @@ public class AlkaidEvent {
      */
     public SimpleEventFactory simple() {
         return simple;
+    }
+
+    /**
+     * Register a predicate event
+     *
+     * @return the event factory
+     * @see com.alkaidmc.alkaid.bukkit.event.PredicateEventRegister
+     */
+    public PredicateEventFactory predicate() {
+        return predicate;
     }
 
     /**
@@ -73,6 +84,12 @@ public class AlkaidEvent {
     public class SimpleEventFactory {
         public <T extends Event> SimpleEventRegister<T> event(Class<T> event) {
             return new SimpleEventRegister<>(plugin, event);
+        }
+    }
+
+    public class PredicateEventFactory {
+        public <T extends Event> PredicateEventRegister<T> event(Class<T> event) {
+            return new PredicateEventRegister<>(plugin, event);
         }
     }
 

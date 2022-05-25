@@ -29,10 +29,13 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 /**
  * <p> zh </p>
@@ -45,6 +48,7 @@ import java.util.function.Consumer;
  * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
  * 默认对所有玩家使用同一个段落
  * 将 {@link #multi(boolean)} 标记为 true 可以对不同玩家使用不同的段落 <br>
+ * 使用 {@link #filter(Predicate)} 进行条件过滤 用法参照 {@link PredicateEventRegister} <br>
  * <p> en </p>
  * This register allows you to register a section of events. <br>
  * It can start listening from a condition and end listening from another condition. <br>
@@ -55,6 +59,7 @@ import java.util.function.Consumer;
  * {@link #unregister()} will unregister the listener from Bukkit <br>
  * The default is to use the same section for all players
  * {@link #multi(boolean)} is marked true can use different sections for different players. <br>
+ * Use {@link #filter(Predicate)} to filter conditions, Usage is the same as {@link PredicateEventRegister} <br>
  *
  * @param <T> 事件类型 / Event type
  */
@@ -96,6 +101,16 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
     @Getter(AccessLevel.NONE)
     boolean cancel = false;
 
+    // 过滤器 / Filter.
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    List<Predicate<T>> filters = new ArrayList<>();
+
+    public SectionEventRegister<T> filter(Predicate<T> filter) {
+        filters.add(filter);
+        return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public void register() {
@@ -104,6 +119,10 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
         if (multi) {
             schedules = new HashSet<>();
             executor = (l, e) -> {
+                // 过滤 / Filter.
+                if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                    return;
+                }
                 // 判断该事件是否注销 / Check if the event is canceled.
                 if (cancel) {
                     e.getHandlers().unregister(l);
@@ -118,6 +137,10 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
             };
         } else {
             executor = (l, e) -> {
+                // 过滤 / Filter.
+                if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                    return;
+                }
                 if (cancel) {
                     e.getHandlers().unregister(l);
                     return;
