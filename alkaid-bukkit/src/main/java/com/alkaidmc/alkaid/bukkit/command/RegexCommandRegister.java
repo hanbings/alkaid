@@ -75,7 +75,7 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
         instance.setPermission(permission);
         // 命令处理器 / Command processor.
         instance.setExecutor((sender, command, label, args) -> {
-            if (filter != null && filter.filter(sender, command, label, args)) {
+            if (filter != null && !filter.filter(sender, command, label, args)) {
                 return false;
             }
 
