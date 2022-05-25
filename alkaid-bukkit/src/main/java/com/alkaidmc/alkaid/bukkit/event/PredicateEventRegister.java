@@ -37,16 +37,15 @@ import java.util.function.Predicate;
  * 这是一个谓词事件注册器 可以注册一个带有 filter 过滤器的事件 <br>
  * 与 {@link SimpleEventRegister} 的区别是可以使用 @{@link #filter} 添加谓词过滤器 <br>
  * 当过滤器<b>返回 true 时</b>才会继续执行<br>
- * 注意是<b>返回 true 不是 false </b>因为 filter 代表是否需要过滤掉
- * 而不同于 {@link java.util.stream.Stream} 中 filter 取过滤结果的用法 <br>
- * 换句话说它与 {@link java.util.stream.Stream} 中的 filter 刚好相反 <br>
+ * 注意是<b>返回 true 不是 false </b>因为 filter 代表是否需要过滤出来
+ * 它和{@link java.util.stream.Stream} 的 filter 方法类似 <br>
  * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
  * <p> en </p>
  * This is a predicate event register can register a event with filter. <br>
  * Compared with {@link SimpleEventRegister} is that you can use @{@link #filter} to add predicate filter. <br>
  * When the filter <b>return true</b> will continue to execute <br>
- * Note that <b>return true is not false</b> because filter represents whether need to filter out
- * but not the opposite of {@link java.util.stream.Stream} filter usage <br>
+ * Note that <b>return true is not false</b> because filter represents whether need to filter out. <br>
+ * it is similar to {@link java.util.stream.Stream} filter method <br>
  * {@link #unregister()} method will call after unregister from Bukkit <br>
  *
  * @param <T>
@@ -93,7 +92,7 @@ public class PredicateEventRegister<T extends Event> implements AlkaidEventRegis
                 priority,
                 (l, e) -> {
                     // 过滤 / Filter.
-                    if (filters.stream().anyMatch(filter -> filter.test((T) e))) {
+                    if (filters.stream().anyMatch(filter -> !filter.test((T) e))) {
                         return;
                     }
                     // 判断该事件是否注销 / Check if the event is cancelled.

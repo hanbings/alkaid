@@ -120,7 +120,7 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
             schedules = new HashSet<>();
             executor = (l, e) -> {
                 // 过滤 / Filter.
-                if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                     return;
                 }
                 // 判断该事件是否注销 / Check if the event is canceled.
@@ -138,7 +138,7 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
         } else {
             executor = (l, e) -> {
                 // 过滤 / Filter.
-                if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                     return;
                 }
                 if (cancel) {

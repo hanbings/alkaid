@@ -216,7 +216,7 @@ public class ChainEventRegister implements AlkaidEventRegister {
 
                 executor = (l, e) -> {
                     // 过滤 / Filter.
-                    if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                    if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                         return;
                     }
                     // 判断该事件是否注销 / Check if the event is cancelled.
@@ -250,7 +250,7 @@ public class ChainEventRegister implements AlkaidEventRegister {
             } else {
                 executor = (l, e) -> {
                     // 过滤 / Filter.
-                    if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                    if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                         return;
                     }
                     if (cancel ||

@@ -128,7 +128,7 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
             hangups = new HashMap<>();
             executor = (l, e) -> {
                 // 过滤 / Filter.
-                if (filters.stream().anyMatch(f -> f.test((T) e))) {
+                if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                     return;
                 }
                 // 判断该事件是否注销 / Check if the event is cancelled.
@@ -156,7 +156,7 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
         } else {
             executor = (l, e) -> {
                 // 过滤 / Filter.
-                if (filters.stream().anyMatch(filter -> filter.test((T) e))) {
+                if (filters.stream().anyMatch(filter -> !filter.test((T) e))) {
                     return;
                 }
                 if (cancel) {
