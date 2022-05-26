@@ -56,6 +56,7 @@ public class TimerEventRegister<T extends Event> implements AlkaidEventRegister 
     EventPriority priority = EventPriority.NORMAL;
     // 是否忽略  Bukkit 事件的取消标志 / Whether to ignore Bukkit event cancellation flag.
     boolean ignore = false;
+
     // 事件是否挂起 / Whether the event is suspended.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
@@ -64,6 +65,7 @@ public class TimerEventRegister<T extends Event> implements AlkaidEventRegister 
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     boolean cancel = false;
+
     // 过滤器 / Filter.
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
@@ -95,16 +97,16 @@ public class TimerEventRegister<T extends Event> implements AlkaidEventRegister 
                 },
                 priority,
                 (l, e) -> {
-                    // 过滤 / Filter.
-                    if (filters.stream().anyMatch(filter -> !filter.test((T) e))) {
-                        return;
-                    }
                     // 判断该事件是否注销 / Check if the event is cancelled.
                     if (cancel) {
                         e.getHandlers().unregister(l);
                         return;
                     }
                     if (hangup) {
+                        return;
+                    }
+                    // 过滤 / Filter.
+                    if (filters.stream().anyMatch(filter -> !filter.test((T) e))) {
                         return;
                     }
                     listener.accept((T) e);

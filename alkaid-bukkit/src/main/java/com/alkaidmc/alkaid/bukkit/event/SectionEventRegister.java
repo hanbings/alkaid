@@ -119,13 +119,13 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
         if (multi) {
             schedules = new HashSet<>();
             executor = (l, e) -> {
-                // 过滤 / Filter.
-                if (filters.stream().anyMatch(f -> !f.test((T) e))) {
-                    return;
-                }
                 // 判断该事件是否注销 / Check if the event is canceled.
                 if (cancel) {
                     e.getHandlers().unregister(l);
+                    return;
+                }
+                // 过滤 / Filter.
+                if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                     return;
                 }
                 // 检查事件是否已经被挂起 / Check if the event is hangup.
@@ -137,12 +137,12 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
             };
         } else {
             executor = (l, e) -> {
-                // 过滤 / Filter.
-                if (filters.stream().anyMatch(f -> !f.test((T) e))) {
-                    return;
-                }
                 if (cancel) {
                     e.getHandlers().unregister(l);
+                    return;
+                }
+                // 过滤 / Filter.
+                if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                     return;
                 }
                 if (schedule) {

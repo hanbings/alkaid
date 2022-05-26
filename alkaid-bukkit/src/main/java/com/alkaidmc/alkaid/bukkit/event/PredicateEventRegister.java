@@ -91,13 +91,13 @@ public class PredicateEventRegister<T extends Event> implements AlkaidEventRegis
                 },
                 priority,
                 (l, e) -> {
-                    // 过滤 / Filter.
-                    if (filters.stream().anyMatch(filter -> !filter.test((T) e))) {
-                        return;
-                    }
                     // 判断该事件是否注销 / Check if the event is cancelled.
                     if (cancel) {
                         e.getHandlers().unregister(l);
+                        return;
+                    }
+                    // 过滤 / Filter.
+                    if (filters.stream().anyMatch(filter -> !filter.test((T) e))) {
                         return;
                     }
                     listener.accept((T) e);

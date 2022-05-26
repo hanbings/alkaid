@@ -127,13 +127,13 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
         if (multi) {
             hangups = new HashMap<>();
             executor = (l, e) -> {
-                // 过滤 / Filter.
-                if (filters.stream().anyMatch(f -> !f.test((T) e))) {
-                    return;
-                }
                 // 判断该事件是否注销 / Check if the event is cancelled.
                 if (cancel) {
                     e.getHandlers().unregister(l);
+                    return;
+                }
+                // 过滤 / Filter.
+                if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                     return;
                 }
                 // 检查玩家的事件计数是否已经等于 0
@@ -155,15 +155,15 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
             };
         } else {
             executor = (l, e) -> {
-                // 过滤 / Filter.
-                if (filters.stream().anyMatch(filter -> !filter.test((T) e))) {
-                    return;
-                }
                 if (cancel) {
                     e.getHandlers().unregister(l);
                     return;
                 }
                 if (hangup) {
+                    return;
+                }
+                // 过滤 / Filter.
+                if (filters.stream().anyMatch(filter -> !filter.test((T) e))) {
                     return;
                 }
                 // count 不为 0 不小于 0 即继续运行 / count is not 0 and not less than 0, then continue running.
