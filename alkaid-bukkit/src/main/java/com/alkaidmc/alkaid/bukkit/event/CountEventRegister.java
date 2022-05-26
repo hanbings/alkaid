@@ -109,13 +109,13 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
     }
 
     public void reset() {
-        this.before.callback(plugin, this);
         this.hangup = false;
+        this.before.callback(plugin, this);
     }
 
     public void hangup() {
-        this.after.callback(plugin, this);
         this.hangup = true;
+        this.after.callback(plugin, this);
     }
 
     @Override
