@@ -25,7 +25,7 @@ import lombok.experimental.Accessors;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
@@ -47,7 +47,7 @@ import java.util.function.Predicate;
  * 调用顺序 commence 事件 -> listener 设置的事件处理器 -> interrupt 事件 <br>
  * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
  * 默认对所有玩家使用同一个段落
- * 将 {@link #multi(boolean)} 标记为 true 可以对不同玩家使用不同的段落 <br>
+ * 将 {@link #entity(boolean)} 标记为 true 可以对不同实体使用不同的段落 <br>
  * 使用 {@link #filter(Predicate)} 进行条件过滤 用法参照 {@link PredicateEventRegister} <br>
  * <p> en </p>
  * This register allows you to register a section of events. <br>
@@ -58,7 +58,7 @@ import java.util.function.Predicate;
  * Call the order commence event -> listener's event handler -> interrupt event <br>
  * {@link #unregister()} will unregister the listener from Bukkit <br>
  * The default is to use the same section for all players
- * {@link #multi(boolean)} is marked true can use different sections for different players. <br>
+ * {@link #entity(boolean)} is marked true can use different sections for different entities. <br>
  * Use {@link #filter(Predicate)} to filter conditions, Usage is the same as {@link PredicateEventRegister} <br>
  *
  * @param <T> 事件类型 / Event type
@@ -85,8 +85,8 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
     EventPriority priority = EventPriority.NORMAL;
     // 是否忽略  Bukkit 事件的取消标志 / Whether to ignore Bukkit event cancellation flag.
     boolean ignore = false;
-    // 是否区分玩家监听事件 / Whether to distinguish player listening events.
-    boolean multi = false;
+    // 是否区分实体监听事件 / Whether to distinguish entity listener events.
+    boolean entity = false;
 
     // 是否已经进入段落 / Whether to enter the section.
     @Setter(AccessLevel.NONE)
@@ -115,8 +115,8 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
     @SuppressWarnings("unchecked")
     public void register() {
         EventExecutor executor;
-        // 根据是否区分玩家监听事件设置处理器 / Set the handler according to the multiplayer flag.
-        if (multi) {
+        // 根据是否区分实体监听事件设置处理器 / Set the handler according to the multiplayer flag.
+        if (entity) {
             schedules = new HashSet<>();
             executor = (l, e) -> {
                 // 判断该事件是否注销 / Check if the event is canceled.
@@ -129,8 +129,8 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                     return;
                 }
                 // 检查事件是否已经被挂起 / Check if the event is hangup.
-                if (e instanceof PlayerEvent) {
-                    if (schedules.contains(((PlayerEvent) e).getPlayer().getUniqueId())) {
+                if (e instanceof EntityEvent) {
+                    if (schedules.contains(((EntityEvent) e).getEntity().getUniqueId())) {
                         listener.accept((T) e);
                     }
                 }
@@ -165,15 +165,15 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                 commence,
                 NULL_LISTENER,
                 priority,
-                multi ?
+                entity ?
                         (l, e) -> {
                             if (cancel) {
                                 e.getHandlers().unregister(l);
                                 return;
                             }
 
-                            if (e instanceof PlayerEvent) {
-                                schedules.add(((PlayerEvent) e).getPlayer().getUniqueId());
+                            if (e instanceof EntityEvent) {
+                                schedules.add(((EntityEvent) e).getEntity().getUniqueId());
                             }
                         } :
                         (l, e) -> {
@@ -193,15 +193,15 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                 interrupt,
                 NULL_LISTENER,
                 priority,
-                multi ?
+                entity ?
                         (l, e) -> {
                             if (cancel) {
                                 e.getHandlers().unregister(l);
                                 return;
                             }
 
-                            if (e instanceof PlayerEvent) {
-                                schedules.remove(((PlayerEvent) e).getPlayer().getUniqueId());
+                            if (e instanceof EntityEvent) {
+                                schedules.remove(((EntityEvent) e).getEntity().getUniqueId());
                             }
                         } :
                         (l, e) -> {

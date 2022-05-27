@@ -25,7 +25,7 @@ import lombok.experimental.Accessors;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerEvent;
+import org.bukkit.event.entity.EntityEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
@@ -81,7 +81,7 @@ public class ChainEventRegister implements AlkaidEventRegister {
     @Setter
     @Getter
     @Accessors(fluent = true, chain = true)
-    boolean multi = false;
+    boolean entity = false;
 
     List<SkewerEventRegister<? extends Event>> chain = new ArrayList<>();
     Map<Class<? extends Event>, Set<Integer>> indexes = new HashMap<>();
@@ -209,7 +209,7 @@ public class ChainEventRegister implements AlkaidEventRegister {
         @SuppressWarnings("unchecked")
         public void register() {
             EventExecutor executor;
-            if (chain.multi()) {
+            if (chain.entity()) {
                 if (chain.schedules == null) {
                     chain.schedules = new HashMap<>();
                 }
@@ -223,7 +223,7 @@ public class ChainEventRegister implements AlkaidEventRegister {
                     // 判断事件是否在索引中 / Check if the event is in the index.
                     if (cancel ||
                             !chain.indexes.containsKey(e.getClass()) ||
-                            !(e instanceof PlayerEvent)
+                            !(e instanceof EntityEvent)
                     ) {
                         e.getHandlers().unregister(l);
                         return;
@@ -231,7 +231,7 @@ public class ChainEventRegister implements AlkaidEventRegister {
 
                     // 获取进度 / Get the progress.
                     int progress = chain.schedules.getOrDefault(
-                            ((PlayerEvent) e).getPlayer().getUniqueId(),
+                            ((EntityEvent) e).getEntity().getUniqueId(),
                             0
                     );
 
@@ -243,7 +243,7 @@ public class ChainEventRegister implements AlkaidEventRegister {
                             .ifPresent(index -> Optional
                                     .ofNullable(chain.schedules)
                                     .ifPresent(map -> chain.schedules.put(
-                                            ((PlayerEvent) e).getPlayer().getUniqueId(),
+                                            ((EntityEvent) e).getEntity().getUniqueId(),
                                             listener.test((T) e) ? index : 0
                                     )));
                 };

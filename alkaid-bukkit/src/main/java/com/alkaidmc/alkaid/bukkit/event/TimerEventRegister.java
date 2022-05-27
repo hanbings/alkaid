@@ -34,6 +34,21 @@ import java.util.Timer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+/**
+ * <p> zh </p>
+ * 这是一个计时时间注册器，可以注册一个限时监听事件 <br>
+ * 计时开始前会触发一次 {@link #before(AlkaidEventCallback)} 回调 <br>
+ * 当计时结束后会触发一次 {@link #after(AlkaidEventCallback)} 回调 然后对该事件的监听将被挂起 <br>
+ * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
+ * <p> en </p>
+ * This is a timer event register can register a time limit event. <br>
+ * When the timer starts, it will trigger a {@link #before(AlkaidEventCallback)} callback. <br>
+ * When the timer ends, it will trigger a {@link #after(AlkaidEventCallback)}
+ * callback and the listener of this event will be suspended. <br>
+ * {@link #unregister()} method call after will cancel the listener from Bukkit. <br>
+ *
+ * @param <T> 事件类型 / Event type
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor
