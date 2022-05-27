@@ -26,6 +26,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
@@ -221,19 +222,20 @@ public class ChainEventRegister implements AlkaidEventRegister {
                     }
                     // 判断该事件是否注销 / Check if the event is cancelled.
                     // 判断事件是否在索引中 / Check if the event is in the index.
-                    if (cancel ||
-                            !chain.indexes.containsKey(e.getClass()) ||
-                            !(e instanceof EntityEvent)
+                    if (cancel
+                            || !chain.indexes.containsKey(e.getClass())
+                            || !(e instanceof EntityEvent || e instanceof PlayerEvent)
                     ) {
                         e.getHandlers().unregister(l);
                         return;
                     }
 
+                    UUID uuid = e instanceof EntityEvent
+                            ? ((EntityEvent) e).getEntity().getUniqueId()
+                            : ((PlayerEvent) e).getPlayer().getUniqueId();
+
                     // 获取进度 / Get the progress.
-                    int progress = chain.schedules.getOrDefault(
-                            ((EntityEvent) e).getEntity().getUniqueId(),
-                            0
-                    );
+                    int progress = chain.schedules.getOrDefault(uuid, 0);
 
                     // 获取索引 / Get the index.
                     chain.indexes.get(e.getClass()).stream()
@@ -243,8 +245,7 @@ public class ChainEventRegister implements AlkaidEventRegister {
                             .ifPresent(index -> Optional
                                     .ofNullable(chain.schedules)
                                     .ifPresent(map -> chain.schedules.put(
-                                            ((EntityEvent) e).getEntity().getUniqueId(),
-                                            listener.test((T) e) ? index : 0
+                                            uuid, listener.test((T) e) ? index : 0
                                     )));
                 };
             } else {

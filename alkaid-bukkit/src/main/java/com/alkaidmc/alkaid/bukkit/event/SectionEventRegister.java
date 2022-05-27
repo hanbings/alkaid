@@ -26,6 +26,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
@@ -129,10 +130,16 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                     return;
                 }
                 // 检查事件是否已经被挂起 / Check if the event is hangup.
-                if (e instanceof EntityEvent) {
-                    if (schedules.contains(((EntityEvent) e).getEntity().getUniqueId())) {
-                        listener.accept((T) e);
-                    }
+                if (!(e instanceof EntityEvent || e instanceof PlayerEvent)) {
+                    return;
+                }
+
+                if (schedules.contains(
+                        e instanceof PlayerEvent
+                                ? ((PlayerEvent) e).getPlayer().getUniqueId()
+                                : ((EntityEvent) e).getEntity().getUniqueId())
+                ) {
+                    listener.accept((T) e);
                 }
             };
         } else {
@@ -172,8 +179,12 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                                 return;
                             }
 
-                            if (e instanceof EntityEvent) {
-                                schedules.add(((EntityEvent) e).getEntity().getUniqueId());
+                            if (e instanceof EntityEvent || e instanceof PlayerEvent) {
+                                schedules.add(
+                                        e instanceof PlayerEvent
+                                                ? ((PlayerEvent) e).getPlayer().getUniqueId()
+                                                : ((EntityEvent) e).getEntity().getUniqueId()
+                                );
                             }
                         } :
                         (l, e) -> {
@@ -200,8 +211,12 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                                 return;
                             }
 
-                            if (e instanceof EntityEvent) {
-                                schedules.remove(((EntityEvent) e).getEntity().getUniqueId());
+                            if (e instanceof EntityEvent || e instanceof PlayerEvent) {
+                                schedules.remove(
+                                        e instanceof PlayerEvent
+                                                ? ((PlayerEvent) e).getPlayer().getUniqueId()
+                                                : ((EntityEvent) e).getEntity().getUniqueId()
+                                );
                             }
                         } :
                         (l, e) -> {

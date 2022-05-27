@@ -27,6 +27,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityEvent;
+import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
@@ -138,10 +139,14 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
                 }
                 // 检查实体的事件计数是否已经等于 0
                 // Check if the entity's event count is equal to 0.
-                if (!(e instanceof EntityEvent)) {
+                if (!(e instanceof EntityEvent || e instanceof PlayerEvent)) {
                     return;
                 }
-                UUID uuid = ((EntityEvent) e).getEntity().getUniqueId();
+
+                UUID uuid = e instanceof EntityEvent
+                        ? ((EntityEvent) e).getEntity().getUniqueId()
+                        : ((PlayerEvent) e).getPlayer().getUniqueId();
+
                 // 判断是否存在该实体的计数 没有则初始化 存在但为 0 不执行
                 // counter is not exist, then initialize it. if the counter is existed and is 0, then do not execute.
                 if (!hangups.containsKey(uuid)) {
