@@ -48,7 +48,7 @@ import java.util.function.Predicate;
  * it is similar to {@link java.util.stream.Stream} filter method <br>
  * {@link #unregister()} method will call after unregister from Bukkit <br>
  *
- * @param <T>
+ * @param <T> 事件类型 / Event type
  */
 @Setter
 @Getter
@@ -77,6 +77,11 @@ public class PredicateEventRegister<T extends Event> implements AlkaidEventRegis
     @Getter(AccessLevel.NONE)
     List<Predicate<T>> filters = new ArrayList<>();
 
+    /**
+     * 添加过滤器 / Add filter.
+     * @param filter 谓词过滤器 / Predicate filter
+     * @return 返回当前对象 / Return current object
+     */
     public PredicateEventRegister<T> filter(Predicate<T> filter) {
         filters.add(filter);
         return this;

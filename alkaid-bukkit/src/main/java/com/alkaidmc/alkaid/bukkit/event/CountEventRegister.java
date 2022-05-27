@@ -42,21 +42,22 @@ import java.util.function.Predicate;
  * <p> zh </p>
  * 这一个注册器是计数器事件注册器 <br>
  * 它可以按一定次数监听某一个事件 <br>
- * 计数器开始前会触发一次 {@link #before(AlkaidEventCallback)} 回调 <br>
- * 当计数器到达指定次数后会触发一次 {@link #after(AlkaidEventCallback)} 回调 然后对该事件的监听将被挂起 <br>
+ * 计数器开始前会触发一次 <b>before(AlkaidEventCallback)</b> 回调 <br>
+ * 当计数器到达指定次数后会触发一次 <b>after(AlkaidEventCallback)</b> 回调 然后对该事件的监听将被挂起 <br>
  * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
  * 默认的情况下计数器将监听所有被触发的事件
- * 如果需要针对实体区分监听 则需要将 {@link #entity(boolean)} 方法标记为 true <br>
+ * 如果需要针对实体区分监听 则需要将 <b>entity(boolean)</b> 方法标记为 true <br>
  * 使用 {@link #filter(Predicate)} 进行条件过滤 用法参照 {@link PredicateEventRegister} <br>
  * <p> en </p>
  * This is a counter event register. <br>
  * It can listen to a specific event by a certain times. <br>
- * It will trigger a {@link #before(AlkaidEventCallback)} callback when the counter is started. <br>
- * It will trigger a {@link #after(AlkaidEventCallback)} callback when the counter is reached.
+ * It will trigger a <b>before(AlkaidEventCallback)</b> callback when the counter is started. <br>
+ * It will trigger a <b>after(AlkaidEventCallback)</b> callback when the counter is reached.
  * The listener of this event will be suspended after the counter is reached. <br>
  * {@link #unregister()} method will cancel the listener from Bukkit. <br>
  * The default situation is that the counter will listen to all triggered events.
- * If you need to differentiate the listener between entities, you need to mark {@link #entity(boolean)} as true. <br>
+ * If you need to differentiate the listener between entities,
+ * you need to mark <b>entity(boolean)</b> as true. <br>
  * Use {@link #filter(Predicate)} to filter conditions, Usage is the same as {@link PredicateEventRegister} <br>
  *
  * @param <T> 事件类型 / Event type
@@ -104,16 +105,34 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
     @Getter(AccessLevel.NONE)
     List<Predicate<T>> filters = new ArrayList<>();
 
+    /**
+     * 添加过滤器 / Add filter.
+     *
+     * @param filter 谓词过滤器 / Predicate filter
+     * @return 返回当前对象 / Return current object
+     */
     public CountEventRegister<T> filter(Predicate<T> filter) {
         filters.add(filter);
         return this;
     }
 
+    /**
+     * 重置挂起状态 / Reset the suspension status.
+     * 调用后将 hangup 设置为 false
+     * call this method after you reset the hangup status.
+     * The hangup status will be set to false.
+     */
     public void reset() {
         this.hangup = false;
         this.before.callback(plugin, this);
     }
 
+    /**
+     * 调用后挂起事件 / Suspend event.
+     * 调用后将 hangup 设置为 true
+     * call this method after you suspend the event.
+     * The hangup status will be set to true.
+     */
     public void hangup() {
         this.hangup = true;
         this.after.callback(plugin, this);

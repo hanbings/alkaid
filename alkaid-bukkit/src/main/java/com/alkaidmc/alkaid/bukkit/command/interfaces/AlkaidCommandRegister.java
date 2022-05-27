@@ -16,10 +16,40 @@
 
 package com.alkaidmc.alkaid.bukkit.command.interfaces;
 
+/**
+ * <p> zh </p>
+ * 指令注册方法 <br>
+ * 调用 {@link AlkaidCommandRegister#register()} 向 bukkit 注册指令 <br>
+ * 调用 {@link AlkaidCommandRegister#unregister()} 从 bukkit 注销指令 <br>
+ * <p> en </p>
+ * Command register method <br>
+ * Call {@link AlkaidCommandRegister#register()} to register the command to bukkit. <br>
+ * Call {@link AlkaidCommandRegister#unregister()} to unregister the command from bukkit. <br>
+ */
 @SuppressWarnings("unused")
 public interface AlkaidCommandRegister {
 
+    /**
+     * <p> zh </p>
+     * 注册指令 <br>
+     * 向 bukkit 注册指令 <br>
+     * 只有调用该方法时才会将参数注入 bukkit <br>
+     * <p> en </p>
+     * Register command <br>
+     * Register the command to bukkit. <br>
+     * Only when calling this method, the parameters will be injected to bukkit. <br>
+     */
     void register();
 
+    /**
+     * <p> zh </p>
+     * 从 bukkit 注销指令 <br>
+     * 调用该方法从 bukkit 的指令系统注销指令 <br>
+     * 如果有需要可以再次调用 {@link AlkaidCommandRegister#register()} 注册指令 <br>
+     * <p> en </p>
+     * Unregister command <br>
+     * Unregister the command from bukkit. <br>
+     * If you need, you can call {@link AlkaidCommandRegister#register()} to register the command again. <br>
+     */
     void unregister();
 }

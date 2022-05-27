@@ -25,12 +25,30 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * <p> zh </p>
+ * 指令注册器引导入口 <br>
+ * 通过实例化该类可以获得一组注册器入口方法 <br>
+ * <p> en </p>
+ * Command registrar entry point <br>
+ * Get a set of registrar entry points by instantiating this class <br>
+ */
 @SuppressWarnings("unused")
 public class AlkaidCommand {
     Plugin plugin;
     Constructor<PluginCommand> constructor;
     CommandMap commandMap;
 
+    /**
+     * <p> zh </p>
+     * 构造器 <br>
+     * 将进行反射获取 CommandMap 实例 <br>
+     * <p> en </p>
+     * Constructor <br>
+     * Get CommandMap instance through reflection. <br>
+     *
+     * @param plugin 当前插件实例 / Current plugin instance
+     */
     public AlkaidCommand(Plugin plugin) {
         this.plugin = plugin;
         try {
@@ -45,6 +63,16 @@ public class AlkaidCommand {
         }
     }
 
+    /**
+     * <p> zh </p>
+     * 简单指令注册器 <br>
+     * 仅包含注册一个指令最基础的参数 <br>
+     * <p> en </p>
+     * Simple command registrar. <br>
+     * Only include one command parameter. <br>
+     *
+     * @return SimpleCommandRegister 实例 / SimpleCommandRegister instance
+     */
     public SimpleCommandRegister simple() {
         try {
             return new SimpleCommandRegister(
@@ -58,6 +86,18 @@ public class AlkaidCommand {
         return null;
     }
 
+    /**
+     * <p> zh </p>
+     * 正则匹配指令注册器 <br>
+     * 使用正则匹配一条完整指令的方式进行解析 <br>
+     * 推荐用于简单指令内容但是需要更多的参数的情况 <br>
+     * <p> en </p>
+     * Regex matching command registrar. <br>
+     * Use regex matching a complete command to parse. <br>
+     * Recommended for simple command content but need more parameters. <br>
+     *
+     * @return RegexCommandRegister 实例 / RegexCommandRegister instance
+     */
     public RegexCommandRegister regex() {
         try {
             return new RegexCommandRegister(
@@ -71,6 +111,18 @@ public class AlkaidCommand {
         return null;
     }
 
+    /**
+     * <p> zh </p>
+     * 解析树指令注册器 <br>
+     * 该解析器将指令拆分为单独的部分 逐个匹配 <br>
+     * 推荐用于参数类型较为复杂的情况 <br>
+     * <p> en </p>
+     * Parser tree command registrar. <br>
+     * The parser will split the command into separate parts and match one by one. <br>
+     * Recommended for complex parameter types. <br>
+     *
+     * @return ParseCommandRegister 实例 / ParseCommandRegister instance
+     */
     public ParseCommandRegister parse() {
         try {
             return new ParseCommandRegister(

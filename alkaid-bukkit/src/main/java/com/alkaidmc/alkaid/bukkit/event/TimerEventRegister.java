@@ -37,13 +37,13 @@ import java.util.function.Predicate;
 /**
  * <p> zh </p>
  * 这是一个计时时间注册器，可以注册一个限时监听事件 <br>
- * 计时开始前会触发一次 {@link #before(AlkaidEventCallback)} 回调 <br>
- * 当计时结束后会触发一次 {@link #after(AlkaidEventCallback)} 回调 然后对该事件的监听将被挂起 <br>
+ * 计时开始前会触发一次 <b>before(AlkaidEventCallback)</b> 回调 <br>
+ * 当计时结束后会触发一次 <b>after(AlkaidEventCallback)</b> 回调 然后对该事件的监听将被挂起 <br>
  * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
  * <p> en </p>
  * This is a timer event register can register a time limit event. <br>
- * When the timer starts, it will trigger a {@link #before(AlkaidEventCallback)} callback. <br>
- * When the timer ends, it will trigger a {@link #after(AlkaidEventCallback)}
+ * When the timer starts, it will trigger a <b>before(AlkaidEventCallback)</b> callback. <br>
+ * When the timer ends, it will trigger a <b>after(AlkaidEventCallback)</b>
  * callback and the listener of this event will be suspended. <br>
  * {@link #unregister()} method call after will cancel the listener from Bukkit. <br>
  *
@@ -86,17 +86,34 @@ public class TimerEventRegister<T extends Event> implements AlkaidEventRegister 
     @Getter(AccessLevel.NONE)
     List<Predicate<T>> filters = new ArrayList<>();
 
+    /**
+     * 添加一个过滤器 / Add a filter.
+     *
+     * @param filter 过滤器 / Filter
+     * @return 返回当前实例 / Return the current instance
+     */
     public TimerEventRegister<T> filter(Predicate<T> filter) {
         filters.add(filter);
         return this;
     }
 
+    /**
+     * 重置挂起状态 / Reset the suspension status.
+     * 调用后将 hangup 设置为 false
+     * call this method after you reset the hangup status.
+     * The hangup status will be set to false.
+     */
     public void reset() {
         this.hangup = false;
         this.before.callback(plugin, this);
-
     }
 
+    /**
+     * 调用后挂起事件 / Suspend event.
+     * 调用后将 hangup 设置为 true
+     * call this method after you suspend the event.
+     * The hangup status will be set to true.
+     */
     public void hangup() {
         this.hangup = true;
         this.after.callback(plugin, this);

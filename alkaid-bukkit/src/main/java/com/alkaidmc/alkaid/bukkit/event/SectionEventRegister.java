@@ -43,23 +43,23 @@ import java.util.function.Predicate;
  * 这个注册器允许注册一个事件段落 <br>
  * 它可以以某一个条件开始监听 从另一个条件结束监听 <br>
  * 也就是说它允许由头部 主体 尾部三个部分组成的事件段落 <br>
- * 使用 {@link #commence(Class)} 进入监听段落 <br>
- * 使用 {@link #interrupt(Class)} 结束监听段落 <br>
+ * 使用 <b>commence(Class)</b> 进入监听段落 <br>
+ * 使用 <b>interrupt(Class)</b> 结束监听段落 <br>
  * 调用顺序 commence 事件 -> listener 设置的事件处理器 -> interrupt 事件 <br>
  * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
  * 默认对所有玩家使用同一个段落
- * 将 {@link #entity(boolean)} 标记为 true 可以对不同实体使用不同的段落 <br>
+ * 将 <b>entity(boolean)</b> 标记为 true 可以对不同实体使用不同的段落 <br>
  * 使用 {@link #filter(Predicate)} 进行条件过滤 用法参照 {@link PredicateEventRegister} <br>
  * <p> en </p>
  * This register allows you to register a section of events. <br>
  * It can start listening from a condition and end listening from another condition. <br>
  * That is, it can be used to start listening from a header, body, and tail. <br>
- * Use {@link #commence(Class)} to enter the listening section. <br>
- * Use {@link #interrupt(Class)} to end the listening section. <br>
+ * Use <b>commence(Class)</b> to enter the listening section. <br>
+ * Use <b>interrupt(Class)</b> to end the listening section. <br>
  * Call the order commence event -> listener's event handler -> interrupt event <br>
  * {@link #unregister()} will unregister the listener from Bukkit <br>
  * The default is to use the same section for all players
- * {@link #entity(boolean)} is marked true can use different sections for different entities. <br>
+ * <b>entity(boolean)</b> is marked true can use different sections for different entities. <br>
  * Use {@link #filter(Predicate)} to filter conditions, Usage is the same as {@link PredicateEventRegister} <br>
  *
  * @param <T> 事件类型 / Event type
@@ -107,6 +107,12 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
     @Getter(AccessLevel.NONE)
     List<Predicate<T>> filters = new ArrayList<>();
 
+    /**
+     * 添加过滤器 / Add filter.
+     *
+     * @param filter 谓词过滤器 / Predicate filter
+     * @return 返回当前对象 / Return the current object
+     */
     public SectionEventRegister<T> filter(Predicate<T> filter) {
         filters.add(filter);
         return this;
