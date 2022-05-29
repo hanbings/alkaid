@@ -32,6 +32,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * <p> zh </p>
+ * 解析树命令注册器
+ * 当解析树条件匹配时 传递到指定的下一层节点
+ *
+ * @see ParseCommandParser
+ * <p> en </p>
+ * Parse tree command register
+ * When the parse tree condition matches, pass to the next level node.
+ * @see ParseCommandParser
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor

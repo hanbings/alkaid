@@ -37,6 +37,18 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+/**
+ * <p> zh </p>
+ * 正则匹配命令注册器
+ * 当正则条件匹配时 执行对应的指令处理器或 Tab 处理器
+ * 使用 {@link #match(String, AlkaidCommandCallback)} 添加指令处理器
+ * 使用 {@link #tab(String, AlkaidTabCallback)} 添加 Tab 处理器
+ * <p> en </p>
+ * Regex command register
+ * When the regex condition matches, execute the corresponding command handler or Tab handler.
+ * Use {@link #match(String, AlkaidCommandCallback)} to add command handler.
+ * Use {@link #tab(String, AlkaidTabCallback)} to add Tab handler.
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor
@@ -119,11 +131,35 @@ public class RegexCommandRegister implements AlkaidCommandRegister {
         instance.unregister(commands);
     }
 
+    /**
+     * <p> zh </p>
+     * 添加匹配处理器 <br>
+     * 可多次调用 添加多个正则表达式匹配 <br>
+     * <p> en </p>
+     * Add matching processor <br>
+     * Multiple times call can add multiple regular expressions matching. <br>
+     *
+     * @param regular  正则表达式 / Regular expression
+     * @param callback 匹配处理器 / Matching processor
+     * @return 当前实例 / Current instance
+     */
     public RegexCommandRegister match(String regular, AlkaidCommandCallback callback) {
         this.executors.put(regular, callback);
         return this;
     }
 
+    /**
+     * <p> zh </p>
+     * 添加 Tab 提示处理器 <br>
+     * 可多次调用 添加多个正则表达式匹配 <br>
+     * <p> en </p>
+     * Add Tab prompt processor <br>
+     * Multiple times call can add multiple regular expressions matching. <br>
+     *
+     * @param regular  正则表达式 / Regular expression
+     * @param callback 匹配处理器 / Matching processor
+     * @return 当前实例 / Current instance
+     */
     public RegexCommandRegister tab(String regular, AlkaidTabCallback callback) {
         this.tabs.put(regular, callback);
         return this;

@@ -30,6 +30,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+/**
+ * <p> zh </p>
+ * 此类型本质为处理器容器 <br>
+ * 使用 {@link #argument(String, Consumer)} 添加匹配节点 <br>
+ * <p> en </p>
+ * This class is a container for handler. <br>
+ * Use {@link #argument(String, Consumer)} to add matching node. <br>
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor
@@ -50,6 +58,18 @@ public class ParseCommandParser {
     @Getter(AccessLevel.NONE)
     ParseCommandParser next;
 
+    /**
+     * <p> zh </p>
+     * 添加匹配节点 <br>
+     * 解析到匹配节点时 可选择性执行 {@link #execute()} 或 {@link #tab()} 执行解析器 <br>
+     * <p> en </p>
+     * Add matching node <br>
+     * When the parser reaches the matching node,
+     * the parser can optionally execute {@link #execute()} or {@link #tab()} to execute the parser. <br>
+     *
+     * @param command 单个参数 / single argument
+     * @param parser  处理器 / executor
+     */
     public void argument(String command, Consumer<ParseCommandParser> parser) {
         if (tokens.length <= 0) {
             return;
@@ -68,12 +88,34 @@ public class ParseCommandParser {
         }
     }
 
+    /**
+     * <p> zh </p>
+     * 执行解析器 <br>
+     * 当解析到匹配节点时 可选择性执行此方法 <br>
+     * <p> en </p>
+     * Execute the parser <br>
+     * When the parser reaches the matching node,
+     * the parser can optionally execute this method. <br>
+     *
+     * @return 是否执行成功 / is executed successfully
+     */
     public boolean execute() {
         return next != null
                 ? next.execute()
                 : Optional.of(execute.execute(sender, args, tokens, deep)).orElse(false);
     }
 
+    /**
+     * <p> zh </p>
+     * 返回 Tab 列表 <br>
+     * 当解析到匹配节点时 可选择性执行此方法 <br>
+     * <p> en </p>
+     * Return Tab list <br>
+     * When the parser reaches the matching node,
+     * the parser can optionally execute this method. <br>
+     *
+     * @return Tab 列表 / Tab list
+     */
     public List<String> tab() {
         return next != null
                 ? next.tab()

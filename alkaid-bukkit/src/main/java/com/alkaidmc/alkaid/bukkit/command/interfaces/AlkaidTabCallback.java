@@ -21,8 +21,32 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
+/**
+ * <p> zh </p>
+ * 指令回调接口 <br>
+ * 当指令被触发时会调用该接口 <br>
+ * <p> en </p>
+ * Command callback interface <br>
+ * When the command is triggered, it will call this interface <br>
+ */
 @FunctionalInterface
 @SuppressWarnings("unused")
 public interface AlkaidTabCallback {
+    /**
+     * <p> zh </p>
+     * 指令回调 <br>
+     * 当指令被触发时会调用该方法 <br>
+     * 唯一抽象方法以确保 {@link FunctionalInterface} 的实现 <br>
+     * <p> en </p>
+     * Command callback <br>
+     * When the command is triggered, it will call this method. <br>
+     * The only abstract method to ensure {@link FunctionalInterface} implementation. <br>
+     *
+     * @param sender  发送者 / Sender
+     * @param command 指令 / Command
+     * @param aliases 别名 / Aliases
+     * @param args    参数 / Arguments
+     * @return 指令是否执行成功 / Command execution success
+     */
     List<String> tab(CommandSender sender, Command command, String aliases, String[] args);
 }
