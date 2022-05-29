@@ -83,6 +83,10 @@ public class ChainEventRegister implements AlkaidEventRegister {
     @Getter
     @Accessors(fluent = true, chain = true)
     boolean entity = false;
+    @Setter
+    @Getter
+    @Accessors(fluent = true, chain = true)
+    boolean player = false;
 
     List<SkewerEventRegister<? extends Event>> chain = new ArrayList<>();
     Map<Class<? extends Event>, Set<Integer>> indexes = new HashMap<>();
@@ -123,9 +127,9 @@ public class ChainEventRegister implements AlkaidEventRegister {
      * Allow to add filter to filter out the event that does not meet the requirements. <br>
      * When all filters return true, the event will be calculated to the progress. <br>
      *
-     * @param event  事件类型 / Event type.
+     * @param event   事件类型 / Event type.
      * @param filters 过滤器 / Filters.
-     * @param <T>    事件类型 / Event type.
+     * @param <T>     事件类型 / Event type.
      * @return 返回当前链条 / Return the current chain.
      */
     public <T extends Event> ChainEventRegister depend(Class<T> event, Consumer<List<Predicate<T>>> filters) {
@@ -318,23 +322,34 @@ public class ChainEventRegister implements AlkaidEventRegister {
         @SuppressWarnings("unchecked")
         public void register() {
             EventExecutor executor;
-            if (chain.entity()) {
+            if (chain.entity() || chain.player()) {
                 if (chain.schedules == null) {
                     chain.schedules = new HashMap<>();
                 }
 
                 executor = (l, e) -> {
-                    // 过滤 / Filter.
-                    if (filters.stream().anyMatch(f -> !f.test((T) e))) {
-                        return;
-                    }
                     // 判断该事件是否注销 / Check if the event is cancelled.
                     // 判断事件是否在索引中 / Check if the event is in the index.
-                    if (cancel
-                            || !chain.indexes.containsKey(e.getClass())
-                            || !(e instanceof EntityEvent || e instanceof PlayerEvent)
-                    ) {
+                    if (cancel || !chain.indexes.containsKey(e.getClass())) {
                         e.getHandlers().unregister(l);
+                        return;
+                    }
+
+                    // 判断是否包含玩家或实体事件 / Check if the event is a player or entity event.
+                    if (chain.player()) {
+                        if (!(e instanceof PlayerEvent)) {
+                            return;
+                        }
+                    }
+
+                    if (chain.entity()) {
+                        if (!(e instanceof EntityEvent)) {
+                            return;
+                        }
+                    }
+
+                    // 过滤 / Filter.
+                    if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                         return;
                     }
 
@@ -358,14 +373,13 @@ public class ChainEventRegister implements AlkaidEventRegister {
                 };
             } else {
                 executor = (l, e) -> {
-                    // 过滤 / Filter.
-                    if (filters.stream().anyMatch(f -> !f.test((T) e))) {
+                    if (cancel || !chain.indexes.containsKey(e.getClass())) {
+                        e.getHandlers().unregister(l);
                         return;
                     }
-                    if (cancel ||
-                            !chain.indexes.containsKey(e.getClass())
-                    ) {
-                        e.getHandlers().unregister(l);
+
+                    // 过滤 / Filter.
+                    if (filters.stream().anyMatch(f -> !f.test((T) e))) {
                         return;
                     }
 

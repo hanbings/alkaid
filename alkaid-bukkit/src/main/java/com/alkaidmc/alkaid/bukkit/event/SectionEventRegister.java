@@ -47,7 +47,8 @@ import java.util.function.Predicate;
  * 使用 <b>interrupt(Class)</b> 结束监听段落 <br>
  * 调用顺序 commence 事件 -> listener 设置的事件处理器 -> interrupt 事件 <br>
  * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
- * 默认对所有玩家使用同一个段落
+ * 默认对所有玩家和实体使用同一个段落
+ * 将 <b>player(boolean)</b> 标记为 true 可以对玩家使用不同的段落 <br>
  * 将 <b>entity(boolean)</b> 标记为 true 可以对不同实体使用不同的段落 <br>
  * 使用 {@link #filter(Predicate)} 进行条件过滤 用法参照 {@link PredicateEventRegister} <br>
  * <p> en </p>
@@ -58,8 +59,9 @@ import java.util.function.Predicate;
  * Use <b>interrupt(Class)</b> to end the listening section. <br>
  * Call the order commence event -> listener's event handler -> interrupt event <br>
  * {@link #unregister()} will unregister the listener from Bukkit <br>
- * The default is to use the same section for all players
- * <b>entity(boolean)</b> is marked true can use different sections for different entities. <br>
+ * By default, it is used for all players and entities. <br>
+ * Use <b>player(boolean)</b> to mark it as true to use a different section for players <br>
+ * Use <b>entity(boolean)</b> to mark it as true to use a different section for entities <br>
  * Use {@link #filter(Predicate)} to filter conditions, Usage is the same as {@link PredicateEventRegister} <br>
  *
  * @param <T> 事件类型 / Event type
@@ -86,8 +88,9 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
     EventPriority priority = EventPriority.NORMAL;
     // 是否忽略  Bukkit 事件的取消标志 / Whether to ignore Bukkit event cancellation flag.
     boolean ignore = false;
-    // 是否区分实体监听事件 / Whether to distinguish entity listener events.
+    // 是否区分实体或玩家监听事件 / Whether to distinguish entity or player listening events.
     boolean entity = false;
+    boolean player = false;
 
     // 是否已经进入段落 / Whether to enter the section.
     @Setter(AccessLevel.NONE)
@@ -123,7 +126,7 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
     public void register() {
         EventExecutor executor;
         // 根据是否区分实体监听事件设置处理器 / Set the handler according to the multiplayer flag.
-        if (entity) {
+        if (entity() || player()) {
             schedules = new HashSet<>();
             executor = (l, e) -> {
                 // 判断该事件是否注销 / Check if the event is canceled.
@@ -131,12 +134,22 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                     e.getHandlers().unregister(l);
                     return;
                 }
+
+                // 判断是否包含玩家或实体事件 / Check if the event is a player or entity event.
+                if (player()) {
+                    if (!(e instanceof PlayerEvent)) {
+                        return;
+                    }
+                }
+
+                if (entity()) {
+                    if (!(e instanceof EntityEvent)) {
+                        return;
+                    }
+                }
+
                 // 过滤 / Filter.
                 if (filters.stream().anyMatch(f -> !f.test((T) e))) {
-                    return;
-                }
-                // 检查事件是否已经被挂起 / Check if the event is hangup.
-                if (!(e instanceof EntityEvent || e instanceof PlayerEvent)) {
                     return;
                 }
 
@@ -178,20 +191,31 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                 commence,
                 NULL_LISTENER,
                 priority,
-                entity ?
+                (entity() || player()) ?
                         (l, e) -> {
                             if (cancel) {
                                 e.getHandlers().unregister(l);
                                 return;
                             }
 
-                            if (e instanceof EntityEvent || e instanceof PlayerEvent) {
-                                schedules.add(
-                                        e instanceof PlayerEvent
-                                                ? ((PlayerEvent) e).getPlayer().getUniqueId()
-                                                : ((EntityEvent) e).getEntity().getUniqueId()
-                                );
+                            // 判断是否包含玩家或实体事件 / Check if the event is a player or entity event.
+                            if (player()) {
+                                if (!(e instanceof PlayerEvent)) {
+                                    return;
+                                }
                             }
+
+                            if (entity()) {
+                                if (!(e instanceof EntityEvent)) {
+                                    return;
+                                }
+                            }
+
+                            schedules.add(
+                                    e instanceof PlayerEvent
+                                            ? ((PlayerEvent) e).getPlayer().getUniqueId()
+                                            : ((EntityEvent) e).getEntity().getUniqueId()
+                            );
                         } :
                         (l, e) -> {
                             if (cancel) {
@@ -210,20 +234,31 @@ public class SectionEventRegister<T extends Event> implements AlkaidEventRegiste
                 interrupt,
                 NULL_LISTENER,
                 priority,
-                entity ?
+                (entity() || player()) ?
                         (l, e) -> {
                             if (cancel) {
                                 e.getHandlers().unregister(l);
                                 return;
                             }
 
-                            if (e instanceof EntityEvent || e instanceof PlayerEvent) {
-                                schedules.remove(
-                                        e instanceof PlayerEvent
-                                                ? ((PlayerEvent) e).getPlayer().getUniqueId()
-                                                : ((EntityEvent) e).getEntity().getUniqueId()
-                                );
+                            // 判断是否包含玩家或实体事件 / Check if the event is a player or entity event.
+                            if (player()) {
+                                if (!(e instanceof PlayerEvent)) {
+                                    return;
+                                }
                             }
+
+                            if (entity()) {
+                                if (!(e instanceof EntityEvent)) {
+                                    return;
+                                }
+                            }
+
+                            schedules.remove(
+                                    e instanceof PlayerEvent
+                                            ? ((PlayerEvent) e).getPlayer().getUniqueId()
+                                            : ((EntityEvent) e).getEntity().getUniqueId()
+                            );
                         } :
                         (l, e) -> {
                             if (cancel) {

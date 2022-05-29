@@ -46,6 +46,7 @@ import java.util.function.Predicate;
  * 当计数器到达指定次数后会触发一次 <b>after(AlkaidEventCallback)</b> 回调 然后对该事件的监听将被挂起 <br>
  * {@link #unregister()} 方法调用后将从 Bukkit 中取消监听 <br>
  * 默认的情况下计数器将监听所有被触发的事件
+ * 如果需要针对玩家区分监听 需要将 <b>player(boolean)</b> 方法标记为 true <br>
  * 如果需要针对实体区分监听 则需要将 <b>entity(boolean)</b> 方法标记为 true <br>
  * 使用 {@link #filter(Predicate)} 进行条件过滤 用法参照 {@link PredicateEventRegister} <br>
  * <p> en </p>
@@ -56,6 +57,8 @@ import java.util.function.Predicate;
  * The listener of this event will be suspended after the counter is reached. <br>
  * {@link #unregister()} method will cancel the listener from Bukkit. <br>
  * The default situation is that the counter will listen to all triggered events.
+ * If you need to distinguish the listener by player,
+ * you need to mark <b>player(boolean)</b> as true. <br>
  * If you need to differentiate the listener between entities,
  * you need to mark <b>entity(boolean)</b> as true. <br>
  * Use {@link #filter(Predicate)} to filter conditions, Usage is the same as {@link PredicateEventRegister} <br>
@@ -84,8 +87,9 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
     EventPriority priority = EventPriority.NORMAL;
     // 是否忽略  Bukkit 事件的取消标志 / Whether to ignore Bukkit event cancellation flag.
     boolean ignore = false;
-    // 是否区分玩家监听事件 / Whether to differentiate player listener event.
+    // 是否区分玩家或实体监听事件 / Whether to differentiate player or entity listener event.
     boolean entity = false;
+    boolean player = false;
 
     // 事件是否挂起 / Whether the event is suspended.
     @Setter(AccessLevel.NONE)
@@ -144,7 +148,7 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
         // 初始化事件处理器 / Initialize event handler.
         EventExecutor executor;
 
-        if (entity) {
+        if (entity() || player()) {
             hangups = new HashMap<>();
             executor = (l, e) -> {
                 // 判断该事件是否注销 / Check if the event is cancelled.
@@ -152,13 +156,22 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
                     e.getHandlers().unregister(l);
                     return;
                 }
+
+                // 判断是否包含玩家或实体事件 / Check if the event is a player or entity event.
+                if (player()) {
+                    if (!(e instanceof PlayerEvent)) {
+                        return;
+                    }
+                }
+
+                if (entity()) {
+                    if (!(e instanceof EntityEvent)) {
+                        return;
+                    }
+                }
+
                 // 过滤 / Filter.
                 if (filters.stream().anyMatch(f -> !f.test((T) e))) {
-                    return;
-                }
-                // 检查实体的事件计数是否已经等于 0
-                // Check if the entity's event count is equal to 0.
-                if (!(e instanceof EntityEvent || e instanceof PlayerEvent)) {
                     return;
                 }
 

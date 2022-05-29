@@ -79,6 +79,7 @@ public class PredicateEventRegister<T extends Event> implements AlkaidEventRegis
 
     /**
      * 添加过滤器 / Add filter.
+     *
      * @param filter 谓词过滤器 / Predicate filter
      * @return 返回当前对象 / Return current object
      */

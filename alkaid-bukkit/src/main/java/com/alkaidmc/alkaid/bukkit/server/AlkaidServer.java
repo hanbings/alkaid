@@ -58,7 +58,7 @@ public class AlkaidServer {
          * get the dependency instance.
          *
          * @param type 依赖类型 / dependency type
-         * @param <T> 需要获取的依赖实例类型 / The type of the dependency instance to get.
+         * @param <T>  需要获取的依赖实例类型 / The type of the dependency instance to get.
          * @return 对应参数类型的依赖实例 / The dependency instance of the corresponding parameter type.
          * @see DependManager
          */
