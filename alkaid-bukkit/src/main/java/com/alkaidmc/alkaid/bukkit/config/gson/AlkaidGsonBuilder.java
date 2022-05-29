@@ -24,10 +24,28 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
+/**
+ * <p> zh </p>
+ * Gson 工具类 <br>
+ * <p> en </p>
+ * Gson tool class.
+ */
 @SuppressWarnings("unused")
 public class AlkaidGsonBuilder {
     static Gson gson;
 
+    /**
+     * <p> zh </p>
+     * 创建 Gson 对象 <br>
+     * 此处创建的 gson 实例将自动包含 alkaid 所携带的用于适配 bukkit 的序列化适配器 <br>
+     * 另外创建的实例将被缓存 <br>
+     * <p> en </p>
+     * Create Gson object. <br>
+     * This gson instance will automatically include alkaid's serialization adapter for bukkit. <br>
+     * The created instance will be cached. <br>
+     *
+     * @return Gson 实例 / Gson instance
+     */
     public static Gson gson() {
         return Optional.ofNullable(gson).orElseGet(() -> {
             gson = new GsonBuilder()

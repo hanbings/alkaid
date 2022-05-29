@@ -16,8 +16,20 @@
 
 package com.alkaidmc.alkaid.bukkit.task.interfaces;
 
+/**
+ * <p> zh </p>
+ * 提供一个赋予函数接口的接口 <br>
+ * <p> en </p>
+ * The interface of providing a function interface. <br>
+ */
 @FunctionalInterface
 @SuppressWarnings("unused")
 public interface AlkaidTaskRunnable {
+    /**
+     * <p> zh </p>
+     * 任务执行 <br>
+     * <p> en </p>
+     * task execution. <br>
+     */
     void run();
 }

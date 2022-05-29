@@ -29,6 +29,16 @@ import org.bukkit.Location;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+/**
+ * <p> zh </p>
+ * Location 序列化适配器 <br>
+ * 使用 {@link Location#serialize()} 对象进行序列化 <br>
+ * 使用 {@link Location#deserialize(Map)} 对象进行反序列化 <br>
+ * <p> en </p>
+ * Location serialization adapter. <br>
+ * Use {@link Location#serialize()} to serialize. <br>
+ * Use {@link Location#deserialize(Map)} to deserialize. <br>
+ */
 public class LocationGsonAdapter implements JsonSerializer<Location>, JsonDeserializer<Location> {
     static Gson gson = new Gson();
 

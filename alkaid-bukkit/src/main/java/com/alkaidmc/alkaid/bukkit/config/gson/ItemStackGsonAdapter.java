@@ -29,6 +29,16 @@ import org.bukkit.inventory.ItemStack;
 import java.lang.reflect.Type;
 import java.util.Map;
 
+/**
+ * <p> zh </p>
+ * ItemStack 序列化适配器 <br>
+ * 使用 {@link ItemStack#serialize()} 对象进行序列化 <br>
+ * 使用 {@link ItemStack#deserialize(Map)} 对象进行反序列化 <br>
+ * <p> en </p>
+ * ItemStack serialization adapter. <br>
+ * Use {@link ItemStack#serialize()} to serialize. <br>
+ * Use {@link ItemStack#deserialize(Map)} to deserialize. <br>
+ */
 public class ItemStackGsonAdapter implements JsonSerializer<ItemStack>, JsonDeserializer<ItemStack> {
     static Gson gson = new Gson();
 

@@ -29,6 +29,16 @@ import org.bukkit.OfflinePlayer;
 import java.lang.reflect.Type;
 import java.util.UUID;
 
+/**
+ * <p> zh </p>
+ * Player 序列化适配器 <br>
+ * 使用 {@link OfflinePlayer#getUniqueId()} 对象进行序列化 <br>
+ * 使用 {@link Bukkit#getPlayer(UUID)} 对象进行反序列化 <br>
+ * <p> en </p>
+ * Player serialization adapter. <br>
+ * Use {@link OfflinePlayer#getUniqueId()} to serialize. <br>
+ * Use {@link Bukkit#getPlayer(UUID)} to deserialize. <br>
+ */
 public class PlayerGsonAdapter implements JsonSerializer<OfflinePlayer>, JsonDeserializer<OfflinePlayer> {
     @Override
     public OfflinePlayer deserialize(JsonElement json, Type type, JsonDeserializationContext context)

@@ -16,9 +16,29 @@
 
 package com.alkaidmc.alkaid.bukkit.task.interfaces;
 
+/**
+ * <p> zh </p>
+ * 所有任务注册器的公共接口 <br>
+ * 使用 {@link #register()} 方法注册任务到 bukkit 任务调度器 <br>
+ * 使用 {@link #unregister()} 方法从 bukkit 任务调度器中取消任务 <br>
+ * <p> en </p>
+ * The common interface of all task registrar. <br>
+ * Use {@link #register()} method to register task to bukkit task scheduler. <br>
+ * Use {@link #unregister()} method to cancel task from bukkit task scheduler. <br>
+ */
 @SuppressWarnings("unused")
 public interface AlkaidTaskRegister {
+    /**
+     * 当方法被调用时 才会注册任务到 bukkit 任务调度器
+     * When the method is called, the task will be registered to bukkit task scheduler.
+     */
     void register();
 
+    /**
+     * 当方法被调用时 才会从 bukkit 任务调度器中取消任务
+     * When the method is called, the task will be unregistered from bukkit task scheduler.
+     * 如有需要 可以重新调用 {@link #register()} 方法注册任务
+     * If you need, you can call {@link #register()} method to register task again.
+     */
     void unregister();
 }

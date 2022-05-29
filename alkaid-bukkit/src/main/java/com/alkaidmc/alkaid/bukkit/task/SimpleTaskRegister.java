@@ -27,6 +27,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
+/**
+ * <p> zh </p>
+ * 简单任务注册器 <br>
+ * <p> en </p>
+ * The simple task register. <br>
+ */
 @Setter
 @Getter
 @RequiredArgsConstructor

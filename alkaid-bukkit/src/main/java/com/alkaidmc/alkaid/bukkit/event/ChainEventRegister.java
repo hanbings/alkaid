@@ -89,6 +89,18 @@ public class ChainEventRegister implements AlkaidEventRegister {
     Map<UUID, Integer> schedules;
     int schedule;
 
+    /**
+     * <p> zh </p>
+     * 添加事件到链条 <br>
+     * 事件会被添加到链条的末尾 <br>
+     * <p> en </p>
+     * Add event to the chain. <br>
+     * Event will be added to the end of the chain. <br>
+     *
+     * @param event 事件类型 / Event type.
+     * @param <T>   事件类型 / Event type.
+     * @return 返回当前链条 / Return the current chain.
+     */
     public <T extends Event> ChainEventRegister depend(Class<T> event) {
         return depend(event,
                 l -> true,
@@ -99,6 +111,23 @@ public class ChainEventRegister implements AlkaidEventRegister {
         );
     }
 
+    /**
+     * <p> zh </p>
+     * 添加事件到链条 <br>
+     * 事件会被添加到链条的末尾 <br>
+     * 允许添加过滤器 过滤不符合要求的事件 <br>
+     * 当 filter 全部返回 true 时 事件会被计算到进度中 <br>
+     * <p> en </p>
+     * Add event to the chain. <br>
+     * Event will be added to the end of the chain. <br>
+     * Allow to add filter to filter out the event that does not meet the requirements. <br>
+     * When all filters return true, the event will be calculated to the progress. <br>
+     *
+     * @param event  事件类型 / Event type.
+     * @param filters 过滤器 / Filters.
+     * @param <T>    事件类型 / Event type.
+     * @return 返回当前链条 / Return the current chain.
+     */
     public <T extends Event> ChainEventRegister depend(Class<T> event, Consumer<List<Predicate<T>>> filters) {
         return depend(event,
                 l -> true,
@@ -109,6 +138,24 @@ public class ChainEventRegister implements AlkaidEventRegister {
         );
     }
 
+    /**
+     * <p> zh </p>
+     * 添加事件到链条 <br>
+     * 事件会被添加到链条的末尾 <br>
+     * 允许监听事件并做出对应操作 <br>
+     * 当 listener 返回 false 时 将重置链条 将进度复原为第一个事件 <br>
+     * <p> en </p>
+     * Add event to the chain. <br>
+     * Event will be added to the end of the chain. <br>
+     * Allow to listen to the event and do the corresponding operation. <br>
+     * When listener returns false,
+     * the chain will be reset and the progress will be restored to the first event. <br>
+     *
+     * @param event    事件类型 / Event type.
+     * @param listener 事件监听器 / Event listener.
+     * @param <T>      事件类型 / Event type.
+     * @return 返回当前链条 / Return the current chain.
+     */
     public <T extends Event> ChainEventRegister depend(Class<T> event, Predicate<T> listener) {
         return depend(event,
                 listener,
@@ -119,6 +166,29 @@ public class ChainEventRegister implements AlkaidEventRegister {
         );
     }
 
+    /**
+     * <p> zh </p>
+     * 添加事件到链条 <br>
+     * 事件会被添加到链条的末尾 <br>
+     * 允许监听事件并做出对应操作 <br>
+     * 当 listener 返回 false 时 将重置链条 将进度复原为第一个事件 <br>
+     * 允许添加过滤器 过滤不符合要求的事件 <br>
+     * 当 filter 全部返回 true 时 事件会被计算到进度中 <br>
+     * <p> en </p>
+     * Add event to the chain. <br>
+     * Event will be added to the end of the chain. <br>
+     * Allow to listen to the event and do the corresponding operation. <br>
+     * When listener returns false,
+     * the chain will be reset and the progress will be restored to the first event. <br>
+     * Allow to add filter to filter out the event that does not meet the requirements. <br>
+     * When all filter return true, the event will be calculated to the progress. <br>
+     *
+     * @param event    事件类型 / Event type.
+     * @param listener 事件监听器 / Event listener.
+     * @param filters  过滤器 / Filters.
+     * @param <T>      事件类型 / Event type.
+     * @return 返回当前链条 / Return the current chain.
+     */
     public <T extends Event> ChainEventRegister depend(Class<T> event,
                                                        Predicate<T> listener,
                                                        Consumer<List<Predicate<T>>> filters) {
@@ -131,6 +201,36 @@ public class ChainEventRegister implements AlkaidEventRegister {
         );
     }
 
+    /**
+     * <p> zh </p>
+     * 添加事件到链条 <br>
+     * 事件会被添加到参数 index 指定的位置 <br>
+     * 允许监听事件并做出对应操作 <br>
+     * 当 listener 返回 false 时 将重置链条 将进度复原为第一个事件 <br>
+     * 允许添加过滤器 过滤不符合要求的事件 <br>
+     * 当 filter 全部返回 true 时 事件会被计算到进度中 <br>
+     * 允许使用 {@link EventPriority}指定事件优先级 <br>
+     * 允许忽略事件取消状态 <br>
+     * <p> en </p>
+     * Add event to the chain. <br>
+     * Event will be added to the position specified by index. <br>
+     * Allow to listen to the event and do the corresponding operation. <br>
+     * When listener returns false,
+     * the chain will be reset and the progress will be restored to the first event. <br>
+     * Allow to add filter to filter out the event that does not meet the requirements. <br>
+     * When all filter return true, the event will be calculated to the progress. <br>
+     * Allow to use {@link EventPriority} to specify the event priority. <br>
+     * Allow to ignore the event cancellation status. <br>
+     *
+     * @param event    事件类型 / Event type.
+     * @param listener 事件监听器 / Event listener.
+     * @param priority 事件优先级 / Event priority.
+     * @param ignore   事件取消状态 / Event cancellation status.
+     * @param index    事件索引 / Event index.
+     * @param filters  过滤器 / Filters.
+     * @param <T>      事件类型 / Event type.
+     * @return 返回当前链条 / Return the current chain.
+     */
     public <T extends Event> ChainEventRegister depend(Class<T> event, Predicate<T> listener,
                                                        EventPriority priority, boolean ignore,
                                                        int index,
@@ -177,6 +277,14 @@ public class ChainEventRegister implements AlkaidEventRegister {
         chain.forEach(SkewerEventRegister::unregister);
     }
 
+    /**
+     * <p> zh </p>
+     * 事件链条节点 <br>
+     * <p> en </p>
+     * Event chain node.
+     *
+     * @param <T> 事件类型 / Event type.
+     */
     @Setter
     @Getter
     @RequiredArgsConstructor
