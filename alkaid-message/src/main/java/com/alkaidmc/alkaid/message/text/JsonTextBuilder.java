@@ -164,17 +164,14 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return component(new TranslatableComponent(key, with), color, formats);
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     public JsonTextBuilder keybind(String keybind, Format... formats) {
         return component(new KeybindComponent(keybind), formats);
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     public JsonTextBuilder keybind(String keybind, ChatColor color, Format... formats) {
         return component(new KeybindComponent(keybind), color, formats);
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     public JsonTextBuilder keybind(String keybind, String color, Format... formats) {
         return component(new KeybindComponent(keybind), color, formats);
     }

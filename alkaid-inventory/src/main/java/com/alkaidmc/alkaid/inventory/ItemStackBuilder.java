@@ -41,7 +41,6 @@ import java.util.Set;
 @Setter
 @Getter
 @Accessors(fluent = true, chain = true)
-@SuppressWarnings("unused SpellCheckingInspection")
 public class ItemStackBuilder {
     final static ItemStack DEFAULT_ITEM = new ItemStack(Material.STONE);
     final static ItemMeta DEFAULT_META = new ItemStack(Material.STONE).getItemMeta();
