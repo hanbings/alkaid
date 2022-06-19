@@ -18,7 +18,7 @@
 ```java
 new AlkaidEvent(plugin).simple()
                 // 监听的事件
-                .event(PlayerLoginEvent.class)
+                .event(PlayerJoinEvent.class)
                 // 事件处理器
                 .listener(event -> {
                     event.getPlayer().sendMessage("欢迎");
