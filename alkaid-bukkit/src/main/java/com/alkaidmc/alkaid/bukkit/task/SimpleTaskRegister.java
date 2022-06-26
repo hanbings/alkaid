@@ -66,9 +66,17 @@ public class SimpleTaskRegister implements AlkaidTaskRegister {
                 run.run();
             }
         };
-        task = async
-                ? runnable.runTaskTimerAsynchronously(plugin, delay, period)
-                : runnable.runTaskTimer(plugin, delay, period);
+
+        if (period <= 0) {
+            task = async
+                    ? runnable.runTaskLaterAsynchronously(plugin, delay)
+                    : runnable.runTaskLater(plugin, delay);
+        } else {
+            task = async
+                    ? runnable.runTaskTimerAsynchronously(plugin, delay, period)
+                    : runnable.runTaskTimer(plugin, delay, period);
+        }
+
     }
 
     @Override
