@@ -21,11 +21,14 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class SingleRedisConnection {
+    final ExecutorService executor = Executors.newCachedThreadPool();
     final JedisPool pool;
 
     public void set(String key, String value) {
@@ -64,18 +67,69 @@ public class SingleRedisConnection {
         }
     }
 
-    public void subscribe(String channel, Consumer<String> message) {
-        try (Jedis jedis = pool.getResource()) {
-            jedis.subscribe(new JedisPubSub() {
-                @Override
-                public void onMessage(String ch, String msg) {
-                    message.accept(msg);
-                }
-            }, channel);
-        }
+    public JedisPubSub subscribe(String channel, Consumer<String> message) {
+        AlkaidPubSub sub = new AlkaidPubSub(message);
+
+        executor.submit(() -> {
+            try (Jedis jedis = pool.getResource()) {
+                jedis.subscribe(sub, channel);
+            } catch (Throwable x) {
+                x.printStackTrace();
+            }
+        });
+
+        return sub;
     }
 
-    public void unsubscribe() {
+    public JedisPubSub subscribe(String channel, Consumer<String> message, Consumer<Throwable> error) {
+        AlkaidPubSub sub = new AlkaidPubSub(message);
 
+        executor.submit(() -> {
+            try (Jedis jedis = pool.getResource()) {
+                jedis.subscribe(sub, channel);
+            } catch (Throwable x) {
+                error.accept(x);
+            }
+        });
+
+        return sub;
+    }
+
+    public JedisPubSub subscribe(JedisPubSub sub, String channel) {
+        executor.submit(() -> {
+            try (Jedis jedis = pool.getResource()) {
+                jedis.subscribe(sub, channel);
+            } catch (Throwable x) {
+                x.printStackTrace();
+            }
+        });
+
+        return sub;
+    }
+
+    public JedisPubSub subscribe(JedisPubSub sub, String channel, Consumer<Throwable> error) {
+        executor.submit(() -> {
+            try (Jedis jedis = pool.getResource()) {
+                jedis.subscribe(sub, channel);
+            } catch (Throwable x) {
+                error.accept(x);
+            }
+        });
+
+
+        return sub;
+    }
+
+    static class AlkaidPubSub extends JedisPubSub {
+        Consumer<String> consumer;
+
+        public AlkaidPubSub(Consumer<String> consumer) {
+            this.consumer = consumer;
+        }
+
+        @Override
+        public void onMessage(String channel, String message) {
+            consumer.accept(message);
+        }
     }
 }

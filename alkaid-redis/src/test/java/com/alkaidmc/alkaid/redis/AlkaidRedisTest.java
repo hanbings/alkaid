@@ -1,6 +1,7 @@
 package com.alkaidmc.alkaid.redis;
 
 import org.junit.jupiter.api.Test;
+import redis.clients.jedis.JedisPubSub;
 
 import java.util.stream.IntStream;
 
@@ -50,7 +51,7 @@ public class AlkaidRedisTest {
         assertNull(data);
 
         // 订阅消息
-        connection.subscribe("alkaid", (message) -> {
+        JedisPubSub sub = connection.subscribe("alkaid", (message) -> {
             assertEquals("test", message);
         });
         // 发布消息
