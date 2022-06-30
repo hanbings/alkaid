@@ -35,7 +35,6 @@ public class SingleRedisConnector {
     String auth = null;
     int connect = 32;
     int timeout = 1000;
-    long sleep = 1000;
     JedisPoolConfig config = new JedisPoolConfig();
 
     @Setter(AccessLevel.NONE)
@@ -57,6 +56,6 @@ public class SingleRedisConnector {
     }
 
     public SingleRedisConnection connection() {
-        return new SingleRedisConnection(pool, sleep);
+        return new SingleRedisConnection(pool);
     }
 }

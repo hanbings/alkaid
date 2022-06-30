@@ -73,6 +73,7 @@ public class SimpleCommandRegister implements AlkaidCommandRegister {
         Optional.ofNullable(tab).ifPresent(instance::setTabCompleter);
         // 向 bukkit 注册指令 / register command to bukkit
         instance.register(commands);
+        commands.register("", instance);
     }
 
     @Override
