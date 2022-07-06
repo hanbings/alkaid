@@ -18,14 +18,7 @@ package com.alkaidmc.alkaid.message.text;
 
 import com.alkaidmc.alkaid.message.text.hover.ContentBuilder;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.KeybindComponent;
-import net.md_5.bungee.api.chat.ScoreComponent;
-import net.md_5.bungee.api.chat.SelectorComponent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.TranslatableComponent;
+import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.hover.content.Content;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -36,22 +29,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import static net.md_5.bungee.api.ChatColor.AQUA;
-import static net.md_5.bungee.api.ChatColor.BLACK;
-import static net.md_5.bungee.api.ChatColor.BLUE;
-import static net.md_5.bungee.api.ChatColor.DARK_AQUA;
-import static net.md_5.bungee.api.ChatColor.DARK_BLUE;
-import static net.md_5.bungee.api.ChatColor.DARK_GRAY;
-import static net.md_5.bungee.api.ChatColor.DARK_GREEN;
-import static net.md_5.bungee.api.ChatColor.DARK_PURPLE;
-import static net.md_5.bungee.api.ChatColor.DARK_RED;
-import static net.md_5.bungee.api.ChatColor.GOLD;
-import static net.md_5.bungee.api.ChatColor.GRAY;
-import static net.md_5.bungee.api.ChatColor.GREEN;
-import static net.md_5.bungee.api.ChatColor.LIGHT_PURPLE;
-import static net.md_5.bungee.api.ChatColor.RED;
-import static net.md_5.bungee.api.ChatColor.WHITE;
-import static net.md_5.bungee.api.ChatColor.YELLOW;
+import static net.md_5.bungee.api.ChatColor.*;
 
 /**
  * See <a href="https://minecraft.fandom.com/wiki/Raw_JSON_text_format">Raw JSON text format</a>
@@ -164,14 +142,17 @@ public class JsonTextBuilder implements ContentBuilder<Text> {
         return component(new TranslatableComponent(key, with), color, formats);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public JsonTextBuilder keybind(String keybind, Format... formats) {
         return component(new KeybindComponent(keybind), formats);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public JsonTextBuilder keybind(String keybind, ChatColor color, Format... formats) {
         return component(new KeybindComponent(keybind), color, formats);
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public JsonTextBuilder keybind(String keybind, String color, Format... formats) {
         return component(new KeybindComponent(keybind), color, formats);
     }

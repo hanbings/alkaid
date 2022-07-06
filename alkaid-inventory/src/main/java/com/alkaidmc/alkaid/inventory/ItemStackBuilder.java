@@ -29,17 +29,11 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Setter
 @Getter
+@SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class ItemStackBuilder {
     final static ItemStack DEFAULT_ITEM = new ItemStack(Material.STONE);
@@ -47,6 +41,7 @@ public class ItemStackBuilder {
 
     Map<Enchantment, Integer> enchantments = new HashMap<>();
     Multimap<Attribute, AttributeModifier> attributes;
+    @SuppressWarnings("SpellCheckingInspection")
     List<String> lores = new ArrayList<>();
     Set<ItemFlag> flags = new HashSet<>();
     String display;
