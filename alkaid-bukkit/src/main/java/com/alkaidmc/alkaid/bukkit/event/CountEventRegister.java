@@ -31,10 +31,7 @@ import org.bukkit.event.player.PlayerEvent;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -128,7 +125,7 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
      */
     public void reset() {
         this.hangup = false;
-        this.before.callback(plugin, this);
+        Optional.ofNullable(this.before).ifPresent(before -> before.callback(plugin, this));
     }
 
     /**
@@ -139,7 +136,7 @@ public class CountEventRegister<T extends Event> implements AlkaidEventRegister 
      */
     public void hangup() {
         this.hangup = true;
-        this.after.callback(plugin, this);
+        Optional.ofNullable(this.after).ifPresent(after -> after.callback(plugin, this));
     }
 
     @Override
