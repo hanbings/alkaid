@@ -21,9 +21,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Getter
+@Accessors(fluent = true)
 @SuppressWarnings("unused")
 @RequiredArgsConstructor(staticName = "of")
-@Accessors(fluent = true)
 public class Tuple4<T1, T2, T3, T4> {
     final T1 t1;
     final T2 t2;
