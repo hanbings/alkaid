@@ -58,7 +58,9 @@ public class AlkaidCommand {
             // 开锁
             constructor.setAccessible(true);
             field.setAccessible(true);
-        } catch (NoSuchMethodException | NoSuchFieldException exception) {
+            // 获取
+            commandMap = (CommandMap) field.get(plugin.getServer().getPluginManager());
+        } catch (NoSuchMethodException | NoSuchFieldException | IllegalAccessException exception) {
             exception.printStackTrace();
         }
     }
