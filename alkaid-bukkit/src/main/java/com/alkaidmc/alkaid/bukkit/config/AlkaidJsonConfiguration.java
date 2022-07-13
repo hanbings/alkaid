@@ -19,10 +19,8 @@ package com.alkaidmc.alkaid.bukkit.config;
 import com.google.gson.Gson;
 import org.bukkit.plugin.Plugin;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * <p> zh </p>
@@ -68,8 +66,9 @@ public class AlkaidJsonConfiguration {
             file = new File(plugin.getDataFolder(), path);
         }
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            return gson.fromJson(reader, type);
+            InputStreamReader input = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
+            BufferedReader buffered = new BufferedReader(input);
+            return gson.fromJson(buffered, type);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
