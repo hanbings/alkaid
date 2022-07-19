@@ -16,7 +16,10 @@
 
 package com.alkaidmc.alkaid.bukkit.server;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.bukkit.plugin.Plugin;
 
 import java.util.function.Consumer;
@@ -30,8 +33,12 @@ import java.util.function.Consumer;
  * If you need to get the instance of the dependency,
  * please use {@link AlkaidServer#dependent()} or {@link DependManager} <br>
  */
+
+@Setter
+@Getter
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
+@Accessors(fluent = true, chain = true)
 public class DependOptional {
     final Plugin plugin;
 
