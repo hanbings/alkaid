@@ -7,5 +7,6 @@ include 'alkaid-log'
 include 'alkaid-message'
 include 'alkaid-mongodb'
 include 'alkaid-redis'
+include 'alkaid-web'
 include 'alkaid-world'
 

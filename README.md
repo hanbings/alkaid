@@ -245,17 +245,18 @@ new AlkaidCommon().filewatchdog()
 
 ## ✨ 模块
 
-| 模块              | 描述                           | Bukkit 支持 | Bungee Cord 支持 | 不依赖于 Bukkit / Bungee Cord |
-| ----------------- | ------------------------------ | ----------- | ---------------- | ----------------------------- |
-| alkaid-bukkit     | Bukkit API 流式封装            | ✔️           | ❌                | ❌                             |
-| alkaid-bungeecord | Bungee Cord 流式封装           | ❌           | ✔️                | ❌                             |
-| alkaid-common     | 服务端无关工具类 如反射 sha256 | ✔️           | ✔️                | ✔️                             |
-| alkaid-inventory  | 物品和物品容器封装             | ✔️           | ❌                | ❌                             |
-| alkaid-log        | 控制台 Logger 封装 包括色彩    | ✔️           | ✔️                | ✔️                             |
-| alkaid-message    | 表达信息类封装                 | ✔️           | ⭕️                | ❌                             |
-| alkaid-mongodb    | 对于 MongoDB 数据库的封装      | ✔️           | ✔️                | ✔️                             |
-| alkaid-redis      | 对于 Redis 中间件的封装        | ✔️           | ✔️                | ✔️                             |
-| alkaid-world      | 维度、群系与方块               | ✔️           | ❌                | ❌                             |
+| 模块              | 描述                                | Bukkit 支持 | Bungee Cord 支持 | 不依赖于 Bukkit / Bungee Cord |
+| ----------------- | ----------------------------------- | ----------- | ---------------- | ----------------------------- |
+| alkaid-bukkit     | Bukkit API 流式封装                 | ✔️           | ❌                | ❌                             |
+| alkaid-bungeecord | Bungee Cord 流式封装                | ❌           | ✔️                | ❌                             |
+| alkaid-common     | 服务端无关工具类 如反射 sha256      | ✔️           | ✔️                | ✔️                             |
+| alkaid-inventory  | 物品和物品容器封装                  | ✔️           | ❌                | ❌                             |
+| alkaid-log        | 控制台 Logger 封装 包括色彩         | ✔️           | ✔️                | ✔️                             |
+| alkaid-message    | 表达信息类封装                      | ✔️           | ⭕️                | ❌                             |
+| alkaid-mongodb    | 对于 MongoDB 数据库的封装           | ✔️           | ✔️                | ✔️                             |
+| alkaid-redis      | 对于 Redis 中间件的封装             | ✔️           | ✔️                | ✔️                             |
+| alkaid-web        | 对于多个 Web 服务端和客户端进行封装 | ✔️           | ✔️                | ✔️                             |
+| alkaid-world      | 维度、群系与方块                    | ✔️           | ❌                | ❌                             |
 
 <h6 align="center">✔️ 表示支持 ⭕️ 表示部分支持 ❌ 表示不支持 </h6>
 
