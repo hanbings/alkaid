@@ -1,5 +1,11 @@
 package com.alkaidmc.alkaid.web;
 
-public class AlkaidWeb {
+import com.alkaidmc.alkaid.web.server.AlkaidJavalinServer;
 
+@SuppressWarnings("unused")
+public class AlkaidWeb {
+    @SuppressWarnings("SpellCheckingInspection")
+    public AlkaidJavalinServer javalin() {
+        return new AlkaidJavalinServer();
+    }
 }
