@@ -1,11 +1,15 @@
 package com.alkaidmc.alkaid.web;
 
-import com.alkaidmc.alkaid.web.server.AlkaidJavalinServer;
+import com.alkaidmc.alkaid.web.client.AlkaidWebClient;
+import com.alkaidmc.alkaid.web.server.AlkaidWebServer;
 
 @SuppressWarnings("unused")
 public class AlkaidWeb {
-    @SuppressWarnings("SpellCheckingInspection")
-    public AlkaidJavalinServer javalin() {
-        return new AlkaidJavalinServer();
+    public AlkaidWebServer server() {
+        return new AlkaidWebServer();
+    }
+
+    public AlkaidWebClient client() {
+        return new AlkaidWebClient();
     }
 }

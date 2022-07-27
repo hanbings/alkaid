@@ -84,7 +84,8 @@ public class AlkaidJavalinServer {
         return new AlkaidJavalinHttpRouter(app, HandlerType.DELETE, path, handler);
     }
 
-    public void webscoket(String path, Consumer<AlkaidJavalinWebsocketRouter> websocket) {
+    public AlkaidJavalinServer webscoket(String path, Consumer<AlkaidJavalinWebsocketRouter> websocket) {
         websocket.accept(new AlkaidJavalinWebsocketRouter(app, path));
+        return this;
     }
 }
