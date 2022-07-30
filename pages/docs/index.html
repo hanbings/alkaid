@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Alkaid Lib</title>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta itemprop="name" content="Alkaid Lib" />
+
+  <meta property="og:image"
+    content="https://repository-images.githubusercontent.com/478124637/397fd708-40fe-4547-8d4d-83bc822f27f0" />
+  <meta property="og:image:alt"
+    content="Alkaid Lib - A kemono wolf-dragon that can help you with Bukkit plugin development !" />
+  <meta property="og:site_name" content="Alkaid Lib" />
+  <meta property="og:type" content="object" />
+  <meta property="og:title" content="Alkaid Lib" />
+  <meta property="og:url" content="https://alkaid.alkaidmc.com" />
+  <meta property="og:description"
+    content="Alkaid Lib - A kemono wolf-dragon that can help you with Bukkit plugin development !" />
+
+  <meta name="keywords" content="Alkaid MC" />
+  <meta name="author" content="Alkaid MC" />
+
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
+</head>
+
+<body>
+  <div id="app"></div>
+  <!-- Docsify settings -->
+  <script>
+    window.$docsify = {
+      name: 'Alkaid Lib',
+      repo: 'alkaidmc/alkaid-docs',
+      basePath: '.',
+      subMaxLevel: 3,
+      loadSidebar: true,
+      themeColor: '#0284be',
+      homepage: 'readme.md',
+      externalLinkTarget: '_blank',
+      search: {
+        maxAge: 86400000,
+        paths: 'auto',
+        depth: 6,
+        placeholder: {
+          '/zh-cn/': '🔎 输入以进行搜索',
+          '/': '🔎 Type to search'
+        },
+
+        noData: {
+          '/zh-cn/': '🍉 找不到结果',
+          '/': '🍉 No Results'
+        }
+      },
+      auto2top: true,
+      darklightTheme: {
+        siteFont: 'Source Sans Pro,Helvetica Neue,Arial,sans-serif',
+        defaultTheme: 'light',
+        codeFontFamily: 'Roboto Mono,Monaco,courier,monospace',
+        bodyFontSize: '15px',
+        dark: {
+          accent: '#0284be',
+          toogleBackground: '#ffffff',
+          background: '#091a28',
+          textColor: '#b4b4b4',
+          codeTextColor: '#ffffff',
+          codeBackgroundColor: '#0e2233',
+          borderColor: '#0d2538',
+          blockQuoteColor: '#858585',
+          highlightColor: '#d22778',
+          sidebarSublink: '#b4b4b4',
+          codeTypeColor: '#ffffff',
+          coverBackground: 'linear-gradient(to left bottom, hsl(118, 100%, 85%) 0%,hsl(181, 100%, 85%) 100%)',
+          toogleImage: 'url(https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/icons/sun.svg)'
+        },
+        light: {
+          accent: '#0284be',
+          toogleBackground: '#091a28',
+          background: '#ffffff',
+          textColor: '#34495e',
+          codeTextColor: '#525252',
+          codeBackgroundColor: '#f8f8f8',
+          borderColor: 'rgba(0, 0, 0, 0.07)',
+          blockQuoteColor: '#858585',
+          highlightColor: '#d22778',
+          sidebarSublink: '#b4b4b4',
+          codeTypeColor: '#091a28',
+          coverBackground: 'linear-gradient(to left bottom, hsl(118, 100%, 85%) 0%,hsl(181, 100%, 85%) 100%)',
+          toogleImage: 'url(https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/icons/moon.svg)'
+        }
+      }
+    };
+  </script>
+
+  <!-- Docsify v4 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-kotlin.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-groovy.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
+
+  <!-- Patch style -->
+  <style>
+    .markdown-section code {
+      font-weight: unset !important;
+    }
+
+    .markdown-section pre code {
+      font-weight: unset !important;
+    }
+  </style>
+</body>
+
+</html>

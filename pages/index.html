@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Alkaid MC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- import css -->
+    <link href="https://resource.nanokylin.com/static/materialize/1.0.0/css/materialize.min.css" rel="stylesheet" />
+    <link href="https://resource.nanokylin.com/static/moe-ui/1.0.0/css/account.css" rel="stylesheet" />
+    <!-- import Google Font and Google Material ICON -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!-- import js -->
+    <script type="text/javascript"
+        src="https://resource.nanokylin.com/static/materialize/1.0.0/js/materialize.min.js"></script>
+
+
+    <style type="text/css">
+        .glassmorphism {
+            backdrop-filter: blur(18px);
+            box-shadow: 0 8px 12px rgba(255, 255, 255, .3);
+            background: rgba(255, 255, 255, .5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+
+            height: 100%;
+            width: 100%;
+        }
+
+        @media screen and (min-width: 420px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h5 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media screen and (max-width: 420px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            h5 {
+                font-size: 1.2rem;
+            }
+        }
+
+        .contrainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+
+            height: 100%;
+            width: 100%;
+        }
+
+        /*去掉页面样式，通用选择器*/
+
+        body {
+            /*color: white*/
+            background: url("https://picture.hanbings.com/2021/08/17/a6535c34e55c3.jpg");
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        .footer {
+            width: 100%;
+            height: 85px;
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="contrainer glassmorphism">
+        <h1 class="header" style="color: #3386ff">
+            Alkaid 摇光
+        </h1>
+        <h5 class="header light">
+            一种更优雅的编码方式 一只更可爱的狼龙
+        </h5>
+
+        <br>
+
+        <div class="button-contrainer">
+            <a href="./docs" id="jump-button" class="btn waves-effect waves-light blue" style="border-radius: 8px;">
+                Get Started
+            </a>
+            <a href="https://github.com/AlkaidMC/alkaid" id="jump-button" class="btn waves-effect waves-light blue"
+                style="border-radius: 8px;">
+                Github
+            </a>
+        </div>
+
+        <footer class="footer">
+            Copyright &copy; 2022 Alkaid Technology. All rights reserved.
+            <br> 背景图片来源于
+            <a href="https://twitter.com/RadyWolf">
+                Twitter RadyWolf
+            </a> 侵权请联系
+            <a href="mailto:hanbings@hanbings.io">
+                hanbings@hanbings.io
+            </a>
+        </footer>
+    </div>
+
+</body>
