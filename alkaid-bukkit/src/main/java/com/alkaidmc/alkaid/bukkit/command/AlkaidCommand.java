@@ -16,6 +16,8 @@
 
 package com.alkaidmc.alkaid.bukkit.command;
 
+import lombok.AllArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.Plugin;
@@ -33,24 +35,14 @@ import java.lang.reflect.InvocationTargetException;
  * Command registrar entry point <br>
  * Get a set of registrar entry points by instantiating this class <br>
  */
+@AllArgsConstructor
 @SuppressWarnings("unused")
 public class AlkaidCommand {
     Plugin plugin;
-    Constructor<PluginCommand> constructor;
-    CommandMap commandMap;
+    static Constructor<PluginCommand> constructor;
+    static CommandMap commandMap;
 
-    /**
-     * <p> zh </p>
-     * 构造器 <br>
-     * 将进行反射获取 CommandMap 实例 <br>
-     * <p> en </p>
-     * Constructor <br>
-     * Get CommandMap instance through reflection. <br>
-     *
-     * @param plugin 当前插件实例 / Current plugin instance
-     */
-    public AlkaidCommand(Plugin plugin) {
-        this.plugin = plugin;
+    static {
         try {
             // 这不得上反射
             constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
@@ -59,7 +51,7 @@ public class AlkaidCommand {
             constructor.setAccessible(true);
             field.setAccessible(true);
             // 获取
-            commandMap = (CommandMap) field.get(plugin.getServer().getPluginManager());
+            commandMap = (CommandMap) field.get(Bukkit.getServer().getPluginManager());
         } catch (NoSuchMethodException | NoSuchFieldException | IllegalAccessException exception) {
             exception.printStackTrace();
         }
