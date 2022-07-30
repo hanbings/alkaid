@@ -6,7 +6,7 @@
 
 ## 🍀 这是什么？
 
-这是一个工具库，封装 Bukkit BungeeCord 以及其他计划中的 Minecraft 服务端 API
+一只工具库，封装 Bukkit BungeeCord 以及其他计划中的 Minecraft 服务端 API
 
 **来点简单的事件监听**
 
@@ -293,19 +293,15 @@ new AlkaidCommon().filewatchdog()
 **Gradle**
 
 ```groovy
-maven {
-    url "https://repository.alkaidmc.com/releases"
-    url "https://repository.alkaidmc.com/snapshots"
-}
+maven { url "https://repository.alkaidmc.com/releases" }
+maven { url "https://repository.alkaidmc.com/snapshots" }
 ```
 
 **Gradle Kotlin**
 
 ```kotlin
-maven {
-    url = uri("https://repository.alkaidmc.com/releases")
-    url = uri("https://repository.alkaidmc.com/snapshots")
-}
+maven { url = uri("https://repository.alkaidmc.com/releases") }
+maven { url = uri("https://repository.alkaidmc.com/snapshots") }
 ```
 
 ## 📝 文档
