@@ -25,6 +25,9 @@ subprojects {
 
         testCompileOnly 'org.projectlombok:lombok:1.18.24'
         testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+        // https://mvnrepository.com/artifact/org.jetbrains/annotations
+        compileOnly 'org.jetbrains:annotations:23.0.0'
     }
 
     java {
