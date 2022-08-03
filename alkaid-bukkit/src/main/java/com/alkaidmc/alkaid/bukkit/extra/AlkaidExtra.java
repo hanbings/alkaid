@@ -43,7 +43,7 @@ public class AlkaidExtra {
 
     public void second() {
         // 检测是否已经有同类事件已经被加载
-        if (loaded("TickEvent")) {
+        if (loaded("SecondEvent")) {
             return;
         }
 
@@ -58,9 +58,10 @@ public class AlkaidExtra {
         }, 0, 1000);
 
         // 监听插件关闭事件
-        new AlkaidEvent(plugin).simple()
+        new AlkaidEvent(plugin).predicate()
                 .event(PluginDisableEvent.class)
                 .priority(EventPriority.HIGHEST)
+                .filter(e -> e.getPlugin().equals(plugin))
                 .listener(e -> timer.cancel())
                 .register();
     }
