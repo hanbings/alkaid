@@ -9,7 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @SuppressWarnings("unused")
 public class TickEvent extends Event {
     static final HandlerList HANDLERS_LIST = new HandlerList();
-    AtomicLong tick = new AtomicLong(0);
+    static AtomicLong tick = new AtomicLong(0);
 
     @Override
     public @NotNull HandlerList getHandlers() {
@@ -17,10 +17,10 @@ public class TickEvent extends Event {
     }
 
     public long getTick() {
-        return this.tick.get();
+        return TickEvent.tick.get();
     }
 
     public void setTick(long tick) {
-        this.tick.set(tick);
+        TickEvent.tick.set(tick);
     }
 }
