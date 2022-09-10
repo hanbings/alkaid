@@ -31,13 +31,13 @@ public class AlkaidExtra {
             return;
         }
 
-        // 每 tick 执行一次
+        long tick = 0;
+
+        // 每 tick 执行一次 延迟一刻确保在 0 tick event 后自增计数器
         new AlkaidTask(plugin).simple()
-                .delay(0)
+                .delay(1)
                 .period(1)
-                .run(() -> Bukkit.getPluginManager().callEvent(new TickEvent() {{
-                    setTick(getTick() + 1);
-                }}))
+                .run(() -> Bukkit.getPluginManager().callEvent(new TickEvent(tick)))
                 .register();
     }
 
@@ -53,7 +53,7 @@ public class AlkaidExtra {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Bukkit.getPluginManager().callEvent(new SecondEvent());
+                Bukkit.getPluginManager().callEvent(new SecondEvent(System.currentTimeMillis()));
             }
         }, 0, 1000);
 

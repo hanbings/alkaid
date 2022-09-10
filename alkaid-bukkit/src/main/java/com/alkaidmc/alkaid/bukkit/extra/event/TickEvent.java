@@ -1,15 +1,15 @@
 package com.alkaidmc.alkaid.bukkit.extra.event;
 
+import lombok.RequiredArgsConstructor;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.concurrent.atomic.AtomicLong;
-
+@RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class TickEvent extends Event {
     static final HandlerList HANDLERS_LIST = new HandlerList();
-    static AtomicLong tick = new AtomicLong(0);
+    final long tick;
 
     @Override
     public @NotNull HandlerList getHandlers() {
@@ -17,10 +17,6 @@ public class TickEvent extends Event {
     }
 
     public long getTick() {
-        return TickEvent.tick.get();
-    }
-
-    public void setTick(long tick) {
-        TickEvent.tick.set(tick);
+        return this.tick;
     }
 }
