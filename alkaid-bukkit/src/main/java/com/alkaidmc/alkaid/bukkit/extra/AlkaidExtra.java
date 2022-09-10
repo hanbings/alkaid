@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicLong;
 
 @SuppressWarnings("unused")
 public class AlkaidExtra {
@@ -31,13 +32,13 @@ public class AlkaidExtra {
             return;
         }
 
-        long tick = 0;
+        AtomicLong tick = new AtomicLong(0);
 
-        // 每 tick 执行一次 延迟一刻确保在 0 tick event 后自增计数器
+        // 每 tick 执行一次
         new AlkaidTask(plugin).simple()
-                .delay(1)
+                .delay(0)
                 .period(1)
-                .run(() -> Bukkit.getPluginManager().callEvent(new TickEvent(tick)))
+                .run(() -> Bukkit.getPluginManager().callEvent(new TickEvent(tick.incrementAndGet())))
                 .register();
     }
 
