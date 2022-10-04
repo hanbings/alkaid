@@ -253,7 +253,6 @@ new AlkaidCommon().filewatchdog()
 | alkaid-message    | 表达信息类封装                      | ✔️           | ⭕️                | ❌                             |
 | alkaid-mongodb    | 对于 MongoDB 数据库的封装           | ✔️           | ✔️                | ✔️                             |
 | alkaid-redis      | 对于 Redis 中间件的封装             | ✔️           | ✔️                | ✔️                             |
-| alkaid-web        | 对于多个 Web 服务端和客户端进行封装 | ✔️           | ✔️                | ✔️                             |
 | alkaid-world      | 维度、群系与方块                    | ✔️           | ❌                | ❌                             |
 
 <h6 align="center">✔️ 表示支持 ⭕️ 表示部分支持 ❌ 表示不支持 </h6>
