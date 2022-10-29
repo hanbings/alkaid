@@ -3,5 +3,5 @@ dependencies {
     implementation 'org.mongodb:mongo-java-driver:3.12.11'
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10'
 }

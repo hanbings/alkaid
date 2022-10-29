@@ -4,7 +4,7 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10'
 
     // https://hub.spigotmc.org/nexus/content/repositories/snapshots/
     implementation 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
