@@ -29,7 +29,7 @@ implementation("com.alkaidmc.alkaid:alkaid-bukkit:{{alkaid.version}}")
 
 **创建模块引导类**
 
-Bukkit 模块包含五个分类，它们分别有各自的模块引导类
+Bukkit 模块包含六个分类，它们分别有各自的模块引导类
 
 1. 指令 Command
 
@@ -49,13 +49,19 @@ Bukkit 模块包含五个分类，它们分别有各自的模块引导类
    new AlkaidEvent(Plugin plugin);
    ```
 
-4. 服务端、依赖与 NMS Server
+4. 扩展 Extra
+
+   ```java
+   new AlkaidExtra(Plugin plugin);
+   ```
+
+5. 服务端、依赖与 NMS Server
 
    ```java
    new AlkaidServer(Plugin plugin);
    ```
 
-5. 任务 Task
+6. 任务 Task
 
    ```java
    new AlkaidTask(Plugin plugin);
@@ -227,6 +233,15 @@ new AlkaidEvent(this).predicate()
 ### 事件链注册器
 
 *⚠️ count 与 chain 事件注册器暂时无法正常使用 正在排查错误*
+
+## 扩展 Extra
+
+| 入口类方法 | 返回值类型 | 功能                                                         |
+| ---------- | ---------- | ------------------------------------------------------------ |
+| tick()     | void       | 提供事件名为 TickEvent 的事件 该事件每游戏 tick （约为 1 / 20 自然秒）触发一次 |
+| second()   | void       | 提供事件名为 SecondEvent 的事件 该事件每自然秒触发一次       |
+
+
 
 ## 服务端、依赖与 NMS Server
 
