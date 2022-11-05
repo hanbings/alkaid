@@ -8,4 +8,7 @@ dependencies {
 
     // https://hub.spigotmc.org/nexus/content/repositories/snapshots/
     implementation 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+
+    // https://mvnrepository.com/artifact/io.netty/netty-all
+    implementation 'io.netty:netty-all:4.1.84.Final'
 }

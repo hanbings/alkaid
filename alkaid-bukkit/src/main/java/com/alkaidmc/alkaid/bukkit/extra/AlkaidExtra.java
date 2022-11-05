@@ -6,6 +6,7 @@ import com.alkaidmc.alkaid.bukkit.extra.event.TickEvent;
 import com.alkaidmc.alkaid.bukkit.task.AlkaidTask;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.plugin.Plugin;
 
@@ -64,6 +65,20 @@ public class AlkaidExtra {
                 .priority(EventPriority.HIGHEST)
                 .filter(e -> e.getPlugin().equals(plugin))
                 .listener(e -> timer.cancel())
+                .register();
+    }
+
+    public void packet() {
+        // 检测是否已经有同类事件已经被加载
+        if (loaded("PacketReceiveEvent") && loaded("PacketSendEvent")) {
+            return;
+        }
+
+        // 监听玩家连接服务器事件 并获取 netty channel
+        new AlkaidEvent(plugin).simple()
+                .event(AsyncPlayerPreLoginEvent.class)
+                .priority(EventPriority.LOWEST)
+                .listener(e -> {})
                 .register();
     }
 
