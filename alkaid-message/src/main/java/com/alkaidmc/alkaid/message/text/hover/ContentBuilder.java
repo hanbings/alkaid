@@ -16,7 +16,10 @@
 
 package com.alkaidmc.alkaid.message.text.hover;
 
+import com.alkaidmc.alkaid.message.text.Format;
 import com.alkaidmc.alkaid.message.text.JsonTextBuilder;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Content;
 
 /**
@@ -42,6 +45,18 @@ public interface ContentBuilder<T extends Content> {
 
         public JsonTextBuilder text() {
             return new JsonTextBuilder();
+        }
+
+        public JsonTextBuilder text(String text) {
+            return text().text(text);
+        }
+
+        public JsonTextBuilder text(String text, ChatColor color, Format... formats) {
+            return text().text(text, color, formats);
+        }
+
+        public JsonTextBuilder text(String text, String color, Format... formats) {
+            return text().text(text, color, formats);
         }
     }
 }

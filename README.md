@@ -156,7 +156,8 @@ new AlkaidMessage(plugin).text()
                         .yellow()
                         .bold()
                         .underlined()
-                        .hover(hover -> hover.text().text("一眼翻译，鉴定为：再见")))
+                        .hover(hover -> hover.text("一眼翻译，鉴定为：再见")))
+                        // full ver: ... hover.text().text("一眼翻译，鉴定为：再见") ...
                 .red(", ")
                 .text("World", "#E682A0", Format.BOLD)
                 .components();
