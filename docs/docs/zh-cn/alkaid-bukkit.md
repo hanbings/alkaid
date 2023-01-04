@@ -171,7 +171,7 @@ Gson gson = AlkaidGsonBuilder.gson();
 | priority | org.bukkit.event.EventPriority | EventPriority.NORMAL | apply    | 事件的监听等级 LOWEST 为最先监听 HIGHEST 为最后监听 |
 | listener | Consumer\<T\>                  | null                 | apply    | 对所监听的事件进行处理                              |
 
-#### 完整示例
+**示例**
 
 ```java
 new AlkaidEvent(this).simple()
@@ -194,7 +194,7 @@ new AlkaidEvent(this).simple()
 | listener | Consumer\<T\>                  | null                 | apply    | 对所监听的事件进行处理                                       |
 | filter   | Predicat\<T\>                  | null                 | append   | 可以多次设置过滤 与 Stream 类似 若 filter 语句返回 true 则继续执行下一个 filter 直至执行 listener 处理事件 |
 
-#### 完整示例
+**示例**
 
 ```java
 new AlkaidEvent(this).predicate()
@@ -240,8 +240,6 @@ new AlkaidEvent(this).predicate()
 | ---------- | ---------- | ------------------------------------------------------------ |
 | tick()     | void       | 提供事件名为 TickEvent 的事件 该事件每游戏 tick （约为 1 / 20 自然秒）触发一次 |
 | second()   | void       | 提供事件名为 SecondEvent 的事件 该事件每自然秒触发一次       |
-
-
 
 ## 服务端、依赖与 NMS Server
 

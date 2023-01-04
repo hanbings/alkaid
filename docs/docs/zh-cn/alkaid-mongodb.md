@@ -3,7 +3,7 @@
 
 ## 使用模块
 
-引入 Mongodb 模块（注意替换版本号）
+引入 Mongodb 模块、Gson 解析器和 MongoDB 驱动（注意替换版本号）
 
 **Maven**
 
@@ -13,18 +13,41 @@
   <artifactId>alkaid-mongodb</artifactId>
   <version>{{alkaid.version}}</version>
 </dependency>
+
+<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+<dependency>
+    <groupId>com.google.code.gson</groupId>
+    <artifactId>gson</artifactId>
+    <version>2.10</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
+<dependency>
+    <groupId>org.mongodb</groupId>
+    <artifactId>mongo-java-driver</artifactId>
+    <version>3.12.11</version>
+</dependency>
 ```
 
 **Gradle**
 
 ```groovy
 implementation "com.alkaidmc.alkaid:alkaid-mongodb:{{alkaid.version}}"
+
+// https://mvnrepository.com/artifact/com.google.code.gson/gson
+implementation 'com.google.code.gson:gson:2.10'
+// https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+implementation 'org.mongodb:mongo-java-driver:3.12.11'
 ```
 
 **Gradle Kotlin**
 
 ```kotlin
 implementation("com.alkaidmc.alkaid:alkaid-mongodb:{{alkaid.version}}")
+
+// https://mvnrepository.com/artifact/com.google.code.gson/gson
+implementation("com.google.code.gson:gson:2.10")
+// https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver
+implementation("org.mongodb:mongo-java-driver:3.12.11")
 ```
 
 **创建模块引导类**

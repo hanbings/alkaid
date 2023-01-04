@@ -50,9 +50,7 @@ new AlkaidRedis();
 | ---------- | ------------------------------------------------------------ | --------------------- |
 | single()   | [SingleRedisConnector](https://github.com/AlkaidMC/alkaid/blob/main/alkaid-redis/src/main/java/com/alkaidmc/alkaid/redis/SingleRedisConnector.java) | 单服务端 Redis 连接器 |
 
-
-
-## 单端 Redis 连接器
+## 单端 Redis
 
 ### 使用模块引导类创建连接器
 
@@ -80,7 +78,7 @@ SingleRedisConnector connector = redis.single();
 | disconnect | void                                                         | 断开 Redis Pool 连接                        |
 | connection | [SingleRedisConnection](https://github.com/AlkaidMC/alkaid/blob/main/alkaid-redis/src/main/java/com/alkaidmc/alkaid/redis/SingleRedisConnection.java) | 获取一个单端连接                            |
 
-### 完整使用示例
+**示例**
 
 ```java
 SingleRedisConnector connector = new AlkaidRedis().single()
@@ -97,7 +95,7 @@ SingleRedisConnector connector = new AlkaidRedis().single()
 
 
 
-## 使用单端连接器获取可用连接
+### 使用单端连接器获取可用连接
 
 使用端点操作 `connection` 方法将得到一个 [SingleRedisConnection](https://github.com/AlkaidMC/alkaid/blob/main/alkaid-redis/src/main/java/com/alkaidmc/alkaid/redis/SingleRedisConnection.java) 类型可用连接
 
@@ -118,7 +116,7 @@ SingleRedisConnector connector = new AlkaidRedis().single()
 
 使用 subscribe 方法时即使用 Redis 消息发布 / 订阅机制，方法返回 JedisPubSub 后可使用 unsubscribe 取消订阅
 
-### 完整使用案例
+**示例**
 
 ```java
 package com.alkaidmc.alkaid.redis;
