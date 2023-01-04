@@ -64,6 +64,7 @@ public class SyncMongodbConnection implements WriteableActions, SyncQueryActions
                 .deleteMany(Document.parse(gson.toJsonTree(index, Map.class).toString()));
     }
 
+    // todo 可能存在内存泄漏
     @Override
     public <T> List<T> read(String collection, Map<String, Object> index, Class<T> type) {
         List<T> list = new ArrayList<>();
