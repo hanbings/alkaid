@@ -71,19 +71,19 @@ public class GuiInventory {
     }
 
     public GuiInventory item(ItemStack item, int... slots) {
-        Arrays.stream(slots).forEach(s -> items.add(s, item));
+        Arrays.stream(slots).forEach(s -> items.set(s, item));
         return this;
     }
 
     public GuiInventory free(ItemStack item) {
         for (int count = 0; count < rows * 9; count++) {
-            items.add(count, item);
+            items.set(count, item);
         }
         return this;
     }
 
     public GuiInventory click(Consumer<InventoryClickEvent> click, int... slots) {
-        Arrays.stream(slots).forEach(s -> actions.add(s, click));
+        Arrays.stream(slots).forEach(s -> actions.set(s, click));
         return this;
     }
 
