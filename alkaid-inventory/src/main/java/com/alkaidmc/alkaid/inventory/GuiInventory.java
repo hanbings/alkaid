@@ -103,7 +103,7 @@ public class GuiInventory {
                     }, plugin
             );
         });
-        Optional.ofNullable(open).ifPresent(event -> {
+        Optional.ofNullable(close).ifPresent(event -> {
             Bukkit.getPluginManager().registerEvent(
                     InventoryCloseEvent.class, LISTENER, EventPriority.LOWEST,
                     (l, e) -> {
@@ -116,19 +116,17 @@ public class GuiInventory {
         });
 
         // 设置点击事件
-        Optional.ofNullable(open).ifPresent(event -> {
-            Bukkit.getPluginManager().registerEvent(
-                    InventoryClickEvent.class, LISTENER, EventPriority.LOWEST,
-                    (l, e) -> {
-                        InventoryClickEvent action = (InventoryClickEvent) e;
-                        Optional.ofNullable(action.getClickedInventory()).ifPresent(inv -> {
-                            if (Objects.equals(action.getClickedInventory().getHolder(), holder)) {
-                                Optional.ofNullable(actions.get(action.getSlot())).ifPresent(a -> a.accept(action));
-                            }
-                        });
-                    }, plugin
-            );
-        });
+        Bukkit.getPluginManager().registerEvent(
+                InventoryClickEvent.class, LISTENER, EventPriority.LOWEST,
+                (l, e) -> {
+                    InventoryClickEvent action = (InventoryClickEvent) e;
+                    Optional.ofNullable(action.getClickedInventory()).ifPresent(inv -> {
+                        if (Objects.equals(action.getClickedInventory().getHolder(), holder)) {
+                            Optional.ofNullable(actions.get(action.getSlot())).ifPresent(a -> a.accept(action));
+                        }
+                    });
+                }, plugin
+        );
 
         // 设置拖拽事件
         Bukkit.getPluginManager().registerEvent(
