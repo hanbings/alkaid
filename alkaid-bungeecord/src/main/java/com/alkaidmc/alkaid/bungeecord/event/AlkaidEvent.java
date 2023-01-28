@@ -16,6 +16,109 @@
 
 package com.alkaidmc.alkaid.bungeecord.event;
 
+import net.md_5.bungee.api.plugin.Event;
+import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.api.plugin.PluginManager;
+import net.md_5.bungee.event.EventBus;
+import net.md_5.bungee.event.EventHandlerMethod;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.function.Consumer;
+
 @SuppressWarnings("unused")
 public class AlkaidEvent {
+    public static <T extends Event> void registerEvent(
+            Plugin plugin, Class<T> event, byte priority, Consumer<T> listener)
+            throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException {
+        registerEvent(plugin, event, priority, AlkaidEvent.class, listener);
+    }
+
+    /**
+     * register a bungee cord event.
+     *
+     * @param plugin bungee cord plugin instance
+     * @param event event
+     * @param priority event priority, use byte from EventPriority
+     * @param flag a flag class
+     * @param listener event executor
+     * @param <T> event type
+     * @throws NoSuchFieldException reflect exception
+     * @throws IllegalAccessException reflect exception
+     * @throws NoSuchMethodException reflect exception
+     */
+    public static <T extends Event> void registerEvent(
+            Plugin plugin, Class<T> event, byte priority, Class<?> flag, Consumer<T> listener)
+            throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException {
+        // get plugin manager
+        PluginManager manager = plugin.getProxy().getPluginManager();
+
+        // get eventBus from plugin manager object
+        Field eventbusField = manager.getClass().getDeclaredField("eventBus");
+        eventbusField.setAccessible(true);
+        EventBus eventbus = (EventBus) eventbusField.get(manager);
+
+        // get byListenerAndPriority from eventbus object
+        Field byListenerAndPriorityField = eventbus.getClass().getDeclaredField("byListenerAndPriority");
+        byListenerAndPriorityField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<Class<?>, Map<Byte, Map<Object, Method[]>>> byListenerAndPriority =
+                (Map<Class<?>, Map<Byte, Map<Object, Method[]>>>) byListenerAndPriorityField.get(eventbus);
+
+        // get byEventBaked from eventbus object
+        Field byEventBakedField = eventbus.getClass().getDeclaredField("byEventBaked");
+        byEventBakedField.setAccessible(true);
+        @SuppressWarnings("unchecked")
+        Map<Class<?>, EventHandlerMethod[]> byEventBaked =
+                (Map<Class<?>, EventHandlerMethod[]>) byEventBakedField.get(eventbus);
+
+        // get lock from eventbus object
+        Field lockField = eventbus.getClass().getDeclaredField("lock");
+        lockField.setAccessible(true);
+        Lock lock = (Lock) lockField.get(eventbus);
+
+        // eventbus post event should invoke a method
+        // this method from Consumer#apply
+        Method method = listener.getClass().getDeclaredMethod("accept", Object.class);
+
+        // lock
+        lock.lock();
+
+        // tag priority.
+        Map<Byte, Map<Object, Method[]>> prioritiesMap =
+                byListenerAndPriority.computeIfAbsent(flag, k -> new HashMap<>());
+        Map<Object, Method[]> currentPriorityMap =
+                prioritiesMap.computeIfAbsent(priority, k -> new HashMap<>());
+        // I don't understand this sentence :(
+        currentPriorityMap.put(listener, new Method[]{method});
+
+        // copy from EventBus#bakeHandler
+        Map<Byte, Map<Object, Method[]>> handlersByPriority = byListenerAndPriority.get(flag);
+        if (handlersByPriority != null) {
+            List<EventHandlerMethod> handlersList = new ArrayList<>(handlersByPriority.size() * 2);
+            byte value = Byte.MIN_VALUE;
+            do {
+                Map<Object, Method[]> handlersByListener = handlersByPriority.get(value);
+                if (handlersByListener != null) {
+                    for (Map.Entry<Object, Method[]> listenerHandlers : handlersByListener.entrySet()) {
+                        for (Method m : listenerHandlers.getValue()) {
+                            EventHandlerMethod ehm = new EventHandlerMethod(listenerHandlers.getKey(), m);
+                            handlersList.add(ehm);
+                        }
+                    }
+                }
+            } while (value++ < Byte.MAX_VALUE);
+            byEventBaked.put(flag, handlersList.toArray(new EventHandlerMethod[0]));
+        } else {
+            byEventBaked.remove(flag);
+        }
+
+        // unlock
+        lock.unlock();
+    }
 }
