@@ -14,30 +14,22 @@
  * limitations under the License.
  */
 
-package com.alkaidmc.alkaid.bungeecord.task;
-
-
-import lombok.RequiredArgsConstructor;
-import net.md_5.bungee.api.plugin.Plugin;
+package com.alkaidmc.alkaid.bungeecord.task.interfaces;
 
 /**
  * <p> zh </p>
- * 任务相关封装引导入口 <br>
- * 通过实例化该类可以获得一组任务封装入口方法 <br>
+ * 提供一个赋予函数接口的接口 <br>
  * <p> en </p>
- * The entry point of task related wrapper. <br>
- * You can get a set of task wrapper entry methods by instantiating this class. <br>
+ * The interface of providing a function interface. <br>
  */
-@RequiredArgsConstructor
+@FunctionalInterface
 @SuppressWarnings("unused")
-public class AlkaidTask {
-    final Plugin plugin;
-
+public interface AlkaidTaskRunnable {
     /**
-     * @return the simple task register
-     * @see SimpleTaskRegister
+     * <p> zh </p>
+     * 任务执行 <br>
+     * <p> en </p>
+     * task execution. <br>
      */
-    public SimpleTaskRegister simple() {
-        return new SimpleTaskRegister(plugin);
-    }
+    void run();
 }

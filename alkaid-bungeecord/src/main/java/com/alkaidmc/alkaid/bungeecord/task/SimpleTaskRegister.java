@@ -16,28 +16,10 @@
 
 package com.alkaidmc.alkaid.bungeecord.task;
 
-
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.plugin.Plugin;
 
-/**
- * <p> zh </p>
- * 任务相关封装引导入口 <br>
- * 通过实例化该类可以获得一组任务封装入口方法 <br>
- * <p> en </p>
- * The entry point of task related wrapper. <br>
- * You can get a set of task wrapper entry methods by instantiating this class. <br>
- */
 @RequiredArgsConstructor
-@SuppressWarnings("unused")
-public class AlkaidTask {
+public class SimpleTaskRegister {
     final Plugin plugin;
-
-    /**
-     * @return the simple task register
-     * @see SimpleTaskRegister
-     */
-    public SimpleTaskRegister simple() {
-        return new SimpleTaskRegister(plugin);
-    }
 }
