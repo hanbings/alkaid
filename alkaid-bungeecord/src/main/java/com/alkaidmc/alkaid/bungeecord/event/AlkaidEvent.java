@@ -16,6 +16,7 @@
 
 package com.alkaidmc.alkaid.bungeecord.event;
 
+import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.plugin.Event;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.api.plugin.PluginManager;
@@ -31,8 +32,11 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.function.Consumer;
 
+@RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class AlkaidEvent {
+    final Plugin plugin;
+
     public static <T extends Event> void registerEvent(
             Plugin plugin, Class<T> event, byte priority, Consumer<T> listener)
             throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException {
