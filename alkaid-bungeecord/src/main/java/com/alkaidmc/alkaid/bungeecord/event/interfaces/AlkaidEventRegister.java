@@ -14,32 +14,32 @@
  * limitations under the License.
  */
 
- package com.alkaidmc.alkaid.bungeecord.event.interfaces;
+package com.alkaidmc.alkaid.bungeecord.event.interfaces;
 
- /**
-  * <p> zh </p>
-  * 所有事件注册器的公共接口 <br>
-  * 使用 {@link #register()} 方法注册事件到 bungee cord 事件系统 <br>
-  * 使用 {@link #unregister()} 方法从 bungee cord 事件系统中注销事件 <br>
-  * <p> en </p>
-  * The common interface of all event registrar. <br>
-  * Use {@link #register()} method to register event to bungee cord event bus. <br>
-  * Use {@link #unregister()} method to unregister event from bungee cord event bus. <br>
-  */
- @SuppressWarnings("unused")
- public interface AlkaidEventRegister {
-     /**
-      * 当方法被调用时 才会注册事件到 bungee cord 事件系统
-      * When the method is called, the event will be registered to bungee cord event bus.
-      */
-     void register();
- 
-     /**
-      * 当方法被调用时 才会从 bungee cord 事件系统中注销事件
-      * When the method is called, the event will be unregistered from bungee cord event bus.
-      * 如有需要 可以重新调用 {@link #register()} 方法注册事件
-      * If you need, you can call {@link #register()} method to register event again.
-      */
-     void unregister();
- }
+/**
+ * <p> zh </p>
+ * 所有事件注册器的公共接口 <br>
+ * 使用 {@link #register()} 方法注册事件到 bungee cord 事件系统 <br>
+ * 使用 {@link #unregister()} 方法从 bungee cord 事件系统中注销事件 <br>
+ * <p> en </p>
+ * The common interface of all event registrar. <br>
+ * Use {@link #register()} method to register event to bungee cord event bus. <br>
+ * Use {@link #unregister()} method to unregister event from bungee cord event bus. <br>
+ */
+@SuppressWarnings("unused")
+public interface AlkaidEventRegister {
+    /**
+     * 当方法被调用时 才会注册事件到 bungee cord 事件系统
+     * When the method is called, the event will be registered to bungee cord event bus.
+     */
+    void register();
+
+    /**
+     * 当方法被调用时 才会从 bungee cord 事件系统中注销事件
+     * When the method is called, the event will be unregistered from bungee cord event bus.
+     * 如有需要 可以重新调用 {@link #register()} 方法注册事件
+     * If you need, you can call {@link #register()} method to register event again.
+     */
+    void unregister();
+}
  

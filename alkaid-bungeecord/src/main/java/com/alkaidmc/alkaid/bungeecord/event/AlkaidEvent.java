@@ -42,15 +42,15 @@ public class AlkaidEvent {
     /**
      * register a bungee cord event.
      *
-     * @param plugin bungee cord plugin instance
-     * @param event event
+     * @param plugin   bungee cord plugin instance
+     * @param event    event
      * @param priority event priority, use byte from EventPriority
-     * @param flag a flag class
+     * @param flag     a flag class
      * @param listener event executor
-     * @param <T> event type
-     * @throws NoSuchFieldException reflect exception
+     * @param <T>      event type
+     * @throws NoSuchFieldException   reflect exception
      * @throws IllegalAccessException reflect exception
-     * @throws NoSuchMethodException reflect exception
+     * @throws NoSuchMethodException  reflect exception
      */
     public static <T extends Event> void registerEvent(
             Plugin plugin, Class<T> event, byte priority, Class<?> flag, Consumer<T> listener)
