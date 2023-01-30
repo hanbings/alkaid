@@ -309,11 +309,11 @@ new AlkaidCommon().filewatchdog()
                 // 监听变化的频率
                 .delay(1000)
                 // 状态变更时触发
-                .create(f -> System.out.println("创建"))
-                .modify(f -> System.out.println("修改"))
-                .delete(f -> System.out.println("删除"))
+                .create(f -> System.out.println("create"))
+                .modify(f -> System.out.println("modify"))
+                .delete(f -> System.out.println("delete"))
                 // 自定义异常处理
-                .exception(e -> System.out.println("异常"))
+                .exception(e -> System.out.println("exception"))
                 .watch();
 ```
 
@@ -349,11 +349,11 @@ If you want us to implement some functions, you can tell us through Issue. There
 
 Detailed documentation is presented in Github Pages, and their source files are in the `docs` directory of this repository.
 
-[View document](https://alkaid.alkaidmc.com/docs/#/zh-cn/readme)
+[View document](https://alkaid.alkaidmc.com/docs/#/)
 
 ## 💬 Contribution
 
-**What is a contribution? **
+**What is a contribution?**
 
 Contributing is the process of assisting or participating in our development, including but not limited to reporting bugs to us, requesting reasonable new features, and submitting code.
 
@@ -388,5 +388,5 @@ Principles of the open source movement:
 
 Discussing technical issues with developers from all over the world, solving technical problems and promoting the development of applications are the essential purposes of open source.
 
-**Everyone gathers firewood and the fire is high. Open source needs to rely on everyone's efforts. Please consciously abide by the open source agreement, promote the spirit of open source, and build an open source community together! **
+**Everyone gathers firewood and the fire is high. Open source needs to rely on everyone's efforts. Please consciously abide by the open source agreement, promote the spirit of open source, and build an open source community together!**
 
