@@ -2,41 +2,41 @@
 
 <h1 align="center">🌟 Alkaid</h1>
 <h5 align="center">A Lightweight Kit Assisting In Developing.</h5>
-<h5 align="center">🚧 It will be released soon, please do not use it in production environment before that, thanks for your support!</h5>
+<h5 align="center">🚧 Release 即将发布 在此之前请勿用于生产环境 感谢支持！</h5>
 
 [[English]](./READMD.md) [[简体中文]](./README.zh-CN.md)
 
-## 🍀 What is this?
+## 🍀 这是什么？
 
-A utility library wrapping Bukkit, BungeeCord, and other planned Minecraft server-side APIs.
+一只工具库，封装 Bukkit BungeeCord 以及其他计划中的 Minecraft 服务端 API
 
-**Target:**
+**目的：**
 
-1. A set of Bukkit API that uses Java secondary packaging.
-2. More friendly API forms: chain calls and streams.
-3. Detailed documentation and Javadocs help users understand and use the code.
-4. As low coupling as possible.
-5. The smallest possible final package volume.
+1. 一套使用 Java 二次封装的 Bukkit API
+2. 更友好的 API 形式：链式调用和流（Stream）
+3. 详尽的文档与 Javadocs 帮助用户理解和使用代码
+4. 尽可能低的耦合度
+5. 尽可能小的最终包体积
 
-**Table of Contents:**
+**目录：**
 
-- What is this?
-- Quick start
-- Instructions for use
-- Example
-- Module
-- Plan
-- Documentation
-- Contribution (PR, Issue and other forms of contribution)
-- Code of Conduct
-- Open Source License
-- About Open Source
+- 这是什么？
+- 快速开始
+- 使用说明
+- 示例
+- 模块
+- 计划
+- 文档
+- 贡献（PR、Issue 与其他形式的贡献）
+- 行为准则
+- 开源许可
+- 关于开源
 
-## ⚡️ Quick start
+## ⚡️ 快速开始
 
-Currently Alkaid Lib is released at https://repository.alkaidmc.com
+目前 Alkaid Lib 发布在 https://repository.alkaidmc.com
 
-This requires adding a custom repository through Maven or Gradle and then adding the corresponding module dependencies:
+需要通过 Maven 或 Gradle 添加自定义仓库再添加对应模块依赖：
 
 **Maven**
 
@@ -68,9 +68,9 @@ maven { url = uri("https://repository.alkaidmc.com/releases") }
 maven { url = uri("https://repository.alkaidmc.com/snapshots") }
 ```
 
-## 🚀 Instructions for use
+## 🚀 使用说明
 
-**Compile**: Build using Gradle.
+**编译**：使用 Gradle 进行构造
 
 ```bash
 # clone from our repository.
@@ -81,11 +81,11 @@ $ cd alkaid
 $ gradle build
 ```
 
-## ✨ Example
+## ✨ 示例
 
-**Let's do some simple event monitoring**
+**来点简单的事件监听**
 
-Using the chain API provided by Alkaid can save the troublesome steps of inheritance and rewriting that were originally required to define listeners using the Bukkit API.
+使用 Alkaid 提供的链式 API，可以省去原先使用 Bukkit API 定义监听器所需的继承再重写的繁杂步骤。
 
 ```java
 new AlkaidEvent(plugin).simple()
@@ -103,11 +103,11 @@ new AlkaidEvent(plugin).simple()
                 .register();
 ```
 
-**Event Section**
+**事件段落**
 
-The event section consists of head event - main logic event handler - tail event.
+事件段落由头部事件 - 主逻辑事件处理器 - 尾部事件组成。
 
-The event handler will not be executed until the head event is monitored, and finally the tail event will suspend the listener until the next head event is detected and the Section will be restarted.
+监听到头部事件后才会执行事件处理器，最后由尾部事件挂起监听器，直到监听到下一个头部事件重新开始段落。
 
 ```java
 new AlkaidEvent(plugin).section()
@@ -129,7 +129,7 @@ new AlkaidEvent(plugin).section()
                 .register();
 ```
 
-**Register Command**
+**注册指令**
 
 ```java
 new AlkaidCommand(plugin).simple()
@@ -146,7 +146,7 @@ new AlkaidCommand(plugin).simple()
                 .register();
 ```
 
-**Register Task**
+**注册任务**
 
 ```java
 new AlkaidTask(plugin).simple()
@@ -157,7 +157,7 @@ new AlkaidTask(plugin).simple()
                 .register();
 ```
 
-**Create a Book**
+**创建一本书**
 
 ```java
 new AlkaidInventory(plugin).book()
@@ -169,7 +169,7 @@ new AlkaidInventory(plugin).book()
                 .written();
 ```
 
-**Custom Inventory**
+**创建自定义箱子界面**
 
 ```java
 new AlkaidInventory(plugin).gui()
@@ -196,7 +196,7 @@ new AlkaidInventory(plugin).gui()
                 .inventory();
 ```
 
-**ItemStack Builder**
+**物品堆构造器**
 
 ```java
 new AlkaidInventory(plugin).item()
@@ -223,7 +223,7 @@ new AlkaidInventory(plugin).item()
                 .item();
 ```
 
-**Json Message**
+**Json 文本生成**
 
 ```java
 new AlkaidMessage(plugin).text()
@@ -277,7 +277,7 @@ new AlkaidMessage(plugin).text()
 
 </details>
 
-**Reflection**
+**辅助反射**
 
 ```java
 new AlkaidCommon().reflection()
@@ -301,7 +301,7 @@ new AlkaidCommon().reflection()
                 .call();
 ```
 
-**File Watchdog**
+**文件监控**
 
 ```java
 new AlkaidCommon().filewatchdog()
@@ -317,7 +317,7 @@ new AlkaidCommon().filewatchdog()
                 .watch();
 ```
 
-## 📦 Module
+## 📦 模块
 
 | 模块              | 描述                           | Bukkit 支持 | Bungee Cord 支持 | 不依赖于 Bukkit / Bungee Cord |
 | ----------------- | ------------------------------ | ----------- | ---------------- | ----------------------------- |
@@ -335,58 +335,58 @@ new AlkaidCommon().filewatchdog()
 
 <h6 align="center">✔️ 表示支持 ⭕️ 表示部分支持 ❌ 表示不支持 </h6>
 
-## 🐌 Plan
+## 🐌 计划
 
-Through the plan list, you can know what we are working on and what work we plan to do.
+通过计划列表可以知道我们正在进行什么工作以及计划进行什么工作。
 
-PRs are welcome, but it's best to discuss them with us beforehand to avoid re-implementation.
+同样的，欢迎 PR 为龙龙添加功能，但最好事先与我们讨论一下，避免重复实现。
 
 [Alkaid Development](https://github.com/AlkaidMC/alkaid/projects/1)
 
-If you want us to implement some functions, you can tell us through Issue. There are some requirements for Issue / PR, please read on.
+如果希望我们实现某些功能可以通过 Issue 告诉我们，关于 Issue / PR 有一些要求，请往下阅读。
 
-## 📝 Documentation
+## 📝 文档
 
-Detailed documentation is presented in Github Pages, and their source files are in the `docs` directory of this repository.
+详细文档在 Github Pages 中展示，它们的源文件在这个仓库的 `docs` 目录中。
 
-[View document](https://alkaid.alkaidmc.com/docs/#/zh-cn/readme)
+[查看文档](https://alkaid.alkaidmc.com/docs/#/zh-cn/readme)
 
-## 💬 Contribution
+## 💬 贡献
 
-**What is a contribution? **
+**什么是贡献？**
 
-Contributing is the process of assisting or participating in our development, including but not limited to reporting bugs to us, requesting reasonable new features, and submitting code.
+贡献是协助或参与我们开发的过程，包括但不限于向我们报告漏洞、请求合理的新功能和提交代码。
 
-We have some special requirements for Issue / PR and other possible contributions, please take a closer look, thanks for your support
+对于 Issue / PR 以及其他可能的一些贡献我们有一些特殊的要求，还请仔细看一看，感谢支持 w
 
-[View Contribution Guide](https://alkaid.alkaidmc.com/docs/#/zh-cn/contributing)
+[查看贡献指南](https://alkaid.alkaidmc.com/docs/#/zh-cn/contributing)
 
-## 🍺 Code of Conduct
+## 🍺 行为准则
 
-We are writing a code of conduct...
+我们正在编写行为准则...
 
-## ⚖ Open Source License
+## ⚖ 开源许可
 
-This project is open sourced using the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) license agreement.
+本项目使用 [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.html) 许可协议进行开源。
 
-This project is a **non-profit** project.
+本项目是**非盈利性**项目。
 
-According to the agreement, this project **allows** commercial use** based on the project developed by this project under the premise of abiding by the agreement, but it should be noted that the pictures in this project (including the Alkaid displayed in the Readme.md file and other images that may appear) **Not part of the scope of open source**
-They belong to the developer [Hanbings](https://github.com/hanbings), please **remove them** when copying or modifying this project.
+依据协议，本项目**允许**遵守协议的前提下基于本项目开发的项目**进行商用**，但需要注意的是，本项目中的图片（包括 Readme.md 文件中所展示的吉祥物狼龙摇光和可能出现的其他图片）**不属于开源的范围**
+它们属于开发者 [寒冰 hanbings](https://github.com/hanbings) 个人所有，~~是寒冰的崽子~~，请在复制、修改本项目时**移除它们**。
 
-**Copyright Warning: The Alkaid font used in the mascot flutter image is a commercially licensed font Snap ITC**
+**版权警告：吉祥物狼龙摇光图片中所使用 Alkaid 字样字体为商业需授权字体 Snap ITC**
 
-## 🍀 About Open Source
+## 🍀 关于开源
 
-Open source is a spirit.
+开源是一种精神。
 
-Principles of the open source movement:
+开源运动所坚持的原则：
 
-1. Adhere to openness and sharing, and encourage maximum participation and collaboration.
-2. Respect the rights and interests of authors, while ensuring the integrity of the software program, encourage the freedom of modification and derivative innovation.
-3. Maintain independence and neutrality.
+1. 坚持开放与共享，鼓励最大化的参与与协作。
+2. 尊重作者权益，保证软件程序完整的同时，鼓励修改的自由以及衍生创新。
+3. 保持独立性和中立性。
 
-Discussing technical issues with developers from all over the world, solving technical problems and promoting the development of applications are the essential purposes of open source.
+与来自五湖四海的开发者共同**讨论**技术问题，**解决**技术难题，**促进**应用的发展是开源的本质目的。
 
-**Everyone gathers firewood and the fire is high. Open source needs to rely on everyone's efforts. Please consciously abide by the open source agreement, promote the spirit of open source, and build an open source community together! **
+**众人拾柴火焰高，开源需要依靠大家的努力，请自觉遵守开源协议，弘扬开源精神，共建开源社区！**
 
