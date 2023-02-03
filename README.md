@@ -319,21 +319,21 @@ new AlkaidCommon().filewatchdog()
 
 ## 📦 Module
 
-| 模块              | 描述                           | Bukkit 支持 | Bungee Cord 支持 | 不依赖于 Bukkit / Bungee Cord |
-| ----------------- | ------------------------------ | ----------- | ---------------- | ----------------------------- |
-| alkaid-bukkit     | Bukkit API 流式封装            | ✔️           | ❌                | ❌                             |
-| alkaid-bungeecord | Bungee Cord 流式封装           | ❌           | ✔️                | ❌                             |
-| alkaid-common     | 服务端无关工具类 如反射 sha256 | ✔️           | ✔️                | ✔️                             |
-| alkaid-inventory  | 物品和物品容器封装             | ✔️           | ❌                | ❌                             |
-| alkaid-log        | 控制台 Logger 封装 包括色彩    | ✔️           | ✔️                | ✔️                             |
-| alkaid-message    | 表达信息类封装                 | ✔️           | ⭕️                | ❌                             |
-| alkaid-metadata   | 处理 NBT 和 Region 原始数据    | ✔️           | ❌                | ❌                             |
-| alkaid-mongodb    | 对于 MongoDB 数据库的封装      | ✔️           | ✔️                | ✔️                             |
-| alkaid-organism   | 提供生物 AI 框架               | ✔️           | ❌                | ❌                             |
-| alkaid-redis      | 对于 Redis 中间件的封装        | ✔️           | ✔️                | ✔️                             |
-| alkaid-world      | 维度、群系与方块               | ✔️           | ❌                | ❌                             |
+| Module            | Description                   | Running in Bukkit | Running in Bungee Cord | Runs independently as a dependency |
+| ----------------- | ----------------------------- | ----------------- | ---------------------- | ---------------------------------- |
+| alkaid-bukkit     | Wrapper for Bukkit API        | ✔️                 | ❌                      | ❌                                  |
+| alkaid-bungeecord | Wrapper for Bungee Cord API   | ❌                 | ✔️                      | ❌                                  |
+| alkaid-common     | General Java language tools   | ✔️                 | ✔️                      | ✔️                                  |
+| alkaid-inventory  | Items and item containers     | ✔️                 | ❌                      | ❌                                  |
+| alkaid-log        | Logger and Log colors         | ✔️                 | ✔️                      | ✔️                                  |
+| alkaid-message    | Message                       | ✔️                 | ⭕️                      | ❌                                  |
+| alkaid-metadata   | NBT and Region file support   | ✔️                 | ❌                      | ❌                                  |
+| alkaid-mongodb    | MongoDB support               | ✔️                 | ✔️                      | ✔️                                  |
+| alkaid-organism   | Biological AI framework       | ✔️                 | ❌                      | ❌                                  |
+| alkaid-redis      | Redis support                 | ✔️                 | ✔️                      | ✔️                                  |
+| alkaid-world      | Dimensions, biomes and blocks | ✔️                 | ❌                      | ❌                                  |
 
-<h6 align="center">✔️ 表示支持 ⭕️ 表示部分支持 ❌ 表示不支持 </h6>
+<h6 align="center">✔️ Supported ⭕️ Only Partially Supported ❌ Not Supported </h6>
 
 ## 🐌 Plan
 
