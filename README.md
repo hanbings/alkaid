@@ -349,7 +349,7 @@ If you want us to implement some functions, you can tell us through Issue. There
 
 Detailed documentation is presented in Github Pages, and their source files are in the `docs` directory of this repository.
 
-[View document](https://alkaid.alkaidmc.com/docs/#/)
+[View Documentation](https://alkaid.alkaidmc.com/docs/#/)
 
 ## 💬 Contribution
 

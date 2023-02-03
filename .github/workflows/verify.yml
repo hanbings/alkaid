@@ -1,4 +1,4 @@
-name: Alkaid Lib Build
+name: Alkaid Build
 
 on:
   push:
