@@ -93,7 +93,7 @@ new AlkaidEvent(plugin).simple()
                 .event(PlayerJoinEvent.class)
                 // event handler
                 .listener(event -> {
-                    event.getPlayer().sendMessage("欢迎");
+                    event.getPlayer().sendMessage("Welcome!");
                 })
                 // event priority
                 .priority(EventPriority.HIGHEST)
@@ -210,12 +210,12 @@ new AlkaidInventory(plugin).item()
                 // flag
                 .flag(ItemFlag.HIDE_ENCHANTS)
                 // display name
-                .display("小蛋糕")
+                .display("This is a item")
                 // Add lore or add multiple lines of lore.
-                .lore("这是一个小蛋糕")
-                .lore("吃掉小蛋糕", "吃掉吃掉")
+                .lore("A Diamond Sword")
+                .lore("Diamond", "Sword")
                 // localizetion key
-                .localized("alkaid.inventory.cake")
+                .localized("alkaid.inventory.diamond.sword")
                 // custom model data
                 .model(1)
                 // Sets the item's unbreakable tag.
