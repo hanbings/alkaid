@@ -2,21 +2,21 @@
 
 <h1 align="center">🌟 Alkaid</h1>
 <h5 align="center">A Lightweight Kit Assisting In Developing.</h5>
-<h5 align="center">🚧 It will be released soon, please do not use it in production environment before that, thanks for your support!</h5>
+<h5 align="center">🚧 It will be released soon, before which please do not use it in production environments. Thanks for your support!</h5>
 
-[[English]](./READMD.md) [[简体中文]](./README.zh-CN.md)
+[[English]](./README.md) [[简体中文]](./README.zh-CN.md)
 
 ## 🍀 What is this?
 
-A utility library wrapping Bukkit, BungeeCord, and other planned Minecraft server-side APIs.
+A utility library wrapping Bukkit, BungeeCord, as well as other Minecraft server-side APIs in future plans.
 
 **Target:**
 
-1. A set of Bukkit API that uses Java secondary packaging.
-2. More friendly API forms: chain calls and streams.
-3. Detailed documentation and Javadocs help users understand and use the code.
-4. As low coupling as possible.
-5. The smallest possible final package volume.
+1. A set of Bukkit API secondly wrapped with Java
+2. More friendly API forms: chain calls and streams
+3. Detailed documentation and Javadocs helping users understand and use the code
+4. As low coupling as possible
+5. The smallest possible final package volume
 
 **Table of Contents:**
 

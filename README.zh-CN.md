@@ -4,7 +4,7 @@
 <h5 align="center">A Lightweight Kit Assisting In Developing.</h5>
 <h5 align="center">🚧 Release 即将发布 在此之前请勿用于生产环境 感谢支持！</h5>
 
-[[English]](./READMD.md) [[简体中文]](./README.zh-CN.md)
+[[English]](./README.md) [[简体中文]](./README.zh-CN.md)
 
 ## 🍀 这是什么？
 
