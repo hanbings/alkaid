@@ -16,31 +16,15 @@
 
 package com.alkaidmc.alkaid.mongodb;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import com.alkaidmc.alkaid.mongodb.interfaces.Connection;
+import com.alkaidmc.alkaid.mongodb.interfaces.Serialization;
+import com.mongodb.client.MongoDatabase;
 
-@Setter
-@Getter
+import java.util.concurrent.ExecutorService;
+
 @SuppressWarnings("unused")
-@Accessors(fluent = true, chain = true)
-public class AlkaidMongodb {
-
-    public MongodbConnector mongodb() {
-        return new MongodbConnector();
-    }
-
-    public MongodbClusterConnector cluster() {
-        return new MongodbClusterConnector();
-    }
-
-    @Deprecated
-    public SyncMongodbConnector sync() {
-        return new SyncMongodbConnector();
-    }
-
-    @Deprecated
-    public AsyncMongodbConnector async() {
-        return new AsyncMongodbConnector();
+public class MongodbClusterConnection extends MongodbConnection implements Connection {
+    public MongodbClusterConnection(Serialization serialization, MongoDatabase database, ExecutorService pool) {
+        super(serialization, database, pool);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Alkaid
+ * Copyright 2023 Alkaid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,74 +16,76 @@
 
 package com.alkaidmc.alkaid.mongodb;
 
-import com.google.gson.Gson;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
+import com.alkaidmc.alkaid.mongodb.interfaces.Connector;
+import com.alkaidmc.alkaid.mongodb.interfaces.Serialization;
+import com.mongodb.MongoClientSettings;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @Setter
 @Getter
-@Deprecated
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
-public class AsyncMongodbConnector {
-    String host = "127.0.0.1";
-    int port = 27017;
+public class MongodbClusterConnector implements Connector {
+    List<ServerAddress> hosts;
     String database;
     String username;
     String password;
-    Gson gson = new Gson();
-    MongoClientOptions options = null;
-
-    // 线程池参数
-    int thread = 16;
+    ExecutorService pool = Executors.newFixedThreadPool(10);
+    Serialization serialization = new GsonSerialization();
+    MongoClientSettings settings = null;
 
     // 托管 Client 的实例
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     MongoClient client = null;
-    @Setter(AccessLevel.NONE)
-    @Getter(AccessLevel.NONE)
-    ExecutorService pool = null;
 
-    public AsyncMongodbConnector connect() {
-        pool = Executors.newFixedThreadPool(thread);
+    @Override
+    public MongodbClusterConnector connect() {
         client = Optional.ofNullable(client).orElseGet(() -> {
             if (username != null && password != null) {
                 MongoCredential credential =
                         MongoCredential.createCredential(username, database, password.toCharArray());
-                return new MongoClient(new ServerAddress(host, port),
-                        credential,
-                        Optional.ofNullable(options)
-                                .orElse(MongoClientOptions
-                                        .builder()
-                                        .build()
+                return MongoClients.create(
+                        Optional.ofNullable(settings)
+                                .orElse(
+                                        MongoClientSettings.builder()
+                                                .applyToClusterSettings(builder -> builder.hosts(hosts))
+                                                .credential(credential)
+                                                .build()
                                 )
                 );
             } else {
-                return new MongoClient(new ServerAddress(host, port),
-                        Optional.ofNullable(options)
-                                .orElse(MongoClientOptions.builder().build())
+                return MongoClients.create(
+                        Optional.ofNullable(settings)
+                                .orElse(
+                                        MongoClientSettings.builder()
+                                                .applyToClusterSettings(builder -> builder.hosts(hosts))
+                                                .build()
+                                )
                 );
             }
         });
         return this;
     }
 
-
-    public AsyncMongodbConnection connection() {
-        return new AsyncMongodbConnection(gson, client.getDatabase(database), pool);
+    @Override
+    public MongodbClusterConnection connection() {
+        return new MongodbClusterConnection(serialization, client.getDatabase(database), pool);
     }
 
+    @Override
     public void disconnect() {
         client.close();
     }

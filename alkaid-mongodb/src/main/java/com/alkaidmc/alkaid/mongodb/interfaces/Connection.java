@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Alkaid
+ * Copyright 2023 Alkaid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,53 @@
 
 package com.alkaidmc.alkaid.mongodb.interfaces;
 
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.InsertManyResult;
+import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.result.UpdateResult;
+
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Future;
 
-@Deprecated
-@SuppressWarnings("unused")
-public interface SyncQueryActions {
+public interface Connection {
+    /**
+     * 创建一个数据文档
+     *
+     * @param collection 数据集合名称
+     * @param data       数据实体
+     * @return Mongodb 结果回调
+     */
+    Future<InsertOneResult> create(String collection, Object data);
+
+    /**
+     * 创建一些数据集合
+     *
+     * @param collection 数据集合名称
+     * @param data       数据实体
+     * @return Mongodb 结果回调
+     */
+    Future<InsertManyResult> create(String collection, List<Object> data);
+
+    /**
+     * 更新一些数据文档
+     *
+     * @param collection 数据集合名称
+     * @param index      数据索引 需要 new 一个目标对应的 Map kv 值 仅写入索引数据 将自动处理为 Bson
+     * @param data       数据实体 需要更新进入数据库的数据实体
+     * @return Mongodb 结果回调
+     */
+    Future<UpdateResult> update(String collection, Map<String, Object> index, Object data);
+
+    /**
+     * 删除一些数据文档
+     *
+     * @param collection 数据集合名称
+     * @param index      数据索引 需要 new 一个目标对应的 Map kv 值 仅写入索引数据 将自动处理为 Bson
+     * @return Mongodb 结果回调
+     */
+    Future<DeleteResult> delete(String collection, Map<String, Object> index);
+
     /**
      * 查询数据集合 符合的结果将进入 List 列表返回 需要提供泛型数据实体类类型
      *
@@ -29,9 +70,9 @@ public interface SyncQueryActions {
      * @param index      数据索引 需要 new 一个目标对应的 Map kv 值 仅写入索引数据 将自动处理为 Bson
      * @param type       泛型数据实体类类型
      * @param <T>        返回的数据实体类型
-     * @return 数据实体列表
+     * @return 携带数据的回调
      */
-    <T> List<T> read(String collection, Map<String, Object> index, Class<T> type);
+    <T> Future<List<T>> read(String collection, Map<String, Object> index, Class<T> type);
 
     /**
      * 搜索数据集合 符合的结果将进入 List 列表返回 需要提供泛型数据实体类类型 <br>
@@ -49,7 +90,11 @@ public interface SyncQueryActions {
      * @param type       泛型数据实体类类型
      * @param <T>        返回的数据实体类型
      * @param <V>        边界类型
-     * @return 数据实体列表
+     * @return 携带数据的回调
      */
-    <T, V> List<T> search(String collection, String data, V top, V bottom, int limit, Class<T> type);
+    <T, V> Future<List<T>> search(
+            String collection, String data,
+            V top, V bottom, int limit,
+            Class<T> type
+    );
 }

@@ -29,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SuppressWarnings("unused")
 public class AlkaidMongodbTest {
     @Test
+    @Deprecated
     public void sync() {
         SyncMongodbConnection connection = new AlkaidMongodb().sync()
                 .host("localhost")
@@ -95,6 +96,7 @@ public class AlkaidMongodbTest {
     }
 
     @Test
+    @Deprecated
     public void async() {
         AsyncMongodbConnection connection = new AlkaidMongodb().async()
                 .host("localhost")

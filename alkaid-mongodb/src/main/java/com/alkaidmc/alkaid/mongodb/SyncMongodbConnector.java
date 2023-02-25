@@ -30,6 +30,7 @@ import java.util.Optional;
 
 @Setter
 @Getter
+@Deprecated
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
 public class SyncMongodbConnector {

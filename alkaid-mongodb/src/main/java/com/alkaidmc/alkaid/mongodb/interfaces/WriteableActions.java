@@ -19,6 +19,7 @@ package com.alkaidmc.alkaid.mongodb.interfaces;
 import java.util.List;
 import java.util.Map;
 
+@Deprecated
 @SuppressWarnings("unused")
 public interface WriteableActions {
     /**

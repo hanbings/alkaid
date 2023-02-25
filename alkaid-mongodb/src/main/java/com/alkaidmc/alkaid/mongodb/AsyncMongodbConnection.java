@@ -31,6 +31,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+@Deprecated
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class AsyncMongodbConnection implements WriteableActions, AsyncQueryActions {

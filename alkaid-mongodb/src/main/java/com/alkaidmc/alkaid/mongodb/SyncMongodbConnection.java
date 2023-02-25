@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Deprecated
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class SyncMongodbConnection implements WriteableActions, SyncQueryActions {
