@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Alkaid
+ * Copyright 2023 Alkaid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,8 +31,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AlkaidMongodbTest {
     @Test
     @Deprecated
-    public void sync() {
-        SyncMongodbConnection connection = new AlkaidMongodb().sync()
+    public void sync() throws ExecutionException, InterruptedException {
+        MongodbConnection connection = new AlkaidMongodb().mongodb()
                 .host("localhost")
                 .port(27017)
                 .database("alkaid")
@@ -55,7 +56,7 @@ public class AlkaidMongodbTest {
                 new HashMap<>() {{
                     put("message", "点一份炒饭");
                 }},
-                Data.class);
+                Data.class).get();
         // 测试数据
         assertEquals("点一份炒饭", data.get(0).message);
         assertEquals(1919810, data.get(0).number);
@@ -72,7 +73,7 @@ public class AlkaidMongodbTest {
         data = connection.read("test",
                 new HashMap<>() {{
                     put("message", "点一份炒饭");
-                }}, Data.class);
+                }}, Data.class).get();
         assertEquals(0, data.size());
 
         // search 方法查询数据
@@ -90,80 +91,9 @@ public class AlkaidMongodbTest {
         // 查询数据
         data = connection.search("test", "number",
                 114514, 114516, 10,
-                Data.class);
+                Data.class).get();
         // 测试数据
         assertEquals(3, data.size());
-    }
-
-    @Test
-    @Deprecated
-    public void async() {
-        AsyncMongodbConnection connection = new AlkaidMongodb().async()
-                .host("localhost")
-                .port(27017)
-                .database("alkaid")
-                .thread(16)
-                .connect()
-                .connection();
-
-        // 清空数据
-        connection.delete("test", new HashMap<>());
-        // 写入数据
-        connection.create("test",
-                new Data("点一份炒饭",
-                        1919810,
-                        true,
-                        new HashMap<>() {{
-                            put("锟斤拷", "烫烫烫");
-                        }},
-                        new String[]{"1", "1", "4", "5", "1", "4"})
-        );
-        // 读取数据
-        connection.read("test",
-                new HashMap<>() {{
-                    put("message", "点一份炒饭");
-                }},
-                Data.class,
-                (data) -> {
-                    // 测试数据
-                    assertEquals("点一份炒饭", data.get(0).message);
-                    assertEquals(1919810, data.get(0).number);
-                    assertTrue(data.get(0).flag);
-                    assertEquals("烫烫烫", data.get(0).map.get("锟斤拷"));
-                    assertEquals("1", data.get(0).array[0]);
-                }
-        );
-
-
-        // 删除数据
-        connection.delete("test",
-                new HashMap<>() {{
-                    put("message", "点一份炒饭");
-                }});
-        // 验证删除
-        connection.read("test",
-                new HashMap<>() {{
-                    put("message", "点一份炒饭");
-                }}, Data.class,
-                (data) -> assertEquals(0, data.size()));
-
-        // search 方法查询数据
-        IntStream.range(114514, 114517).forEach(count -> {
-            connection.create("test",
-                    new Data("点一份炒饭",
-                            count,
-                            true,
-                            new HashMap<>() {{
-                                put("锟斤拷", "烫烫烫");
-                            }}, new String[]{"1", "1", "4", "5", "1", "4"})
-            );
-        });
-
-        // 查询数据
-        connection.search("test", "number",
-                114514, 114516, 10,
-                Data.class,
-                (data) -> assertEquals(3, data.size()));
     }
 
     @AllArgsConstructor

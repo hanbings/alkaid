@@ -33,14 +33,4 @@ public class AlkaidMongodb {
     public MongodbClusterConnector cluster() {
         return new MongodbClusterConnector();
     }
-
-    @Deprecated
-    public SyncMongodbConnector sync() {
-        return new SyncMongodbConnector();
-    }
-
-    @Deprecated
-    public AsyncMongodbConnector async() {
-        return new AsyncMongodbConnector();
-    }
 }
