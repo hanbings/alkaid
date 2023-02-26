@@ -21,6 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.IntStream;
 
@@ -31,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class AlkaidMongodbTest {
     @Test
     @Deprecated
-    public void sync() throws ExecutionException, InterruptedException {
+    public void mongodb() throws ExecutionException, InterruptedException {
         MongodbConnection connection = new AlkaidMongodb().mongodb()
                 .host("localhost")
                 .port(27017)
@@ -46,16 +47,12 @@ public class AlkaidMongodbTest {
                 new Data("点一份炒饭",
                         1919810,
                         true,
-                        new HashMap<>() {{
-                            put("锟斤拷", "烫烫烫");
-                        }},
+                        Map.of("锟斤拷", "烫烫烫"),
                         new String[]{"1", "1", "4", "5", "1", "4"})
         );
         // 读取数据
         List<Data> data = connection.read("test",
-                new HashMap<>() {{
-                    put("message", "点一份炒饭");
-                }},
+                Map.of("message", "点一份炒饭"),
                 Data.class).get();
         // 测试数据
         assertEquals("点一份炒饭", data.get(0).message);
@@ -65,15 +62,9 @@ public class AlkaidMongodbTest {
         assertEquals("1", data.get(0).array[0]);
 
         // 删除数据
-        connection.delete("test",
-                new HashMap<>() {{
-                    put("message", "点一份炒饭");
-                }});
+        connection.delete("test", Map.of("message", "点一份炒饭"));
         // 验证删除
-        data = connection.read("test",
-                new HashMap<>() {{
-                    put("message", "点一份炒饭");
-                }}, Data.class).get();
+        data = connection.read("test", Map.of("message", "点一份炒饭"), Data.class).get();
         assertEquals(0, data.size());
 
         // search 方法查询数据
@@ -82,9 +73,7 @@ public class AlkaidMongodbTest {
                     new Data("点一份炒饭",
                             count,
                             true,
-                            new HashMap<>() {{
-                                put("锟斤拷", "烫烫烫");
-                            }}, new String[]{"1", "1", "4", "5", "1", "4"})
+                            Map.of("锟斤拷", "烫烫烫"), new String[]{"1", "1", "4", "5", "1", "4"})
             );
         });
 
@@ -101,7 +90,7 @@ public class AlkaidMongodbTest {
         String message;
         int number;
         boolean flag;
-        HashMap<String, String> map;
+        Map<String, String> map;
         String[] array;
     }
 }
