@@ -16,10 +16,5 @@
 
 package com.alkaidmc.alkaid.redis;
 
-@SuppressWarnings("unused")
-public class AlkaidRedis {
-    @Deprecated
-    public SingleRedisConnector single() {
-        return new SingleRedisConnector();
-    }
+public class RedisClusterConnector {
 }

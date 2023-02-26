@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Alkaid
+ * Copyright 2023 Alkaid
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package com.alkaidmc.alkaid.redis;
 
+import com.alkaidmc.alkaid.redis.interfaces.Connector;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,22 +28,22 @@ import java.util.Optional;
 
 @Setter
 @Getter
-@Deprecated
 @SuppressWarnings("unused")
 @Accessors(fluent = true, chain = true)
-public class SingleRedisConnector {
+public class RedisConnector implements Connector {
     String host = "127.0.0.1";
     int port = 6379;
     String auth = null;
     int connect = 32;
     int timeout = 1000;
+    long sleep = 1000;
     JedisPoolConfig config = new JedisPoolConfig();
 
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     JedisPool pool;
 
-    public SingleRedisConnector connect() {
+    public RedisConnector connect() {
         config.setMaxTotal(connect);
 
         pool = Optional.ofNullable(auth)
@@ -56,7 +57,7 @@ public class SingleRedisConnector {
         pool.destroy();
     }
 
-    public SingleRedisConnection connection() {
-        return new SingleRedisConnection(pool);
+    public RedisConnection connection() {
+        return new RedisConnection(pool, sleep);
     }
 }

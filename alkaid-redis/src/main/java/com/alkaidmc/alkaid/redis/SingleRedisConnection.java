@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+@Deprecated
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class SingleRedisConnection {

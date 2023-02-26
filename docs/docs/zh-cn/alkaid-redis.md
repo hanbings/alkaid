@@ -1,6 +1,8 @@
 <h1 align="center">Alkaid Redis 模块</h1>
 <h6 align="center">We also provide documentation in English. <a href="../#/">Click here to go</a></h6>
 
+!> 该模块已进行了重构，文档已过时，请等待更新。
+
 ## 使用模块
 
 引入 Redis 模块与 Redis 驱动依赖（注意替换版本号）

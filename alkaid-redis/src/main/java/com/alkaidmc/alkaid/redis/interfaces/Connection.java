@@ -14,12 +14,24 @@
  * limitations under the License.
  */
 
-package com.alkaidmc.alkaid.redis;
+package com.alkaidmc.alkaid.redis.interfaces;
 
-@SuppressWarnings("unused")
-public class AlkaidRedis {
-    @Deprecated
-    public SingleRedisConnector single() {
-        return new SingleRedisConnector();
-    }
+import java.util.function.Consumer;
+
+public interface Connection {
+    void set(String key, String value);
+
+    String get(String key);
+
+    void del(String key);
+
+    void expire(String key, int seconds);
+
+    boolean exists(String key);
+
+    void publish(String channel, String message);
+
+    void subscribe(String channel, Consumer<String> message);
+
+    void unsubscribe();
 }

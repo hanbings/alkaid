@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.alkaidmc.alkaid.redis;
+package com.alkaidmc.alkaid.redis.interfaces;
 
-@SuppressWarnings("unused")
-public class AlkaidRedis {
-    @Deprecated
-    public SingleRedisConnector single() {
-        return new SingleRedisConnector();
-    }
+public interface Connector {
+    Connection connection();
+
+    Connector connect();
+
+    void disconnect();
 }
