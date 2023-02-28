@@ -3,7 +3,7 @@ subprojects {
     apply plugin: 'maven-publish'
 
     group = 'com.alkaidmc.alkaid'
-    version = '1.0.0-SNAPSHOT'
+    version = '@{{COMMIT_SHORT_SHA}}-SNAPSHOT'
 
     repositories {
         mavenCentral()
@@ -42,16 +42,17 @@ subprojects {
 
     javadoc {
         options.addBooleanOption('html5', true)
+        options.addStringOption('Xdoclint:none', '-quiet')
         options.encoding('utf-8')
     }
 
-    task sourcesJar(type: Jar) {
+    tasks.register('sourcesJar', Jar) {
         from sourceSets.main.allSource
         archiveClassifier.convention('sources')
         archiveClassifier.set('sources')
     }
 
-    task javadocJar(type: Jar) {
+    tasks.register('javadocJar', Jar) {
         from javadoc
         archiveClassifier.convention('javadocs')
         archiveClassifier.set('javadocs')
@@ -60,6 +61,13 @@ subprojects {
     publishing {
         repositories {
             maven {
+                // 处理 Release 情况下发布的包
+                if (project.version.toString().contains('COMMIT_SHORT_SHA')) {
+                    // 如果 version 字符串没有被替换则表明正在 Release 发布或本地发布
+                    // 进行重新替换版本号
+                    version = '1.0.0'
+                }
+
                 url = uri((project.findProperty("repository_root_url") ?: System.getenv("REPOSITORY_ROOT_URL"))
                         + (project.version.toString().endsWith('-SNAPSHOT') ? 'snapshots' : 'releases'))
                 credentials {
@@ -78,7 +86,7 @@ subprojects {
     }
 }
 
-task collect(type: Copy) {
+tasks.register('collect', Copy) {
     destinationDir = file('build/libs')
     subprojects.each { project ->
         from project.file('build/libs')
