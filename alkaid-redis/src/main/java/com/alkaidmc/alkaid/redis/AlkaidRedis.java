@@ -22,4 +22,12 @@ public class AlkaidRedis {
     public SingleRedisConnector single() {
         return new SingleRedisConnector();
     }
+
+    public RedisConnector redis() {
+        return new RedisConnector();
+    }
+
+    public RedisClusterConnector cluster() {
+        return new RedisClusterConnector();
+    }
 }
