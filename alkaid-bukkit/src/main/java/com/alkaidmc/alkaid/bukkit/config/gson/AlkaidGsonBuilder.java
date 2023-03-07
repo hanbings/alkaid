@@ -51,7 +51,6 @@ public class AlkaidGsonBuilder {
             gson = new GsonBuilder()
                     .enableComplexMapKeySerialization()
                     .serializeNulls()
-                    .setPrettyPrinting()
                     .registerTypeAdapter(ItemStack.class, new ItemStackGsonAdapter())
                     .registerTypeAdapter(Player.class, new PlayerGsonAdapter())
                     .registerTypeAdapter(Location.class, new LocationGsonAdapter())
