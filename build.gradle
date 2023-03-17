@@ -3,6 +3,7 @@ subprojects {
     apply plugin: 'maven-publish'
 
     group = 'com.alkaidmc.alkaid'
+    // 正式版本号在 publish 设置块中
     version = '@{{COMMIT_SHORT_SHA}}-SNAPSHOT'
 
     repositories {
