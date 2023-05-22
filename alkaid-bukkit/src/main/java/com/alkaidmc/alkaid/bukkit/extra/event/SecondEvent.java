@@ -27,6 +27,10 @@ public class SecondEvent extends Event {
     static final HandlerList HANDLERS_LIST = new HandlerList();
     final long second;
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLERS_LIST;

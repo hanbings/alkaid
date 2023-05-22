@@ -38,7 +38,6 @@ import java.lang.reflect.InvocationTargetException;
 @AllArgsConstructor
 @SuppressWarnings("unused")
 public class AlkaidCommand {
-    Plugin plugin;
     static Constructor<PluginCommand> constructor;
     static CommandMap commandMap;
 
@@ -56,6 +55,8 @@ public class AlkaidCommand {
             exception.printStackTrace();
         }
     }
+
+    Plugin plugin;
 
     /**
      * <p> zh </p>

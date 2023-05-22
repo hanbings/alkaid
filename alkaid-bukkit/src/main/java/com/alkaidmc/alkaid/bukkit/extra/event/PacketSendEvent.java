@@ -23,6 +23,10 @@ import org.jetbrains.annotations.NotNull;
 public class PacketSendEvent extends Event {
     static final HandlerList HANDLERS_LIST = new HandlerList();
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLERS_LIST;

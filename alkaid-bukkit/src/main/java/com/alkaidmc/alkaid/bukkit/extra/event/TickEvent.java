@@ -27,6 +27,10 @@ public class TickEvent extends Event {
     static final HandlerList HANDLERS_LIST = new HandlerList();
     final long tick;
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS_LIST;
+    }
+
     @Override
     public @NotNull HandlerList getHandlers() {
         return HANDLERS_LIST;
