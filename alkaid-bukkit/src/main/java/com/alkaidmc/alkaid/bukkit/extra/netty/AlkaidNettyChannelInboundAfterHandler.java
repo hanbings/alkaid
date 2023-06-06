@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package com.alkaidmc.alkaid.bukkit.extra;
+package com.alkaidmc.alkaid.bukkit.extra.netty;
 
-import io.netty.channel.ChannelOutboundHandlerAdapter;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 
-public class AlkaidNettyChannelOutboundAfterHandler extends ChannelOutboundHandlerAdapter {
+@Deprecated
+public class AlkaidNettyChannelInboundAfterHandler extends ChannelInboundHandlerAdapter {
+
 }
