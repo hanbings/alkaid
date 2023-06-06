@@ -44,6 +44,28 @@ public class AlkaidEvent {
     }
 
     /**
+     * <p> zh </p>
+     * 创建一个普通事件工厂 用于包装以隐藏事件泛型输入 <br>
+     * 同样可以通过直接实例化 {@link com.alkaidmc.alkaid.bungeecord.event.SimpleEventRegister} 来获得该注册器 <br>
+     * <p> en </p>
+     * Create a normal event factory to wrap the hidden event generic input. <br>
+     * You can also get the registrar by
+     * directly instantiating {@link com.alkaidmc.alkaid.bungeecord.event.SimpleEventRegister} <br>
+     */
+    public class SimpleEventFactory {
+        /**
+         * Register a simple event
+         *
+         * @param event the event
+         * @param <T>   the event type
+         * @return the event register
+         */
+        public <T extends Event> SimpleEventRegister<T> event(Class<T> event) {
+            return new SimpleEventRegister<>(plugin, event);
+        }
+    }
+
+    /**
      * register a bungee cord event.
      *
      * @param plugin   bungee cord plugin instance
