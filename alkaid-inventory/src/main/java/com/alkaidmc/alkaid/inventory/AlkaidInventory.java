@@ -28,8 +28,8 @@ public class AlkaidInventory {
         return new BookInventory();
     }
 
-    public GuiInventory gui() {
-        return new GuiInventory(plugin);
+    public CustomInventory gui() {
+        return new CustomInventory(plugin);
     }
 
     public ItemStackBuilder item() {
