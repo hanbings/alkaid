@@ -45,12 +45,6 @@ public class AlkaidEvent {
         this.plugin = plugin;
     }
 
-    public static <T extends Event> void registerEvent(
-            Plugin plugin, Class<T> event, byte priority, Consumer<T> listener)
-            throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException {
-        registerEvent(plugin, event, priority, AlkaidEvent.class, listener);
-    }
-
     /**
      * Register a simple event
      *
@@ -81,6 +75,12 @@ public class AlkaidEvent {
         public <T extends Event> SimpleEventRegister<T> event(Class<T> event) {
             return new SimpleEventRegister<>(plugin, event);
         }
+    }
+
+    public static <T extends Event> void registerEvent(
+            Plugin plugin, Class<T> event, byte priority, Consumer<T> listener)
+            throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException {
+        registerEvent(plugin, event, priority, AlkaidEvent.class, listener);
     }
 
     /**

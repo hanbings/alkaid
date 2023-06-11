@@ -19,7 +19,6 @@ package com.alkaidmc.alkaid.message.text.hover;
 import com.alkaidmc.alkaid.message.text.Format;
 import com.alkaidmc.alkaid.message.text.JsonTextBuilder;
 import net.md_5.bungee.api.ChatColor;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Content;
 
 /**
