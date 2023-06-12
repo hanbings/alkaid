@@ -143,13 +143,6 @@ public class CustomInventory {
                 if (r.action.right != null && ((InventoryClickEvent) e).isRightClick())
                     r.action().right().accept(inventory.getItem(slot));
             });
-
-            // fill inventory
-            registries.forEach(r -> {
-                if (!(r.slot == slot)) return;
-                inventory.setItem(slot, r.item);
-            });
-
         }, plugin, false);
 
         // drag
@@ -168,6 +161,9 @@ public class CustomInventory {
                 if (r.action().drag() != null) r.action().drag().accept(inventory.getItem(slot));
             });
         }, plugin, false);
+
+        // fill inventory
+        registries.forEach(r -> inventory.setItem(r.slot(), r.item()));
 
         return inventory;
     }
