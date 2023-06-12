@@ -51,7 +51,7 @@ public class CustomInventory {
 
     // builder
     String title = "Alkaid Custom Inventory";
-    int rows = 9;
+    int rows = 6;
     long interval = 20;
     @Nullable Holder holder;
     @Nullable Consumer<InventoryOpenEvent> open;
@@ -85,10 +85,11 @@ public class CustomInventory {
         return this;
     }
 
-    public CustomInventory structure(char[][] shape, Map<Character, ItemStackRegistry> map) {
-        for (int row = 0; row < shape.length; row++) {
-            for (int col = 0; col < shape[row].length; col++) {
-                ItemStackRegistry registry = map.get(shape[row][col]);
+    public CustomInventory structure(List<String> shape, Map<Character, ItemStackRegistry> map) {
+        for (int row = 0; row < shape.size(); row++) {
+            String line = shape.get(row);
+            for (int col = 0; col < line.length(); col++) {
+                ItemStackRegistry registry = map.get(line.charAt(col));
                 if (registry == null) continue;
                 registry.slot(row * 9 + col);
                 registries.add(registry);
@@ -141,6 +142,12 @@ public class CustomInventory {
                 // right
                 if (r.action.right != null && ((InventoryClickEvent) e).isRightClick())
                     r.action().right().accept(inventory.getItem(slot));
+            });
+
+            // fill inventory
+            registries.forEach(r -> {
+                if (!(r.slot == slot)) return;
+                inventory.setItem(slot, r.item);
             });
 
         }, plugin, false);
