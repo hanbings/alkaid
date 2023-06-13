@@ -21,7 +21,10 @@ import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.*;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -51,7 +54,6 @@ public class CustomInventory {
     String title = "Alkaid Custom Inventory";
     int rows = 6;
     long interval = 20;
-    boolean all = false;
     @Nullable Holder holder;
     @Nullable Consumer<InventoryOpenEvent> open;
     @Nullable Consumer<InventoryCloseEvent> close;
@@ -87,13 +89,19 @@ public class CustomInventory {
         return this;
     }
 
-    public CustomInventory structure(List<String> shape, Map<Character, ItemStackRegistry> map) {
+    public CustomInventory structure(List<String> shape, Map<Character, ItemStackRegister> map) {
+        this.rows = shape.size();
+
         for (int row = 0; row < shape.size(); row++) {
             String line = shape.get(row);
             for (int col = 0; col < line.length(); col++) {
-                ItemStackRegistry registry = map.get(line.charAt(col));
-                if (registry == null) continue;
-                registry.slot(row * 9 + col);
+                if (line.charAt(col) == ' ') continue;
+
+                ItemStackRegister register = map.get(line.charAt(col));
+                if (register == null) continue;
+
+                ItemStackRegistry registry = new ItemStackRegistry(row * 9 + col, register.item.clone(), register.action);
+
                 registries.add(registry);
             }
         }
@@ -112,7 +120,6 @@ public class CustomInventory {
         plugin.getServer().getPluginManager().registerEvent(InventoryOpenEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
             InventoryOpenEvent event = (InventoryOpenEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
-            if (event.getInventory().getType() == InventoryType.PLAYER && !all) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
@@ -135,7 +142,6 @@ public class CustomInventory {
         plugin.getServer().getPluginManager().registerEvent(InventoryCloseEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
             InventoryCloseEvent event = (InventoryCloseEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
-            if (event.getInventory().getType() == InventoryType.PLAYER && !all) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
@@ -149,7 +155,6 @@ public class CustomInventory {
         plugin.getServer().getPluginManager().registerEvent(InventoryClickEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
             InventoryClickEvent event = (InventoryClickEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
-            if (event.getInventory().getType() == InventoryType.PLAYER && !all) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
@@ -175,7 +180,6 @@ public class CustomInventory {
         plugin.getServer().getPluginManager().registerEvent(InventoryDragEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
             InventoryDragEvent event = (InventoryDragEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
-            if (event.getInventory().getType() == InventoryType.PLAYER && !all) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
@@ -218,6 +222,14 @@ public class CustomInventory {
         ItemStackAction action;
     }
 
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @Accessors(fluent = true, chain = true)
+    public static class ItemStackRegister {
+        ItemStack item;
+        ItemStackAction action;
+    }
 
     @Setter
     @Getter
