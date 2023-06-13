@@ -21,14 +21,12 @@ import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -53,6 +51,7 @@ public class CustomInventory {
     String title = "Alkaid Custom Inventory";
     int rows = 6;
     long interval = 20;
+    boolean all = false;
     @Nullable Holder holder;
     @Nullable Consumer<InventoryOpenEvent> open;
     @Nullable Consumer<InventoryCloseEvent> close;
@@ -69,6 +68,9 @@ public class CustomInventory {
     List<ItemStackRegistry> registries = new ArrayList<>();
     @Setter(AccessLevel.NONE)
     UUID uuid = UUID.randomUUID();
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
+    BukkitTask updater;
 
     public CustomInventory add(ItemStack item) {
         registries.add(new ItemStackRegistry(registries.size(), item, new ItemStackAction()));
@@ -108,52 +110,79 @@ public class CustomInventory {
 
         // open
         plugin.getServer().getPluginManager().registerEvent(InventoryOpenEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
-            if (!(((InventoryOpenEvent) e).getInventory().getHolder() instanceof Holder)) return;
+            InventoryOpenEvent event = (InventoryOpenEvent) e;
+            if (!(event.getInventory().getHolder() instanceof Holder)) return;
+            if (event.getInventory().getType() == InventoryType.PLAYER && !all) return;
+
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
-            if (open != null) open.accept((InventoryOpenEvent) e);
+            if (open != null) open.accept(event);
+
+            // update
+            // using bukkit scheduler
+            if (update != null) {
+                updater = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+                    if (holder.custom.uuid != uuid) return;
+                    registries = update.update(this, inventory, registries);
+                    registries.forEach(r -> r.action.update.accept(r.item));
+                    registries.forEach(r -> inventory.setItem(r.slot, r.item));
+                }, 0, interval);
+            }
+
         }, plugin, false);
 
         // close
         plugin.getServer().getPluginManager().registerEvent(InventoryCloseEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
-            if (!(((InventoryCloseEvent) e).getInventory().getHolder() instanceof Holder)) return;
+            InventoryCloseEvent event = (InventoryCloseEvent) e;
+            if (!(event.getInventory().getHolder() instanceof Holder)) return;
+            if (event.getInventory().getType() == InventoryType.PLAYER && !all) return;
+
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
-            if (close != null) close.accept((InventoryCloseEvent) e);
+            if (close != null) close.accept(event);
+
+            // stop upload
+            if (updater != null) updater.cancel();
         }, plugin, false);
 
         // click
         plugin.getServer().getPluginManager().registerEvent(InventoryClickEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
-            if (!(((InventoryClickEvent) e).getInventory().getHolder() instanceof Holder)) return;
+            InventoryClickEvent event = (InventoryClickEvent) e;
+            if (!(event.getInventory().getHolder() instanceof Holder)) return;
+            if (event.getInventory().getType() == InventoryType.PLAYER && !all) return;
+
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
-            if (click != null) click.accept((InventoryClickEvent) e);
+            if (click != null) click.accept(event);
 
             // item click callback
-            int slot = ((InventoryClickEvent) e).getSlot();
+            int slot = (event.getSlot());
             registries.forEach(r -> {
                 if (!(slot == r.slot)) return;
 
                 // click
                 if (r.action.click() != null) r.action().click().accept(inventory.getItem(slot));
                 // left
-                if (r.action().left() != null && ((InventoryClickEvent) e).isLeftClick())
+                if (r.action().left() != null && (event.isLeftClick()))
                     r.action().left().accept(inventory.getItem(slot));
                 // right
-                if (r.action.right != null && ((InventoryClickEvent) e).isRightClick())
+                if (r.action.right != null && (event.isRightClick()))
                     r.action().right().accept(inventory.getItem(slot));
             });
         }, plugin, false);
 
         // drag
         plugin.getServer().getPluginManager().registerEvent(InventoryDragEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
-            if (!(((InventoryDragEvent) e).getInventory().getHolder() instanceof Holder)) return;
+            InventoryDragEvent event = (InventoryDragEvent) e;
+            if (!(event.getInventory().getHolder() instanceof Holder)) return;
+            if (event.getInventory().getType() == InventoryType.PLAYER && !all) return;
+
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
-            if (drag != null) drag.accept((InventoryDragEvent) e);
+            if (drag != null) drag.accept(event);
 
             // item drag callback
-            int slot = ((InventoryDragEvent) e).getRawSlots().stream().findFirst().orElse(-1);
+            int slot = (event.getRawSlots().stream().findFirst().orElse(-1));
             registries.forEach(r -> {
                 if (!(slot == r.slot)) return;
 
