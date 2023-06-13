@@ -89,18 +89,18 @@ Using the chain API provided by Alkaid can save the troublesome steps of inherit
 
 ```java
 new AlkaidEvent(plugin).simple()
-                // event
-                .event(PlayerJoinEvent.class)
-                // event handler
-                .listener(event -> {
-                    event.getPlayer().sendMessage("Welcome!");
-                })
-                // event priority
-                .priority(EventPriority.HIGHEST)
-                // ignore cancel
-                .ignore(false)
-                // register to bukkit
-                .register();
+		// event
+		.event(PlayerJoinEvent.class)
+        // event handler
+        .listener(event -> {
+        	event.getPlayer().sendMessage("Welcome!");
+        })
+        // event priority
+        .priority(EventPriority.HIGHEST)
+        // ignore cancel
+        .ignore(false)
+        // register to bukkit
+        .register();
 ```
 
 **Event Section**
@@ -111,131 +111,147 @@ The event handler will not be executed until the head event is monitored, and fi
 
 ```java
 new AlkaidEvent(plugin).section()
-                .event(PlayerBedEnterEvent.class)
-                .listener(event -> {
-                    event.getPlayer().sendMessage("Good night!");
-                })
-                // Each entity is processed separately, that is to say, each entity corresponds to a Section. 
-                // After opening, the section only accepts events that inherit PlayerEvent or EntityEvent.
-                .entity(true)
-                // Filter events that do not match the criteria.
-                .filter(event -> event.getPlayer().isSleeping())
-                // Start listening when this event is heard.
-                .commence(PlayerBedEnterEvent.class)
-                // Stop listening when listening to this event.
-                .interrupt(PlayerBedLeaveEvent.class)
-                .ignore(true)
-                .priority(EventPriority.HIGHEST)
-                .register();
+		.event(PlayerBedEnterEvent.class)
+        .listener(event -> {
+        	event.getPlayer().sendMessage("Good night!");
+        })
+        // Each entity is processed separately, that is to say, each entity corresponds to a Section. 
+        // After opening, the section only accepts events that inherit PlayerEvent or EntityEvent.
+        .entity(true)
+        // Filter events that do not match the criteria.
+        .filter(event -> event.getPlayer().isSleeping())
+        // Start listening when this event is heard.
+        .commence(PlayerBedEnterEvent.class)
+        // Stop listening when listening to this event.
+        .interrupt(PlayerBedLeaveEvent.class)
+        .ignore(true)
+        .priority(EventPriority.HIGHEST)
+        .register();
 ```
 
 **Register Command**
 
 ```java
 new AlkaidCommand(plugin).simple()
-                .command("alkaid")
-                .description("Alkaid")
-                .permission("alkaid.permission")
-                .usage("/alkaid")
-                .aliases(List.of("alias"))
-                .executor((sender, command, label, args) -> {
-                    sender.sendMessage("Hello！");
-                    return true;
-                })
-                .tab((sender, command, alias, args) -> List.of("Hello"))
-                .register();
+         .command("alkaid")
+         .description("Alkaid")
+         .permission("alkaid.permission")
+         .usage("/alkaid")
+         .aliases(List.of("alias"))
+         .executor((sender, command, label, args) -> {
+         	sender.sendMessage("Hello！");
+            return true;
+         })
+         .tab((sender, command, alias, args) -> List.of("Hello"))
+         .register();
 ```
 
 **Register Task**
 
 ```java
 new AlkaidTask(plugin).simple()
-                .run(() -> System.out.println("This is a task."))
-                .delay(20)
-                .period(20)
-                .async(true)
-                .register();
+         .run(() -> System.out.println("This is a task."))
+         .delay(20)
+         .period(20)
+         .async(true)
+         .register();
 ```
 
 **Create a Book**
 
 ```java
 new AlkaidInventory(plugin).book()
-                .title("The title")
-                .author("author")
-                .write("This is a sentence written in the book.")
-                .write(2, "This is a sentence written on the third page of the book.")
-                // get itemStack
-                .written();
+		.title("The title")
+        .author("author")
+        .write("This is a sentence written in the book.")
+        .write(2, "This is a sentence written on the third page of the book.")
+        // get itemStack
+        .written();
 ```
 
 **Custom Inventory**
 
 ```java
-new AlkaidInventory(plugin).gui()
-                // size
-                .rows(6)
-                // inventory holder
-                .holder(Bukkit.getPlayer("hanbings"))
-                // Dragging is not allowed.
-                .drag(false)
-                // inventory title
-                .title("Alkaid")
-                // Set items at the specific location.
-                .item(new ItemStack(Material.BOOK), 12, 13, 14)
-                .item(new ItemStack(Material.LIGHT_BLUE_BANNER), 32, 33, 34)
-                // Sets the item in the free position.
-                .free(new ItemStack(Material.BLACK_BANNER))
-                // Sets the item's open event.
-                .open((e) -> e.getPlayer().sendMessage("opened!"))
-                // Sets the item's click event.
-                .click((e) -> e.getWhoClicked().sendMessage("clicked!"), 1, 2, 3)
-                .click((e) -> e.getWhoClicked().sendMessage("clicked!"), 4, 5, 6)
-                // Sets the item's close event.
-                .close((e) -> e.getPlayer().sendMessage("closed!"))
-                .inventory();
+ItemStack book = new ItemStack(Material.BOOK);
+ItemStack glass = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
+
+CustomInventory.ItemStackAction action = new CustomInventory.ItemStackAction()
+		.click(e -> this.getLogger().info("click"))
+        .left(e -> this.getLogger().info("left"))
+        .right(e -> this.getLogger().info("right"))
+        .drag(e -> this.getLogger().info("drag"))
+        .update(e -> this.getLogger().info("update"));
+
+@SuppressWarnings("all")
+Inventory inventory = new AlkaidInventory(this).gui()
+		.title("Alkaid Custom Inventory")
+        .rows(3)
+        .interval(2000)
+        .structure(
+        	List.of(
+            	"#########",
+            	"####A####",
+            	"#########"
+        	),
+            Map.of(
+                '#', new CustomInventory.ItemStackRegister(glass, action),
+                'A', new CustomInventory.ItemStackRegister(book, action)
+            )
+        )
+        .open(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
+        .close(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
+        .click(e -> {
+        	if (e.getClickedInventory() == null) return;
+            	if (e.getClickedInventory().getHolder() instanceof Player) return;
+                e.setCancelled(true);
+        	})
+        .drag(e -> e.setCancelled(true))
+        .update((custom, inv , registries) -> {
+        	return registries;
+        })
+        .inventory();
 ```
 
 **ItemStack Builder**
 
 ```java
 new AlkaidInventory(plugin).item()
-                // Creates a new ItemStackBuilder from an existing ItemStack ItemMeta or Material.
-                .of(Material.DIAMOND_SWORD)
-                .of(new ItemStack(Material.DIAMOND_SWORD))
-                // set amount
-                .amount(1)
-                // add enchantment
-                .enchantment(Enchantment.DAMAGE_ALL, 1)
-                // flag
-                .flag(ItemFlag.HIDE_ENCHANTS)
-                // display name
-                .display("This is a item")
-                // Add lore or add multiple lines of lore.
-                .lore("A Diamond Sword")
-                .lore("Diamond", "Sword")
-                // localizetion key
-                .localized("alkaid.inventory.diamond.sword")
-                // custom model data
-                .model(1)
-                // Sets the item's unbreakable tag.
-                .unbreakable(false)
-                .item();
+		// Creates a new ItemStackBuilder from an existing ItemStack ItemMeta or Material.
+        .of(Material.DIAMOND_SWORD)
+        .of(new ItemStack(Material.DIAMOND_SWORD))
+        // set amount
+        .amount(1)
+        // add enchantment
+        .enchantment(Enchantment.DAMAGE_ALL, 1)
+        // flag
+        .flag(ItemFlag.HIDE_ENCHANTS)
+        // display name
+        .display("This is a item")
+        // Add lore or add multiple lines of lore.
+        .lore("A Diamond Sword")
+        .lore("Diamond", "Sword")
+        // localizetion key
+        .localized("alkaid.inventory.diamond.sword")
+        // custom model data
+        .model(1)
+        // Sets the item's unbreakable tag.
+        .unbreakable(false)
+        .item();
 ```
 
 **Json Message**
 
 ```java
 new AlkaidMessage(plugin).text()
-                .append(it -> it.text("Hello")
-                        .yellow()
-                        .bold()
-                        .underlined()
-                        .hover(hover -> hover.text("一眼翻译，鉴定为：再见")))
-                        // full ver: ... hover.text().text("一眼翻译，鉴定为：再见") ...
-                .red(", ")
-                .text("World", "#E682A0", Format.BOLD)
-                .components();
+        .append(it -> it.text("Hello")
+        	.yellow()
+        	.bold()
+        	.underlined()
+        	.hover(hover -> hover.text("一眼翻译，鉴定为：再见")))
+        	// full ver: ... hover.text().text("一眼翻译，鉴定为：再见") ...
+        .red(", ")
+        .text("World", "#E682A0", Format.BOLD)
+        .components();
 ```
 
 <details>
@@ -281,40 +297,40 @@ new AlkaidMessage(plugin).text()
 
 ```java
 new AlkaidCommon().reflection()
-                // set class
-                .clazz(AlkaidCommon.class)
-                // set classloader
-                .loader(this.getClass().getClassLoader())
-                // init class
-                .initialize(true)
-                // target method name
-                .method("test")
-                // set instance
-                .instance(null)
-                // set calling args
-                .args(null)
-                // catch exception
-                .exception(Throwable::printStackTrace)
-                // result
-                .result(System.out::println)
-                // call
-                .call();
+		// set class
+        .clazz(AlkaidCommon.class)
+        // set classloader
+        .loader(this.getClass().getClassLoader())
+        // init class
+        .initialize(true)
+        // target method name
+        .method("test")
+        // set instance
+        .instance(null)
+        // set calling args
+        .args(null)
+        // catch exception
+        .exception(Throwable::printStackTrace)
+        // result
+        .result(System.out::println)
+        // call
+        .call();
 ```
 
 **File Watchdog**
 
 ```java
 new AlkaidCommon().filewatchdog()
-                .path(Paths.get("alkaid.txt"))
-                // delay time / second
-                .delay(1000)
-                // status
-                .create(f -> System.out.println("create"))
-                .modify(f -> System.out.println("modify"))
-                .delete(f -> System.out.println("delete"))
-                // catch exception
-                .exception(e -> System.out.println("exception"))
-                .watch();
+		.path(Paths.get("alkaid.txt"))
+        // delay time / second
+        .delay(1000)
+        // status
+        .create(f -> System.out.println("create"))
+        .modify(f -> System.out.println("modify"))
+        .delete(f -> System.out.println("delete"))
+        // catch exception
+        .exception(e -> System.out.println("exception"))
+        .watch();
 ```
 
 ## 📦 Module

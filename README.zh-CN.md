@@ -89,18 +89,18 @@ $ gradle build
 
 ```java
 new AlkaidEvent(plugin).simple()
-                // 监听的事件
-                .event(PlayerJoinEvent.class)
-                // 事件处理器
-                .listener(event -> {
-                    event.getPlayer().sendMessage("欢迎");
-                })
-                // 事件优先级
-                .priority(EventPriority.HIGHEST)
-                // 忽略取消标志位
-                .ignore(false)
-                // 将事件注册到 Bukkit 事件系统
-                .register();
+		// 监听的事件
+        .event(PlayerJoinEvent.class)
+        // 事件处理器
+        .listener(event -> {
+			event.getPlayer().sendMessage("欢迎");
+        })
+        // 事件优先级
+        .priority(EventPriority.HIGHEST)
+        // 忽略取消标志位
+        .ignore(false)
+        // 将事件注册到 Bukkit 事件系统
+        .register();
 ```
 
 **事件段落**
@@ -111,131 +111,153 @@ new AlkaidEvent(plugin).simple()
 
 ```java
 new AlkaidEvent(plugin).section()
-                .event(PlayerBedEnterEvent.class)
-                .listener(event -> {
-                    event.getPlayer().sendMessage("晚安");
-                })
-                // 分别处理每一个实体 也就是说每一个实体对应一个段落
-                // 开启后段落只接受继承 PlayerEvent 或 EntityEvent 的事件
-                .entity(true)
-                // 过滤不符合条件的事件
-                .filter(event -> event.getPlayer().isSleeping())
-                // 监听到此事件时开始监听
-                .commence(PlayerBedEnterEvent.class)
-                // 监听到此事件时停止监听
-                .interrupt(PlayerBedLeaveEvent.class)
-                .ignore(true)
-                .priority(EventPriority.HIGHEST)
-                .register();
+        .event(PlayerBedEnterEvent.class)
+        .listener(event -> {
+        	event.getPlayer().sendMessage("晚安");
+        })
+        // 分别处理每一个实体 也就是说每一个实体对应一个段落
+        // 开启后段落只接受继承 PlayerEvent 或 EntityEvent 的事件
+        .entity(true)
+        // 过滤不符合条件的事件
+        .filter(event -> event.getPlayer().isSleeping())
+        // 监听到此事件时开始监听
+        .commence(PlayerBedEnterEvent.class)
+        // 监听到此事件时停止监听
+        .interrupt(PlayerBedLeaveEvent.class)
+        .ignore(true)
+        .priority(EventPriority.HIGHEST)
+		.register();
 ```
 
 **注册指令**
 
 ```java
 new AlkaidCommand(plugin).simple()
-                .command("alkaid")
-                .description("须臾曈昽开晓晴 烂银一色摇光晶")
-                .permission("alkaid.permission")
-                .usage("/alkaid")
-                .aliases(List.of("alias"))
-                .executor((sender, command, label, args) -> {
-                    sender.sendMessage("你好！");
-                    return true;
-                })
-                .tab((sender, command, alias, args) -> List.of("你好"))
-                .register();
+		.command("alkaid")
+        .description("须臾曈昽开晓晴 烂银一色摇光晶")
+        .permission("alkaid.permission")
+        .usage("/alkaid")
+        .aliases(List.of("alias"))
+        .executor((sender, command, label, args) -> {
+        	sender.sendMessage("你好！");
+            	return true;
+        })
+        .tab((sender, command, alias, args) -> List.of("你好"))
+        .register();
 ```
 
 **注册任务**
 
 ```java
 new AlkaidTask(plugin).simple()
-                .run(() -> System.out.println("快和我一起歌唱 好孩子才不怕悲伤"))
-                .delay(20)
-                .period(20)
-                .async(true)
-                .register();
+		.run(() -> System.out.println("快和我一起歌唱 好孩子才不怕悲伤"))
+        .delay(20)
+        .period(20)
+        .async(true)
+        .register();
 ```
 
 **创建一本书**
 
 ```java
 new AlkaidInventory(plugin).book()
-                .title("这是一本书")
-                .author("这是一本书的作者")
-                .write("这是往书里写了一句话")
-                .write(2, "这是往第三页写了一句话")
-                // 生成书的 ItemStack
-                .written();
+		.title("这是一本书")
+        .author("这是一本书的作者")
+        .write("这是往书里写了一句话")
+        .write(2, "这是往第三页写了一句话")
+        // 生成书的 ItemStack
+        .written();
 ```
 
 **创建自定义箱子界面**
 
 ```java
-new AlkaidInventory(plugin).gui()
-                // 大小
-                .rows(6)
-                // 持有者
-                .holder(Bukkit.getPlayer("hanbings"))
-                // 不允许拖拽
-                .drag(false)
-                // 标题
-                .title("Alkaid")
-                // 设置特定位置的物品
-                .item(new ItemStack(Material.BOOK), 12, 13, 14)
-                .item(new ItemStack(Material.LIGHT_BLUE_BANNER), 32, 33, 34)
-                // 设置空闲位置的物品
-                .free(new ItemStack(Material.BLACK_BANNER))
-                // 设置物品的打开事件
-                .open((e) -> e.getPlayer().sendMessage("打开了"))
-                // 设置物品的点击事件
-                .click((e) -> e.getWhoClicked().sendMessage("点了一下"), 1, 2, 3)
-                .click((e) -> e.getWhoClicked().sendMessage("点了一下"), 4, 5, 6)
-                // 设置物品的关闭事件
-                .close((e) -> e.getPlayer().sendMessage("关闭了"))
-                .inventory();
+// 创建物品
+ItemStack book = new ItemStack(Material.BOOK);
+ItemStack glass = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
+
+// 创建对物品的动作处理
+CustomInventory.ItemStackAction action = new CustomInventory.ItemStackAction()
+		.click(e -> this.getLogger().info("别戳啦！"))
+        .left(e -> this.getLogger().info("喵喵"))
+        .right(e -> this.getLogger().info("喵喵"))
+        .drag(e -> this.getLogger().info("不要！"))
+        .update(e -> this.getLogger().info("刷新！"));
+
+@SuppressWarnings("all")
+Inventory inventory = new AlkaidInventory(this).gui()
+		.title("Alkaid Custom Inventory")
+        .rows(3)
+    	// 更新周期
+        .interval(2000)
+    	// 使用图形结构布局
+        .structure(
+        	List.of(
+            	"#########",
+            	"####A####",
+            	"#########"
+        	),
+            Map.of(
+                '#', new CustomInventory.ItemStackRegister(glass, action),
+                'A', new CustomInventory.ItemStackRegister(book, action)
+            )
+         )
+    	// 打开 Inventory 触发
+        .open(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
+        // 关闭 Inventory 触发
+    	.close(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
+        .click(e -> {
+         	if (e.getClickedInventory() == null) return;
+            	if (e.getClickedInventory().getHolder() instanceof Player) return;
+                e.setCancelled(true);
+            })
+        .drag(e -> e.setCancelled(true))
+        .update((custom, inv , registries) -> {
+        	return registries;
+        })
+        .inventory();
 ```
 
 **物品堆构造器**
 
 ```java
 new AlkaidInventory(plugin).item()
-                // 从现有的 ItemStack ItemMeta 或 Material 创建一个新的 ItemStackBuilder
-                .of(Material.DIAMOND_SWORD)
-                .of(new ItemStack(Material.DIAMOND_SWORD))
-                // 可堆叠物品堆叠数量
-                .amount(1)
-                // 附魔效果
-                .enchantment(Enchantment.DAMAGE_ALL, 1)
-                // 标记位
-                .flag(ItemFlag.HIDE_ENCHANTS)
-                // 名称
-                .display("小蛋糕")
-                // 添加 lore 或 多行 lore
-                .lore("这是一个小蛋糕")
-                .lore("吃掉小蛋糕", "吃掉吃掉")
-                // 本地化键
-                .localized("alkaid.inventory.cake")
-                // custom model data
-                .model(1)
-                // 设置物品的 unbreakable 标签是否为 true.
-                .unbreakable(false)
-                .item();
+        // 从现有的 ItemStack ItemMeta 或 Material 创建一个新的 ItemStackBuilder
+        .of(Material.DIAMOND_SWORD)
+        .of(new ItemStack(Material.DIAMOND_SWORD))
+        // 可堆叠物品堆叠数量
+        .amount(1)
+        // 附魔效果
+		.enchantment(Enchantment.DAMAGE_ALL, 1)
+        // 标记位
+        .flag(ItemFlag.HIDE_ENCHANTS)
+        // 名称
+        .display("小蛋糕")
+        // 添加 lore 或 多行 lore
+        .lore("这是一个小蛋糕")
+        .lore("吃掉小蛋糕", "吃掉吃掉")
+        // 本地化键
+        .localized("alkaid.inventory.cake")
+        // custom model data
+        .model(1)
+        // 设置物品的 unbreakable 标签是否为 true.
+        .unbreakable(false)
+        .item();
 ```
 
 **Json 文本生成**
 
 ```java
 new AlkaidMessage(plugin).text()
-                .append(it -> it.text("Hello")
-                        .yellow()
-                        .bold()
-                        .underlined()
-                        .hover(hover -> hover.text("一眼翻译，鉴定为：再见")))
-                        // full ver: ... hover.text().text("一眼翻译，鉴定为：再见") ...
-                .red(", ")
-                .text("World", "#E682A0", Format.BOLD)
-                .components();
+		.append(it -> it.text("Hello")
+			.yellow()
+            .bold()
+            .underlined()
+            .hover(hover -> hover.text("一眼翻译，鉴定为：再见")))
+            // full ver: ... hover.text().text("一眼翻译，鉴定为：再见") ...
+        .red(", ")
+        .text("World", "#E682A0", Format.BOLD)
+        .components();
 ```
 
 <details>
@@ -281,40 +303,40 @@ new AlkaidMessage(plugin).text()
 
 ```java
 new AlkaidCommon().reflection()
-                // 设置类 / 字符串类路径
-                .clazz(AlkaidCommon.class)
-                // 指定类加载器
-                .loader(this.getClass().getClassLoader())
-                // 是否初始化类
-                .initialize(true)
-                // 设置方法名
-                .method("test")
-                // 设置执行方法实例
-                .instance(null)
-                // 设置方法参数
-                .args(null)
-                // 自定义异常
-                .exception(Throwable::printStackTrace)
-                // 设置执行结果处理器
-                .result(System.out::println)
-                // 执行
-                .call();
+		// 设置类 / 字符串类路径
+        .clazz(AlkaidCommon.class)
+        // 指定类加载器
+        .loader(this.getClass().getClassLoader())
+        // 是否初始化类
+        .initialize(true)
+        // 设置方法名
+        .method("test")
+        // 设置执行方法实例
+        .instance(null)
+        // 设置方法参数
+        .args(null)
+        // 自定义异常
+        .exception(Throwable::printStackTrace)
+        // 设置执行结果处理器
+        .result(System.out::println)
+        // 执行
+        .call();
 ```
 
 **文件监控**
 
 ```java
 new AlkaidCommon().filewatchdog()
-                .path(Paths.get("alkaid.txt"))
-                // 监听变化的频率
-                .delay(1000)
-                // 状态变更时触发
-                .create(f -> System.out.println("创建"))
-                .modify(f -> System.out.println("修改"))
-                .delete(f -> System.out.println("删除"))
-                // 自定义异常处理
-                .exception(e -> System.out.println("异常"))
-                .watch();
+		.path(Paths.get("alkaid.txt"))
+        // 监听变化的频率
+        .delay(1000)
+        // 状态变更时触发
+        .create(f -> System.out.println("创建"))
+        .modify(f -> System.out.println("修改"))
+        .delete(f -> System.out.println("删除"))
+        // 自定义异常处理
+        .exception(e -> System.out.println("异常"))
+        .watch();
 ```
 
 ## 📦 模块
