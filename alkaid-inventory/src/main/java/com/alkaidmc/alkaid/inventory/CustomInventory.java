@@ -130,9 +130,13 @@ public class CustomInventory {
             if (update != null) {
                 updater = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
                     if (holder.custom.uuid != uuid) return;
-                    registries = update.update(this, inventory, registries);
+                    List<ItemStackRegistry> relist = update.update(this, inventory, registries);
                     registries.forEach(r -> r.action.update.accept(r.item));
-                    registries.forEach(r -> inventory.setItem(r.slot, r.item));
+
+                    if (relist != null) {
+                        registries = relist;
+                        registries.forEach(r -> inventory.setItem(r.slot, r.item));
+                    }
                 }, 0, interval);
             }
 
