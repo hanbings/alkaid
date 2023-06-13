@@ -89,8 +89,8 @@ Using the chain API provided by Alkaid can save the troublesome steps of inherit
 
 ```java
 new AlkaidEvent(plugin).simple()
-		// event
-		.event(PlayerJoinEvent.class)
+        // event
+        .event(PlayerJoinEvent.class)
         // event handler
         .listener(event -> {
         	event.getPlayer().sendMessage("Welcome!");
@@ -111,9 +111,9 @@ The event handler will not be executed until the head event is monitored, and fi
 
 ```java
 new AlkaidEvent(plugin).section()
-		.event(PlayerBedEnterEvent.class)
+        .event(PlayerBedEnterEvent.class)
         .listener(event -> {
-        	event.getPlayer().sendMessage("Good night!");
+            event.getPlayer().sendMessage("Good night!");
         })
         // Each entity is processed separately, that is to say, each entity corresponds to a Section. 
         // After opening, the section only accepts events that inherit PlayerEvent or EntityEvent.
@@ -161,7 +161,7 @@ new AlkaidTask(plugin).simple()
 
 ```java
 new AlkaidInventory(plugin).book()
-		.title("The title")
+        .title("The title")
         .author("author")
         .write("This is a sentence written in the book.")
         .write(2, "This is a sentence written on the third page of the book.")
@@ -176,7 +176,7 @@ ItemStack book = new ItemStack(Material.BOOK);
 ItemStack glass = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
 
 CustomInventory.ItemStackAction action = new CustomInventory.ItemStackAction()
-		.click(e -> this.getLogger().info("click"))
+        .click(e -> this.getLogger().info("click"))
         .left(e -> this.getLogger().info("left"))
         .right(e -> this.getLogger().info("right"))
         .drag(e -> this.getLogger().info("drag"))
@@ -184,15 +184,15 @@ CustomInventory.ItemStackAction action = new CustomInventory.ItemStackAction()
 
 @SuppressWarnings("all")
 Inventory inventory = new AlkaidInventory(this).gui()
-		.title("Alkaid Custom Inventory")
+        .title("Alkaid Custom Inventory")
         .rows(3)
         .interval(2000)
         .structure(
-        	List.of(
-            	"#########",
-            	"####A####",
-            	"#########"
-        	),
+            List.of(
+                "#########",
+                "####A####",
+                "#########"
+            ),
             Map.of(
                 '#', new CustomInventory.ItemStackRegister(glass, action),
                 'A', new CustomInventory.ItemStackRegister(book, action)
@@ -201,13 +201,13 @@ Inventory inventory = new AlkaidInventory(this).gui()
         .open(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
         .close(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
         .click(e -> {
-        	if (e.getClickedInventory() == null) return;
-            	if (e.getClickedInventory().getHolder() instanceof Player) return;
+            if (e.getClickedInventory() == null) return;
+                if (e.getClickedInventory().getHolder() instanceof Player) return;
                 e.setCancelled(true);
-        	})
+            })
         .drag(e -> e.setCancelled(true))
         .update((custom, inv , registries) -> {
-        	return registries;
+            return registries;
         })
         .inventory();
 ```
@@ -216,7 +216,7 @@ Inventory inventory = new AlkaidInventory(this).gui()
 
 ```java
 new AlkaidInventory(plugin).item()
-		// Creates a new ItemStackBuilder from an existing ItemStack ItemMeta or Material.
+        // Creates a new ItemStackBuilder from an existing ItemStack ItemMeta or Material.
         .of(Material.DIAMOND_SWORD)
         .of(new ItemStack(Material.DIAMOND_SWORD))
         // set amount
@@ -244,11 +244,11 @@ new AlkaidInventory(plugin).item()
 ```java
 new AlkaidMessage(plugin).text()
         .append(it -> it.text("Hello")
-        	.yellow()
-        	.bold()
-        	.underlined()
-        	.hover(hover -> hover.text("一眼翻译，鉴定为：再见")))
-        	// full ver: ... hover.text().text("一眼翻译，鉴定为：再见") ...
+            .yellow()
+            .bold()
+            .underlined()
+            .hover(hover -> hover.text("一眼翻译，鉴定为：再见")))
+            // full ver: ... hover.text().text("一眼翻译，鉴定为：再见") ...
         .red(", ")
         .text("World", "#E682A0", Format.BOLD)
         .components();
@@ -297,7 +297,7 @@ new AlkaidMessage(plugin).text()
 
 ```java
 new AlkaidCommon().reflection()
-		// set class
+        // set class
         .clazz(AlkaidCommon.class)
         // set classloader
         .loader(this.getClass().getClassLoader())
@@ -321,7 +321,7 @@ new AlkaidCommon().reflection()
 
 ```java
 new AlkaidCommon().filewatchdog()
-		.path(Paths.get("alkaid.txt"))
+        .path(Paths.get("alkaid.txt"))
         // delay time / second
         .delay(1000)
         // status

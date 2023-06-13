@@ -89,11 +89,11 @@ $ gradle build
 
 ```java
 new AlkaidEvent(plugin).simple()
-		// 监听的事件
+        // 监听的事件
         .event(PlayerJoinEvent.class)
         // 事件处理器
         .listener(event -> {
-			event.getPlayer().sendMessage("欢迎");
+            event.getPlayer().sendMessage("欢迎");
         })
         // 事件优先级
         .priority(EventPriority.HIGHEST)
@@ -113,7 +113,7 @@ new AlkaidEvent(plugin).simple()
 new AlkaidEvent(plugin).section()
         .event(PlayerBedEnterEvent.class)
         .listener(event -> {
-        	event.getPlayer().sendMessage("晚安");
+            event.getPlayer().sendMessage("晚安");
         })
         // 分别处理每一个实体 也就是说每一个实体对应一个段落
         // 开启后段落只接受继承 PlayerEvent 或 EntityEvent 的事件
@@ -126,21 +126,21 @@ new AlkaidEvent(plugin).section()
         .interrupt(PlayerBedLeaveEvent.class)
         .ignore(true)
         .priority(EventPriority.HIGHEST)
-		.register();
+        .register();
 ```
 
 **注册指令**
 
 ```java
 new AlkaidCommand(plugin).simple()
-		.command("alkaid")
+        .command("alkaid")
         .description("须臾曈昽开晓晴 烂银一色摇光晶")
         .permission("alkaid.permission")
         .usage("/alkaid")
         .aliases(List.of("alias"))
         .executor((sender, command, label, args) -> {
-        	sender.sendMessage("你好！");
-            	return true;
+            sender.sendMessage("你好！");
+                return true;
         })
         .tab((sender, command, alias, args) -> List.of("你好"))
         .register();
@@ -150,7 +150,7 @@ new AlkaidCommand(plugin).simple()
 
 ```java
 new AlkaidTask(plugin).simple()
-		.run(() -> System.out.println("快和我一起歌唱 好孩子才不怕悲伤"))
+        .run(() -> System.out.println("快和我一起歌唱 好孩子才不怕悲伤"))
         .delay(20)
         .period(20)
         .async(true)
@@ -161,7 +161,7 @@ new AlkaidTask(plugin).simple()
 
 ```java
 new AlkaidInventory(plugin).book()
-		.title("这是一本书")
+        .title("这是一本书")
         .author("这是一本书的作者")
         .write("这是往书里写了一句话")
         .write(2, "这是往第三页写了一句话")
@@ -178,7 +178,7 @@ ItemStack glass = new ItemStack(Material.BLUE_STAINED_GLASS_PANE);
 
 // 创建对物品的动作处理
 CustomInventory.ItemStackAction action = new CustomInventory.ItemStackAction()
-		.click(e -> this.getLogger().info("别戳啦！"))
+        .click(e -> this.getLogger().info("别戳啦！"))
         .left(e -> this.getLogger().info("喵喵"))
         .right(e -> this.getLogger().info("喵喵"))
         .drag(e -> this.getLogger().info("不要！"))
@@ -186,34 +186,34 @@ CustomInventory.ItemStackAction action = new CustomInventory.ItemStackAction()
 
 @SuppressWarnings("all")
 Inventory inventory = new AlkaidInventory(this).gui()
-		.title("Alkaid Custom Inventory")
+        .title("Alkaid Custom Inventory")
         .rows(3)
     	// 更新周期
         .interval(2000)
     	// 使用图形结构布局
         .structure(
-        	List.of(
-            	"#########",
-            	"####A####",
-            	"#########"
-        	),
+            List.of(
+                "#########",
+                "####A####",
+                "#########"
+            ),
             Map.of(
                 '#', new CustomInventory.ItemStackRegister(glass, action),
                 'A', new CustomInventory.ItemStackRegister(book, action)
             )
          )
-    	// 打开 Inventory 触发
+        // 打开 Inventory 触发
         .open(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
         // 关闭 Inventory 触发
-    	.close(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
+        .close(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
         .click(e -> {
-         	if (e.getClickedInventory() == null) return;
-            	if (e.getClickedInventory().getHolder() instanceof Player) return;
+            if (e.getClickedInventory() == null) return;
+                if (e.getClickedInventory().getHolder() instanceof Player) return;
                 e.setCancelled(true);
             })
         .drag(e -> e.setCancelled(true))
         .update((custom, inv , registries) -> {
-        	return registries;
+            return registries;
         })
         .inventory();
 ```
@@ -249,8 +249,8 @@ new AlkaidInventory(plugin).item()
 
 ```java
 new AlkaidMessage(plugin).text()
-		.append(it -> it.text("Hello")
-			.yellow()
+        .append(it -> it.text("Hello")
+            .yellow()
             .bold()
             .underlined()
             .hover(hover -> hover.text("一眼翻译，鉴定为：再见")))
@@ -303,7 +303,7 @@ new AlkaidMessage(plugin).text()
 
 ```java
 new AlkaidCommon().reflection()
-		// 设置类 / 字符串类路径
+        // 设置类 / 字符串类路径
         .clazz(AlkaidCommon.class)
         // 指定类加载器
         .loader(this.getClass().getClassLoader())
@@ -327,7 +327,7 @@ new AlkaidCommon().reflection()
 
 ```java
 new AlkaidCommon().filewatchdog()
-		.path(Paths.get("alkaid.txt"))
+        .path(Paths.get("alkaid.txt"))
         // 监听变化的频率
         .delay(1000)
         // 状态变更时触发
