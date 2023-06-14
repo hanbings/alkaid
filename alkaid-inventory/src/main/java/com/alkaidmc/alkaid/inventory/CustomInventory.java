@@ -109,7 +109,7 @@ public class CustomInventory {
                 int index = indexMap.get(line.charAt(col)).getAndIncrement();
 
                 ItemStackRegistry registry = new ItemStackRegistry(
-                    slot, register.item.apply(slot, index), register.action.apply(slot, index)
+                    slot, register.item.apply(slot, index).clone(), register.action.apply(slot, index)
                 );
 
                 registries.add(registry);
