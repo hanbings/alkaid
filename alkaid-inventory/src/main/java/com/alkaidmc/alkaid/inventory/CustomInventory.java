@@ -32,10 +32,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
 @Setter
@@ -92,6 +91,8 @@ public class CustomInventory {
     public CustomInventory structure(List<String> shape, Map<Character, ItemStackRegister> map) {
         this.rows = shape.size();
 
+        final Map<Character, AtomicInteger> indexMap = new HashMap<>();
+
         for (int row = 0; row < shape.size(); row++) {
             String line = shape.get(row);
             for (int col = 0; col < line.length(); col++) {
@@ -100,7 +101,16 @@ public class CustomInventory {
                 ItemStackRegister register = map.get(line.charAt(col));
                 if (register == null) continue;
 
-                ItemStackRegistry registry = new ItemStackRegistry(row * 9 + col, register.item.clone(), register.action);
+                int slot = row * 9 + col;
+
+                if (indexMap.containsKey(line.charAt(col))) {
+                    indexMap.put(line.charAt(col), new AtomicInteger());
+                }
+                int index = indexMap.get(line.charAt(col)).getAndIncrement();
+
+                ItemStackRegistry registry = new ItemStackRegistry(
+                    slot, register.item.apply(slot, index), register.action.apply(slot, index)
+                );
 
                 registries.add(registry);
             }
@@ -231,8 +241,12 @@ public class CustomInventory {
     @AllArgsConstructor
     @Accessors(fluent = true, chain = true)
     public static class ItemStackRegister {
-        ItemStack item;
-        ItemStackAction action;
+        BiFunction<Integer, Integer, ItemStack> item;
+        BiFunction<Integer, Integer, ItemStackAction> action;
+
+        public ItemStackRegister(ItemStack itemStack, ItemStackAction action) {
+            this((slot, index) -> itemStack, (slot, index) -> action);
+        }
     }
 
     @Setter

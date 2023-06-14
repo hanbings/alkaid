@@ -185,28 +185,37 @@ CustomInventory.ItemStackAction action = new CustomInventory.ItemStackAction()
 @SuppressWarnings("all")
 Inventory inventory = new AlkaidInventory(this).gui()
         .title("Alkaid Custom Inventory")
-        .rows(3)
+        .rows(5)
         .interval(2000)
         .structure(
             List.of(
                 "#########",
                 "####A####",
+                "#########",
+                "#BBBBBBB#",
                 "#########"
             ),
             Map.of(
                 '#', new CustomInventory.ItemStackRegister(glass, action),
-                'A', new CustomInventory.ItemStackRegister(book, action)
+                'A', new CustomInventory.ItemStackRegister(book, action),
+                'B', new CustomInventory.ItemStackRegister(
+                    (slot, index) -> new ItemStackBuilder()
+                        .of(Material.PAPER)
+                        .display("I'm number %d!".formatted(index + 1))
+                        .item(),
+                    (slot, index) -> action
+                )
             )
         )
         .open(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
         .close(e -> ((Player) e.getPlayer()).playSound(e.getPlayer().getLocation(), "minecraft:block.note_block.pling", 1, 1))
         .click(e -> {
             if (e.getClickedInventory() == null) return;
-                if (e.getClickedInventory().getHolder() instanceof Player) return;
-                e.setCancelled(true);
-            })
+            if (e.getClickedInventory().getHolder() instanceof Player) return;
+            e.setCancelled(true);
+        })
         .drag(e -> e.setCancelled(true))
-        .update((custom, inv , registries) -> {
+        .update((custom, inv, registries) -> {
             return registries;
         })
         .inventory();
