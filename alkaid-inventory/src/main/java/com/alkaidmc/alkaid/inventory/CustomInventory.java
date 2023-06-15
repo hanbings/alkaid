@@ -141,7 +141,13 @@ public class CustomInventory {
                     if (event.getPlayer() instanceof Player) return;
 
                     List<ItemStackRegistry> relist = update.update(this, inventory, registries);
-                    registries.forEach(registry -> registry.action.update.update(this, inventory, registries, (Player) event.getPlayer()));
+                    registries.forEach(registry -> registry.action.update.update(
+                            this,
+                            inventory,
+                            registries,
+                            registry,
+                            (Player) event.getPlayer()
+                    ));
 
                     if (relist != null) {
                         registries = relist;
@@ -271,7 +277,7 @@ public class CustomInventory {
 
     @FunctionalInterface
     public interface ItemStackUpdate {
-        void update(CustomInventory custom, Inventory inventory, List<ItemStackRegistry> registries, Player player);
+        void update(CustomInventory custom, Inventory inventory, List<ItemStackRegistry> registries, ItemStackRegistry registry, Player player);
     }
 
     @FunctionalInterface
