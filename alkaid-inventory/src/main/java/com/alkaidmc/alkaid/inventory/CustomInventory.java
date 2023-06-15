@@ -19,12 +19,10 @@ package com.alkaidmc.alkaid.inventory;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryDragEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
@@ -58,7 +56,7 @@ public class CustomInventory {
     @Nullable Consumer<InventoryCloseEvent> close;
     @Nullable Consumer<InventoryClickEvent> click;
     @Nullable Consumer<InventoryDragEvent> drag;
-    @Nullable Update update;
+    @Nullable CustomInventory.InventoryUpdate update;
 
     // instance
     @Getter(AccessLevel.NONE)
@@ -109,7 +107,7 @@ public class CustomInventory {
                 int index = indexMap.get(line.charAt(col)).getAndIncrement();
 
                 ItemStackRegistry registry = new ItemStackRegistry(
-                    slot, register.item.apply(slot, index).clone(), register.action.apply(slot, index)
+                        slot, register.item.apply(slot, index).clone(), register.action.apply(slot, index)
                 );
 
                 registries.add(registry);
@@ -140,12 +138,14 @@ public class CustomInventory {
             if (update != null) {
                 updater = Bukkit.getScheduler().runTaskTimer(plugin, () -> {
                     if (holder.custom.uuid != uuid) return;
+                    if (event.getPlayer() instanceof Player) return;
+
                     List<ItemStackRegistry> relist = update.update(this, inventory, registries);
-                    registries.forEach(r -> r.action.update.accept(r.item));
+                    registries.forEach(registry -> registry.action.update.update(this, inventory, registries, (Player) event.getPlayer()));
 
                     if (relist != null) {
                         registries = relist;
-                        registries.forEach(r -> inventory.setItem(r.slot, r.item));
+                        registries.forEach(registry -> inventory.setItem(registry.slot, registry.item));
                     }
                 }, 0, interval);
             }
@@ -176,17 +176,18 @@ public class CustomInventory {
 
             // item click callback
             int slot = (event.getSlot());
-            registries.forEach(r -> {
-                if (!(slot == r.slot)) return;
+            registries.forEach(registry -> {
+                if (!(slot == registry.slot)) return;
 
                 // click
-                if (r.action.click() != null) r.action().click().accept(inventory.getItem(slot));
+                if (registry.action.click != null)
+                    registry.action.click.update(this, registries, event);
                 // left
-                if (r.action().left() != null && (event.isLeftClick()))
-                    r.action().left().accept(inventory.getItem(slot));
+                if (registry.action.left != null && (event.isLeftClick()))
+                    registry.action.left.update(this, registries, event);
                 // right
-                if (r.action.right != null && (event.isRightClick()))
-                    r.action().right().accept(inventory.getItem(slot));
+                if (registry.action.right != null && (event.isRightClick()))
+                    registry.action.right.update(this, registries, event);
             });
         }, plugin, false);
 
@@ -201,16 +202,17 @@ public class CustomInventory {
 
             // item drag callback
             int slot = (event.getRawSlots().stream().findFirst().orElse(-1));
-            registries.forEach(r -> {
-                if (!(slot == r.slot)) return;
+            registries.forEach(registry -> {
+                if (!(slot == registry.slot)) return;
 
                 // drag
-                if (r.action().drag() != null) r.action().drag().accept(inventory.getItem(slot));
+                if (registry.action.drag != null)
+                    registry.action.drag.update(this, registries, event);
             });
         }, plugin, false);
 
         // fill inventory
-        registries.forEach(r -> inventory.setItem(r.slot(), r.item()));
+        registries.forEach(registry -> inventory.setItem(registry.slot(), registry.item()));
 
         return inventory;
     }
@@ -219,11 +221,11 @@ public class CustomInventory {
     @Getter
     @Accessors(fluent = true, chain = true)
     public static class ItemStackAction {
-        Consumer<ItemStack> click;
-        Consumer<ItemStack> left;
-        Consumer<ItemStack> right;
-        Consumer<ItemStack> drag;
-        Consumer<ItemStack> update;
+        ItemStackActivity<InventoryClickEvent> click;
+        ItemStackActivity<InventoryClickEvent> left;
+        ItemStackActivity<InventoryClickEvent> right;
+        ItemStackActivity<InventoryDragEvent> drag;
+        CustomInventory.ItemStackUpdate update;
     }
 
     @Setter
@@ -263,7 +265,17 @@ public class CustomInventory {
     }
 
     @FunctionalInterface
-    public interface Update {
+    public interface InventoryUpdate {
         List<ItemStackRegistry> update(CustomInventory custom, Inventory inventory, List<ItemStackRegistry> registries);
+    }
+
+    @FunctionalInterface
+    public interface ItemStackUpdate {
+        void update(CustomInventory custom, Inventory inventory, List<ItemStackRegistry> registries, Player player);
+    }
+
+    @FunctionalInterface
+    public interface ItemStackActivity<T extends InventoryEvent> {
+        void update(CustomInventory custom, List<ItemStackRegistry> registries, T event);
     }
 }
