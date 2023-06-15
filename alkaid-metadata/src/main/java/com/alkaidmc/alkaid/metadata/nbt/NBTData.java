@@ -21,12 +21,24 @@ import lombok.RequiredArgsConstructor;
 import net.minecraft.nbt.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Milkory
  */
 public record NBTData(@Getter NBTDataType type, @Getter Object data) {
+
+    public static final NBTData BYTE = of((byte) 0);
+    public static final NBTData SHORT = of((short) 0);
+    public static final NBTData INT = of(0);
+    public static final NBTData LONG = of(0L);
+    public static final NBTData FLOAT = of(0F);
+    public static final NBTData DOUBLE = of(0D);
+    public static final NBTData BYTE_ARRAY = of(new byte[0]);
+    public static final NBTData STRING = of("");
+    public static final NBTData INT_ARRAY = of(new int[0]);
+    public static final NBTData LONG_ARRAY = of(new long[0]);
 
     public byte asByte() {
         return (byte) data;

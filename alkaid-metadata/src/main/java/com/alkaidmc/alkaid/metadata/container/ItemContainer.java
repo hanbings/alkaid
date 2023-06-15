@@ -43,6 +43,7 @@ public class ItemContainer implements MetadataContainer {
     @Override public void saveMetadata(NBTCompound data) {
         var nms = CraftItemStack.asNMSCopy(owner);
         nms.c(data.toNMSCompound());
+        owner.setItemMeta(CraftItemStack.asBukkitCopy(nms).getItemMeta());
     }
 
 }

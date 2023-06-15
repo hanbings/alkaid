@@ -126,7 +126,7 @@ public record ContainerComponentStream(ContainerComponentStream root, NBTCompoun
     }
 
     public void save() {
-        if (this == root) {
+        if (root == this) {
             compound.saveTo(owner);
         } else {
             root.save();

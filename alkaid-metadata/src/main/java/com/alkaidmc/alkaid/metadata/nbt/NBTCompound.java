@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.nbt.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,56 +118,66 @@ public class NBTCompound {
         return data.get(path);
     }
 
+    private NBTData getOrCreate(String path, NBTData value) {
+        var result = data.get(path);
+        if (result == null) {
+            data.put(path, value);
+            return value;
+        } else {
+            return result;
+        }
+    }
+
     public byte getByte(String path) {
-        return data.get(path).asByte();
+        return getOrCreate(path, NBTData.BYTE).asByte();
     }
 
     public boolean getBoolean(String path) {
-        return data.get(path).asBoolean();
+        return getOrCreate(path, NBTData.BYTE).asBoolean();
     }
 
     public short getShort(String path) {
-        return data.get(path).asShort();
+        return getOrCreate(path, NBTData.SHORT).asShort();
     }
 
     public int getInt(String path) {
-        return data.get(path).asInt();
+        return getOrCreate(path, NBTData.INT).asInt();
     }
 
     public long getLong(String path) {
-        return data.get(path).asLong();
+        return getOrCreate(path, NBTData.LONG).asLong();
     }
 
     public float getFloat(String path) {
-        return data.get(path).asFloat();
+        return getOrCreate(path, NBTData.FLOAT).asFloat();
     }
 
     public double getDouble(String path) {
-        return data.get(path).asDouble();
+        return getOrCreate(path, NBTData.DOUBLE).asDouble();
     }
 
     public byte[] getByteArray(String path) {
-        return data.get(path).asByteArray();
+        return getOrCreate(path, NBTData.BYTE_ARRAY).asByteArray();
     }
 
     public String getString(String path) {
-        return data.get(path).asString();
+        return getOrCreate(path, NBTData.STRING).asString();
     }
 
     public List<NBTData> getList(String path) {
-        return data.get(path).asList();
+        return getOrCreate(path, NBTData.of(new ArrayList<>())).asList();
     }
 
     public NBTCompound getCompound(String path) {
-        return data.get(path).asCompound();
+        return getOrCreate(path, NBTData.of(new NBTCompound())).asCompound();
     }
 
     public int[] getIntArray(String path) {
-        return data.get(path).asIntArray();
+        return getOrCreate(path, NBTData.INT_ARRAY).asIntArray();
     }
 
     public long[] getLongArray(String path) {
-        return data.get(path).asLongArray();
+        return getOrCreate(path, NBTData.LONG_ARRAY).asLongArray();
     }
 
     public NBTTagCompound toNMSCompound() {
@@ -221,7 +232,7 @@ public class NBTCompound {
                         result.set(key, ((NBTTagLongArray) value).g());
             }
         }
-        return null;
+        return result;
     }
 
     public static class Builder {
