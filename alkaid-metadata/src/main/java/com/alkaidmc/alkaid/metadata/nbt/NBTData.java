@@ -18,18 +18,15 @@ package com.alkaidmc.alkaid.metadata.nbt;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.nbt.*;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 /**
  * @author Milkory
  */
-@Getter
-@RequiredArgsConstructor
-public class NBTData {
-
-    private final NBTDataType type;
-    private final Object data;
+public record NBTData(@Getter NBTDataType type, @Getter Object data) {
 
     public byte asByte() {
         return (byte) data;
@@ -82,6 +79,75 @@ public class NBTData {
 
     public long[] asLongArray() {
         return (long[]) data;
+    }
+
+    NBTBase nms() {
+        return switch (type) {
+            case BYTE -> NBTTagByte.a(asByte());
+            case SHORT -> NBTTagShort.a(asShort());
+            case INT -> NBTTagInt.a(asInt());
+            case LONG -> NBTTagLong.a(asLong());
+            case FLOAT -> NBTTagFloat.a(asFloat());
+            case DOUBLE -> NBTTagDouble.a(asDouble());
+            case BYTE_ARRAY -> new NBTTagByteArray(asByteArray());
+            case STRING -> NBTTagString.a(asString());
+            case LIST -> NMSUtil.toNMSFrom(asList());
+            case COMPOUND -> asCompound().toNMSCompound();
+            case INT_ARRAY -> new NBTTagIntArray(asIntArray());
+            case LONG_ARRAY -> new NBTTagLongArray(asLongArray());
+        };
+    }
+
+    public static NBTData of(byte value) {
+        return new NBTData(NBTDataType.BYTE, value);
+    }
+
+    public static NBTData of(boolean value) {
+        return new NBTData(NBTDataType.BYTE, value ? 1 : 0);
+    }
+
+    public static NBTData of(short value) {
+        return new NBTData(NBTDataType.SHORT, value);
+    }
+
+    public static NBTData of(int value) {
+        return new NBTData(NBTDataType.INT, value);
+    }
+
+    public static NBTData of(long value) {
+        return new NBTData(NBTDataType.LONG, value);
+    }
+
+    public static NBTData of(float value) {
+        return new NBTData(NBTDataType.FLOAT, value);
+    }
+
+    public static NBTData of(double value) {
+        return new NBTData(NBTDataType.DOUBLE, value);
+    }
+
+    public static NBTData of(byte[] value) {
+        return new NBTData(NBTDataType.BYTE_ARRAY, value);
+    }
+
+    public static NBTData of(String value) {
+        return new NBTData(NBTDataType.STRING, value);
+    }
+
+    public static NBTData of(List<NBTData> value) {
+        return new NBTData(NBTDataType.LIST, value);
+    }
+
+    public static NBTData of(NBTCompound value) {
+        return new NBTData(NBTDataType.COMPOUND, value);
+    }
+
+    public static NBTData of(int[] value) {
+        return new NBTData(NBTDataType.INT_ARRAY, value);
+    }
+
+    public static NBTData of(long[] value) {
+        return new NBTData(NBTDataType.LONG_ARRAY, value);
     }
 
 }

@@ -17,7 +17,6 @@
 package com.alkaidmc.alkaid.metadata.nbt;
 
 import com.alkaidmc.alkaid.metadata.MetadataContainer;
-import com.alkaidmc.alkaid.metadata.util.NMSUtil;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.minecraft.nbt.*;
@@ -40,10 +39,6 @@ public class NBTCompound {
 
     public NBTCompound(Map<String, NBTData> data) {
         this.data = data;
-    }
-
-    public NBTCompound(NBTCompound compound) {
-        this(compound.data);
     }
 
     /**
@@ -175,7 +170,9 @@ public class NBTCompound {
     }
 
     public NBTTagCompound toNMSCompound() {
-        return null;
+        var result = new NBTTagCompound();
+        data.forEach((k, v) -> result.a(k, v.nms()));
+        return result;
     }
 
     /**
@@ -185,50 +182,124 @@ public class NBTCompound {
         return new NBTCompound();
     }
 
+    public static NBTCompound of(Map<String, NBTData> data) {
+        return new NBTCompound(data);
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static NBTCompound from(NBTTagCompound compound) {
         var result = NBTCompound.of();
         for (String key : compound.e()) {
             var value = compound.c(key);
             switch (value.b()) {
-                case 1: // byte
-                    result.set(key, ((NBTTagByte) value).i());
-                    break;
-                case 2: // short
-                    result.set(key, ((NBTTagShort) value).h());
-                    break;
-                case 3: // int
-                    result.set(key, ((NBTTagInt) value).g());
-                    break;
-                case 4: // long
-                    result.set(key, ((NBTTagLong) value).f());
-                    break;
-                case 5: // float
-                    result.set(key, ((NBTTagFloat) value).k());
-                    break;
-                case 6: // double
-                    result.set(key, ((NBTTagDouble) value).j());
-                    break;
-                case 7: // byte array
-                    result.set(key, ((NBTTagByteArray) value).e());
-                    break;
-                case 8: // string
-                    result.set(key, value.f_());
-                    break;
-                case 9: // list
-                    result.set(key, NMSUtil.toListFrom((NBTTagList) value));
-                    break;
-                case 10: // compound
-                    result.set(key, NBTCompound.from((NBTTagCompound) value));
-                    break;
-                case 11: // int array
-                    result.set(key, ((NBTTagIntArray) value).g());
-                    break;
-                case 12: // long array
-                    result.set(key, ((NBTTagLongArray) value).g());
-                    break;
+                case 1 -> // byte
+                        result.set(key, ((NBTTagByte) value).i());
+                case 2 -> // short
+                        result.set(key, ((NBTTagShort) value).h());
+                case 3 -> // int
+                        result.set(key, ((NBTTagInt) value).g());
+                case 4 -> // long
+                        result.set(key, ((NBTTagLong) value).f());
+                case 5 -> // float
+                        result.set(key, ((NBTTagFloat) value).k());
+                case 6 -> // double
+                        result.set(key, ((NBTTagDouble) value).j());
+                case 7 -> // byte array
+                        result.set(key, ((NBTTagByteArray) value).e());
+                case 8 -> // string
+                        result.set(key, value.f_());
+                case 9 -> // list
+                        result.set(key, NMSUtil.toListFrom((NBTTagList) value));
+                case 10 -> // compound
+                        result.set(key, NBTCompound.from((NBTTagCompound) value));
+                case 11 -> // int array
+                        result.set(key, ((NBTTagIntArray) value).g());
+                case 12 -> // long array
+                        result.set(key, ((NBTTagLongArray) value).g());
             }
         }
         return null;
+    }
+
+    public static class Builder {
+        private final NBTCompound compound = new NBTCompound();
+
+        public Builder merge(NBTCompound compound) {
+            compound.merge(compound);
+            return this;
+        }
+
+        public Builder entry(String path, byte value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, boolean value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, short value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, int value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, long value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, float value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, double value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, byte[] value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, String value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, List<NBTData> value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, NBTCompound value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, int[] value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public Builder entry(String path, long[] value) {
+            compound.set(path, value);
+            return this;
+        }
+
+        public NBTCompound build() {
+            return compound;
+        }
     }
 
 }

@@ -17,6 +17,7 @@
 package com.alkaidmc.alkaid.metadata;
 
 import com.alkaidmc.alkaid.metadata.nbt.NBTCompound;
+import com.alkaidmc.alkaid.metadata.stream.ContainerComponentStream;
 
 /**
  * @author Milkory
@@ -35,8 +36,8 @@ public interface MetadataContainer {
      */
     void saveMetadata(NBTCompound data);
 
-    default ContainerStream stream() {
-        return new ContainerStream(null, getMetadata(), this);
+    default ContainerComponentStream stream() {
+        return new ContainerComponentStream(null, getMetadata(), this);
     }
 
     /**
