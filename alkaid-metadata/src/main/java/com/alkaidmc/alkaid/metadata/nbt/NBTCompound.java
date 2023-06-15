@@ -17,8 +17,10 @@
 package com.alkaidmc.alkaid.metadata.nbt;
 
 import com.alkaidmc.alkaid.metadata.MetadataContainer;
+import com.alkaidmc.alkaid.metadata.util.NMSUtil;
 import lombok.Getter;
 import lombok.experimental.Accessors;
+import net.minecraft.nbt.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -108,11 +110,11 @@ public class NBTCompound {
         data.put(path, new NBTData(NBTDataType.COMPOUND, value));
     }
 
-    public void getIntArray(String path, int[] value) {
+    public void set(String path, int[] value) {
         data.put(path, new NBTData(NBTDataType.INT_ARRAY, value));
     }
 
-    public void getLongArray(String path, long[] value) {
+    public void set(String path, long[] value) {
         data.put(path, new NBTData(NBTDataType.LONG, value));
     }
 
@@ -172,11 +174,61 @@ public class NBTCompound {
         return data.get(path).asLongArray();
     }
 
+    public NBTTagCompound toNMSCompound() {
+        return null;
+    }
+
     /**
      * @return An empty compound
      */
     public static NBTCompound of() {
         return new NBTCompound();
+    }
+
+    public static NBTCompound from(NBTTagCompound compound) {
+        var result = NBTCompound.of();
+        for (String key : compound.e()) {
+            var value = compound.c(key);
+            switch (value.b()) {
+                case 1: // byte
+                    result.set(key, ((NBTTagByte) value).i());
+                    break;
+                case 2: // short
+                    result.set(key, ((NBTTagShort) value).h());
+                    break;
+                case 3: // int
+                    result.set(key, ((NBTTagInt) value).g());
+                    break;
+                case 4: // long
+                    result.set(key, ((NBTTagLong) value).f());
+                    break;
+                case 5: // float
+                    result.set(key, ((NBTTagFloat) value).k());
+                    break;
+                case 6: // double
+                    result.set(key, ((NBTTagDouble) value).j());
+                    break;
+                case 7: // byte array
+                    result.set(key, ((NBTTagByteArray) value).e());
+                    break;
+                case 8: // string
+                    result.set(key, value.f_());
+                    break;
+                case 9: // list
+                    result.set(key, NMSUtil.toListFrom((NBTTagList) value));
+                    break;
+                case 10: // compound
+                    result.set(key, NBTCompound.from((NBTTagCompound) value));
+                    break;
+                case 11: // int array
+                    result.set(key, ((NBTTagIntArray) value).g());
+                    break;
+                case 12: // long array
+                    result.set(key, ((NBTTagLongArray) value).g());
+                    break;
+            }
+        }
+        return null;
     }
 
 }
