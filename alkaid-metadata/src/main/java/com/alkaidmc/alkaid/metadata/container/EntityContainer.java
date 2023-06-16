@@ -18,8 +18,6 @@ package com.alkaidmc.alkaid.metadata.container;
 
 import com.alkaidmc.alkaid.metadata.MetadataContainer;
 import com.alkaidmc.alkaid.metadata.nbt.NBTCompound;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftEntity;
 import org.bukkit.entity.Entity;
@@ -27,23 +25,16 @@ import org.bukkit.entity.Entity;
 /**
  * @author Milkory
  */
-@RequiredArgsConstructor
-public class EntityContainer implements MetadataContainer {
-
-    @Getter private final Entity owner;
-    private final net.minecraft.world.entity.Entity nms;
-
-    public EntityContainer(Entity owner) {
-        this.owner = owner;
-        this.nms = ((CraftEntity) owner).getHandle();
-    }
+public record EntityContainer(Entity owner) implements MetadataContainer {
 
     @Override public NBTCompound getMetadata() {
+        var nms = ((CraftEntity) owner).getHandle();
         return NBTCompound.from(nms.f(new NBTTagCompound()));
     }
 
     @Override public void saveMetadata(NBTCompound data) {
-        nms.f(data.toNMSCompound());
+        var nms = ((CraftEntity) owner).getHandle();
+        nms.g(data.toNMSCompound());
     }
 
 }

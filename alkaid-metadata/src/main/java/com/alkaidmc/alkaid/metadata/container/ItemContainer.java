@@ -26,10 +26,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * @author Milkory
  */
-@RequiredArgsConstructor
-public class ItemContainer implements MetadataContainer {
-
-    @Getter private final ItemStack owner;
+public record ItemContainer(ItemStack owner) implements MetadataContainer {
 
     @Override public NBTCompound getMetadata() {
         var nms = CraftItemStack.asNMSCopy(owner);

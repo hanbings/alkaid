@@ -29,7 +29,7 @@ import java.util.function.Consumer;
 /**
  * @author Milkory
  */
-public record ContainerListStream(@Getter ContainerComponentStream root, List<NBTData> list, MetadataContainer owner) {
+public record ContainerListStream(@Getter ContainerComponentStream root, List<NBTData> list, MetadataContainer owner) implements ContainerStream {
 
     public ContainerComponentStream access(int index) {
         return new ContainerComponentStream(root, list.get(index).asCompound(), owner);
@@ -101,6 +101,11 @@ public record ContainerListStream(@Getter ContainerComponentStream root, List<NB
 
     public ContainerListStream add(NBTCompound value) {
         list.add(NBTData.of(value));
+        return this;
+    }
+
+    public ContainerListStream add(NBTCompound.Builder value) {
+        list.add(NBTData.of(value.build()));
         return this;
     }
 

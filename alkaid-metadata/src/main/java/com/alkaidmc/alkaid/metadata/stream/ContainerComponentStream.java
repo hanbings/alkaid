@@ -19,6 +19,7 @@ package com.alkaidmc.alkaid.metadata.stream;
 import com.alkaidmc.alkaid.metadata.MetadataContainer;
 import com.alkaidmc.alkaid.metadata.nbt.NBTCompound;
 import com.alkaidmc.alkaid.metadata.nbt.NBTData;
+import com.google.common.base.Verify;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
@@ -29,7 +30,7 @@ import java.util.function.Consumer;
  * @author Milkory
  */
 @Accessors(fluent = true)
-public record ContainerComponentStream(ContainerComponentStream root, NBTCompound compound, MetadataContainer owner) {
+public record ContainerComponentStream(ContainerComponentStream root, NBTCompound compound, MetadataContainer owner) implements ContainerStream {
 
     public ContainerComponentStream(ContainerComponentStream root, NBTCompound compound, MetadataContainer owner) {
         this.root = root == null ? this : root;
@@ -44,6 +45,56 @@ public record ContainerComponentStream(ContainerComponentStream root, NBTCompoun
     public ContainerComponentStream access(String path, Consumer<ContainerComponentStream> then) {
         then.accept(new ContainerComponentStream(root, compound.getCompound(path), owner));
         return this;
+    }
+
+    @SuppressWarnings("all")
+    public ContainerComponentStream access(Object... keys) {
+        ContainerStream current = this;
+        for (int i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            var nextKey = i + 1 < keys.length ? keys[i + 1] : null;
+            if (key instanceof Integer) {
+                if (nextKey instanceof Integer) {
+                    current = ((ContainerListStream) current).accessList((int) key);
+                } else {
+                    current = ((ContainerListStream) current).access((int) key);
+                }
+            } else if (key instanceof String) {
+                if (nextKey instanceof Integer) {
+                    current = ((ContainerComponentStream) current).accessList((String) key);
+                } else {
+                    current = ((ContainerComponentStream) current).access((String) key);
+                }
+            } else {
+                throw new IllegalArgumentException("Only string and integer are allowed");
+            }
+        }
+        return (ContainerComponentStream) current;
+    }
+
+    @SuppressWarnings("all")
+    public ContainerListStream accessList(Object... keys) {
+        ContainerStream current = this;
+        for (int i = 0; i < keys.length; i++) {
+            var key = keys[i];
+            var nextKey = i + 1 < keys.length ? keys[i + 1] : null;
+            if (key instanceof Integer) {
+                if (nextKey instanceof String) {
+                    current = ((ContainerListStream) current).access((int) key);
+                } else {
+                    current = ((ContainerListStream) current).accessList((int) key);
+                }
+            } else if (key instanceof String) {
+                if (nextKey instanceof String) {
+                    current = ((ContainerComponentStream) current).access((String) key);
+                } else {
+                    current = ((ContainerComponentStream) current).accessList((String) key);
+                }
+            } else {
+                throw new IllegalArgumentException("Only string and integer are allowed");
+            }
+        }
+        return (ContainerListStream) current;
     }
 
     public ContainerListStream accessList(String path) {
@@ -112,6 +163,11 @@ public record ContainerComponentStream(ContainerComponentStream root, NBTCompoun
 
     public ContainerComponentStream set(String path, NBTCompound value) {
         compound.set(path, value);
+        return this;
+    }
+
+    public ContainerComponentStream set(String path, NBTCompound.Builder builder) {
+        compound.set(path, builder.build());
         return this;
     }
 
