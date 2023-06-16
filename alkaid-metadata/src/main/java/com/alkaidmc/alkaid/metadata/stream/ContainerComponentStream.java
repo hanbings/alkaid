@@ -38,12 +38,12 @@ public record ContainerComponentStream(ContainerComponentStream root, NBTCompoun
         this.owner = owner;
     }
 
-    public ContainerComponentStream access(String path) {
-        return new ContainerComponentStream(root, compound.getCompound(path), owner);
+    public ContainerComponentStream access(String key) {
+        return new ContainerComponentStream(root, compound.getCompound(key), owner);
     }
 
-    public ContainerComponentStream access(String path, Consumer<ContainerComponentStream> then) {
-        then.accept(new ContainerComponentStream(root, compound.getCompound(path), owner));
+    public ContainerComponentStream access(String key, Consumer<ContainerComponentStream> then) {
+        then.accept(new ContainerComponentStream(root, compound.getCompound(key), owner));
         return this;
     }
 
@@ -97,12 +97,12 @@ public record ContainerComponentStream(ContainerComponentStream root, NBTCompoun
         return (ContainerListStream) current;
     }
 
-    public ContainerListStream accessList(String path) {
-        return new ContainerListStream(root, compound.getList(path), owner);
+    public ContainerListStream accessList(String key) {
+        return new ContainerListStream(root, compound.getList(key), owner);
     }
 
-    public ContainerComponentStream accessList(String path, Consumer<ContainerListStream> then) {
-        then.accept(new ContainerListStream(root, compound.getList(path), owner));
+    public ContainerComponentStream accessList(String key, Consumer<ContainerListStream> then) {
+        then.accept(new ContainerListStream(root, compound.getList(key), owner));
         return this;
     }
 
@@ -111,73 +111,73 @@ public record ContainerComponentStream(ContainerComponentStream root, NBTCompoun
         return this;
     }
 
-    public ContainerComponentStream set(String path, byte value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, byte value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, boolean value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, boolean value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, short value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, short value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, int value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, int value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, long value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, long value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, float value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, float value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, double value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, double value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, byte[] value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, byte[] value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, String value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, String value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, List<NBTData> value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, List<NBTData> value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, NBTCompound value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, NBTCompound value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, NBTCompound.Builder builder) {
-        compound.set(path, builder.build());
+    public ContainerComponentStream set(String key, NBTCompound.Builder builder) {
+        compound.set(key, builder.build());
         return this;
     }
 
-    public ContainerComponentStream set(String path, int[] value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, int[] value) {
+        compound.set(key, value);
         return this;
     }
 
-    public ContainerComponentStream set(String path, long[] value) {
-        compound.set(path, value);
+    public ContainerComponentStream set(String key, long[] value) {
+        compound.set(key, value);
         return this;
     }
 

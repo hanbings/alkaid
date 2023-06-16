@@ -62,122 +62,122 @@ public class NBTCompound {
         return this;
     }
 
-    public void set(String path, byte value) {
-        data.put(path, new NBTData(NBTDataType.BYTE, value));
+    public void set(String key, byte value) {
+        data.put(key, new NBTData(NBTDataType.BYTE, value));
     }
 
-    public void set(String path, boolean value) {
-        data.put(path, new NBTData(NBTDataType.BYTE, value ? 1 : 0));
+    public void set(String key, boolean value) {
+        data.put(key, new NBTData(NBTDataType.BYTE, value ? 1 : 0));
     }
 
-    public void set(String path, short value) {
-        data.put(path, new NBTData(NBTDataType.SHORT, value));
+    public void set(String key, short value) {
+        data.put(key, new NBTData(NBTDataType.SHORT, value));
     }
 
-    public void set(String path, int value) {
-        data.put(path, new NBTData(NBTDataType.INT, value));
+    public void set(String key, int value) {
+        data.put(key, new NBTData(NBTDataType.INT, value));
     }
 
-    public void set(String path, long value) {
-        data.put(path, new NBTData(NBTDataType.LONG, value));
+    public void set(String key, long value) {
+        data.put(key, new NBTData(NBTDataType.LONG, value));
     }
 
-    public void set(String path, float value) {
-        data.put(path, new NBTData(NBTDataType.FLOAT, value));
+    public void set(String key, float value) {
+        data.put(key, new NBTData(NBTDataType.FLOAT, value));
     }
 
-    public void set(String path, double value) {
-        data.put(path, new NBTData(NBTDataType.DOUBLE, value));
+    public void set(String key, double value) {
+        data.put(key, new NBTData(NBTDataType.DOUBLE, value));
     }
 
-    public void set(String path, byte[] value) {
-        data.put(path, new NBTData(NBTDataType.BYTE_ARRAY, value));
+    public void set(String key, byte[] value) {
+        data.put(key, new NBTData(NBTDataType.BYTE_ARRAY, value));
     }
 
-    public void set(String path, String value) {
-        data.put(path, new NBTData(NBTDataType.STRING, value));
+    public void set(String key, String value) {
+        data.put(key, new NBTData(NBTDataType.STRING, value));
     }
 
-    public void set(String path, List<NBTData> value) {
-        data.put(path, new NBTData(NBTDataType.LIST, value));
+    public void set(String key, List<NBTData> value) {
+        data.put(key, new NBTData(NBTDataType.LIST, value));
     }
 
-    public void set(String path, NBTCompound value) {
-        data.put(path, new NBTData(NBTDataType.COMPOUND, value));
+    public void set(String key, NBTCompound value) {
+        data.put(key, new NBTData(NBTDataType.COMPOUND, value));
     }
 
-    public void set(String path, int[] value) {
-        data.put(path, new NBTData(NBTDataType.INT_ARRAY, value));
+    public void set(String key, int[] value) {
+        data.put(key, new NBTData(NBTDataType.INT_ARRAY, value));
     }
 
-    public void set(String path, long[] value) {
-        data.put(path, new NBTData(NBTDataType.LONG, value));
+    public void set(String key, long[] value) {
+        data.put(key, new NBTData(NBTDataType.LONG, value));
     }
 
-    public NBTData get(String path) {
-        return data.get(path);
+    public NBTData get(String key) {
+        return data.get(key);
     }
 
-    private NBTData getOrCreate(String path, NBTData value) {
-        var result = data.get(path);
+    private NBTData getOrCreate(String key, NBTData value) {
+        var result = data.get(key);
         if (result == null) {
-            data.put(path, value);
+            data.put(key, value);
             return value;
         } else {
             return result;
         }
     }
 
-    public byte getByte(String path) {
-        return getOrCreate(path, NBTData.BYTE).asByte();
+    public byte getByte(String key) {
+        return getOrCreate(key, NBTData.BYTE).asByte();
     }
 
-    public boolean getBoolean(String path) {
-        return getOrCreate(path, NBTData.BYTE).asBoolean();
+    public boolean getBoolean(String key) {
+        return getOrCreate(key, NBTData.BYTE).asBoolean();
     }
 
-    public short getShort(String path) {
-        return getOrCreate(path, NBTData.SHORT).asShort();
+    public short getShort(String key) {
+        return getOrCreate(key, NBTData.SHORT).asShort();
     }
 
-    public int getInt(String path) {
-        return getOrCreate(path, NBTData.INT).asInt();
+    public int getInt(String key) {
+        return getOrCreate(key, NBTData.INT).asInt();
     }
 
-    public long getLong(String path) {
-        return getOrCreate(path, NBTData.LONG).asLong();
+    public long getLong(String key) {
+        return getOrCreate(key, NBTData.LONG).asLong();
     }
 
-    public float getFloat(String path) {
-        return getOrCreate(path, NBTData.FLOAT).asFloat();
+    public float getFloat(String key) {
+        return getOrCreate(key, NBTData.FLOAT).asFloat();
     }
 
-    public double getDouble(String path) {
-        return getOrCreate(path, NBTData.DOUBLE).asDouble();
+    public double getDouble(String key) {
+        return getOrCreate(key, NBTData.DOUBLE).asDouble();
     }
 
-    public byte[] getByteArray(String path) {
-        return getOrCreate(path, NBTData.BYTE_ARRAY).asByteArray();
+    public byte[] getByteArray(String key) {
+        return getOrCreate(key, NBTData.BYTE_ARRAY).asByteArray();
     }
 
-    public String getString(String path) {
-        return getOrCreate(path, NBTData.STRING).asString();
+    public String getString(String key) {
+        return getOrCreate(key, NBTData.STRING).asString();
     }
 
-    public List<NBTData> getList(String path) {
-        return getOrCreate(path, NBTData.of(new ArrayList<>())).asList();
+    public List<NBTData> getList(String key) {
+        return getOrCreate(key, NBTData.of(new ArrayList<>())).asList();
     }
 
-    public NBTCompound getCompound(String path) {
-        return getOrCreate(path, NBTData.of(new NBTCompound())).asCompound();
+    public NBTCompound getCompound(String key) {
+        return getOrCreate(key, NBTData.of(new NBTCompound())).asCompound();
     }
 
-    public int[] getIntArray(String path) {
-        return getOrCreate(path, NBTData.INT_ARRAY).asIntArray();
+    public int[] getIntArray(String key) {
+        return getOrCreate(key, NBTData.INT_ARRAY).asIntArray();
     }
 
-    public long[] getLongArray(String path) {
-        return getOrCreate(path, NBTData.LONG_ARRAY).asLongArray();
+    public long[] getLongArray(String key) {
+        return getOrCreate(key, NBTData.LONG_ARRAY).asLongArray();
     }
 
     public NBTTagCompound toNMSCompound() {
@@ -243,68 +243,68 @@ public class NBTCompound {
             return this;
         }
 
-        public Builder entry(String path, byte value) {
-            compound.set(path, value);
+        public Builder entry(String key, byte value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, boolean value) {
-            compound.set(path, value);
+        public Builder entry(String key, boolean value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, short value) {
-            compound.set(path, value);
+        public Builder entry(String key, short value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, int value) {
-            compound.set(path, value);
+        public Builder entry(String key, int value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, long value) {
-            compound.set(path, value);
+        public Builder entry(String key, long value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, float value) {
-            compound.set(path, value);
+        public Builder entry(String key, float value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, double value) {
-            compound.set(path, value);
+        public Builder entry(String key, double value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, byte[] value) {
-            compound.set(path, value);
+        public Builder entry(String key, byte[] value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, String value) {
-            compound.set(path, value);
+        public Builder entry(String key, String value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, List<NBTData> value) {
-            compound.set(path, value);
+        public Builder entry(String key, List<NBTData> value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, NBTCompound value) {
-            compound.set(path, value);
+        public Builder entry(String key, NBTCompound value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, int[] value) {
-            compound.set(path, value);
+        public Builder entry(String key, int[] value) {
+            compound.set(key, value);
             return this;
         }
 
-        public Builder entry(String path, long[] value) {
-            compound.set(path, value);
+        public Builder entry(String key, long[] value) {
+            compound.set(key, value);
             return this;
         }
 
