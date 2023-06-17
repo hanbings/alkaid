@@ -101,7 +101,7 @@ public class CustomInventory {
 
                 int slot = row * 9 + col;
 
-                if (indexMap.containsKey(line.charAt(col))) {
+                if (!indexMap.containsKey(line.charAt(col))) {
                     indexMap.put(line.charAt(col), new AtomicInteger());
                 }
                 int index = indexMap.get(line.charAt(col)).getAndIncrement();
