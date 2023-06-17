@@ -76,6 +76,7 @@ public class ItemStackBuilder {
 
     public ItemStackBuilder of(Material material) {
         this.item = new ItemStack(material);
+        this.amount = 1;
         return Optional.ofNullable(item.getItemMeta())
                 .map(this::of)
                 .orElse(this);
@@ -83,6 +84,7 @@ public class ItemStackBuilder {
 
     public ItemStackBuilder of(ItemStack item) {
         this.item = item;
+        this.amount = item.getAmount();
         return Optional.ofNullable(item.getItemMeta())
                 .map(this::of)
                 .orElse(this);
