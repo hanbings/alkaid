@@ -28,7 +28,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.WeakHashMap;
+import java.util.HashMap;
 import java.util.function.Consumer;
 
 @Setter
@@ -39,7 +39,7 @@ import java.util.function.Consumer;
 public class ItemStackReactive {
     static final Listener LISTENER = new Listener() {
     };
-    static WeakHashMap<ItemStack, ItemStackReactive> reactive = new WeakHashMap<>();
+    static HashMap<ItemStack, ItemStackReactive> reactive = new HashMap<>();
     static boolean registered = false;
 
     final @NotNull ItemStack item;
@@ -82,7 +82,7 @@ public class ItemStackReactive {
             }, plugin, false);
         }
 
-        reactive.put(item, this);
+        reactive.put(item.clone(), this);
     }
 
     public void remove() {
