@@ -21,6 +21,7 @@ import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
@@ -128,6 +129,7 @@ public class CustomInventory {
         plugin.getServer().getPluginManager().registerEvent(InventoryOpenEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
             InventoryOpenEvent event = (InventoryOpenEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
+            if (((Holder) event.getInventory().getHolder()).custom() != this) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
@@ -162,6 +164,7 @@ public class CustomInventory {
         plugin.getServer().getPluginManager().registerEvent(InventoryCloseEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
             InventoryCloseEvent event = (InventoryCloseEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
+            if (((Holder) event.getInventory().getHolder()).custom() != this) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
@@ -169,12 +172,15 @@ public class CustomInventory {
 
             // stop upload
             if (updater != null) updater.cancel();
+            HandlerList.unregisterAll(LISTENER);
+
         }, plugin, false);
 
         // click
         plugin.getServer().getPluginManager().registerEvent(InventoryClickEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
             InventoryClickEvent event = (InventoryClickEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
+            if (((Holder) event.getInventory().getHolder()).custom() != this) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
@@ -201,6 +207,7 @@ public class CustomInventory {
         plugin.getServer().getPluginManager().registerEvent(InventoryDragEvent.class, LISTENER, EventPriority.NORMAL, (l, e) -> {
             InventoryDragEvent event = (InventoryDragEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
+            if (((Holder) event.getInventory().getHolder()).custom() != this) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
