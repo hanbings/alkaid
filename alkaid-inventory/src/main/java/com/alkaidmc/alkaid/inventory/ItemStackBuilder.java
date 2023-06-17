@@ -16,6 +16,7 @@
 
 package com.alkaidmc.alkaid.inventory;
 
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -61,13 +62,14 @@ public class ItemStackBuilder {
         // 从 meta 中获取属性 / get attributes from meta.
         this.meta = meta;
         // 设置值 / set value.
-        this.display = meta.getDisplayName();
-        this.localized = meta.getLocalizedName();
-        this.lores = meta.getLore();
-        this.enchantments = meta.getEnchants();
-        this.flags = meta.getItemFlags();
-        this.model = meta.getCustomModelData();
-        this.attributes = meta.getAttributeModifiers();
+        this.display = meta.hasDisplayName() ? meta.getDisplayName() : null;
+        this.localized = meta.hasLocalizedName() ? meta.getLocalizedName() : null;
+        this.lores = meta.hasLore() ? meta.getLore() : new ArrayList<>();
+        this.enchantments = new HashMap<>(meta.getEnchants());
+        this.flags = new HashSet<>(meta.getItemFlags());
+        this.model = meta.hasCustomModelData() ? meta.getCustomModelData() : 0;
+        // noinspection DataFlowIssue
+        this.attributes = meta.hasAttributeModifiers() ? LinkedHashMultimap.create(meta.getAttributeModifiers()) : LinkedHashMultimap.create();
         this.unbreakable = meta.isUnbreakable();
         return this;
     }
