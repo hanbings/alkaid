@@ -172,7 +172,6 @@ public class CustomInventory {
 
             // stop upload
             if (updater != null) updater.cancel();
-            HandlerList.unregisterAll(LISTENER);
 
         }, plugin, false);
 
