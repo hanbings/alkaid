@@ -21,6 +21,9 @@ import org.bukkit.plugin.Plugin;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * <p> zh </p>
@@ -58,6 +61,18 @@ public class AlkaidJsonConfiguration {
      * @return 依赖注入后的数据实体 / Dependency injection data entity
      */
     public <T> T load(Plugin plugin, Gson gson, String resource, String path, Class<T> type) {
+        // 拼接文件路径
+        Path filePath = Paths.get(plugin.getDataFolder().getPath() + "/" + path);
+
+        // 检查文件夹
+        if (!Files.exists(filePath.getParent())) {
+            try {
+                Files.createDirectories(filePath.getParent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         // 检查资源文件
         File file = new File(plugin.getDataFolder(), path);
         // 否则尝试提取
