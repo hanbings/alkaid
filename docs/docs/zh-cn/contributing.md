@@ -5,7 +5,7 @@
 
 贡献是协助或参与我们开发的过程，包括但不限于向我们报告漏洞、请求合理的新功能和提交代码。
 
-**切记不要与人争吵** 争吵大多数情况下只会让围观的人们觉得很开心，而不是解决问题。意思是您可以使用一些加重语气的词，但在会产生歧义时应该加上对应说明
+**切记不要与人争吵** 争吵大多数情况下只会让围观的人们觉得很开心，而不是解决问题。意思是您可以使用一些加重语气的词，但在会产生歧义时应该加上对应说明。
 
 ## 报告漏洞
 
@@ -15,7 +15,8 @@
 
 1. 将本仓库 [fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) 到您自己的仓库
 2. 将您自己的仓库 [clone](https://github.com/git-guides/git-clone) 到本地 / 在 GitHub 直接进行修改
-2. 修改内容 / 新增内容 并 [pr](https://docs.github.com/en/pull-requests) 提交，其中我们的 commit message 有以下要求
+3. 修改内容 / 新增内容 并 [pr](https://docs.github.com/en/pull-requests) 提交，其中我们的 commit message 有以下要求
+4. 请附带 [GPG 签名](https://docs.github.com/en/authentication/managing-commit-signature-verification/signing-commits)
 
 **格式**
 
@@ -77,7 +78,7 @@
 
 使用全英文，指戳了当地写出本次提交的主要工作，请不要出现 **Fix xxx's bugs** 这样含糊的信息。
 
-另要求首字母大写，如有需要，句末加英文句号
+另要求首字母大写，如有需要，句末加英文句号。
 
 **示例**
 Commit:  📝 Docs: Add contribution.md.
