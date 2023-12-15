@@ -21,7 +21,6 @@ import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
@@ -188,7 +187,7 @@ public class CustomInventory {
             // item click callback
             int rawSlot = (event.getRawSlot());
             registries.forEach(registry -> {
-                if (!(rawSlot == registry.rawSlot)) return;
+                if (!(rawSlot == registry.slot + 36)) return;
 
                 // click
                 if (registry.action.click != null)
@@ -215,7 +214,7 @@ public class CustomInventory {
             // item drag callback
             int rawSlot = (event.getRawSlots().stream().findFirst().orElse(-1));
             registries.forEach(registry -> {
-                if (!(rawSlot == registry.rawSlot)) return;
+                if (!(rawSlot == registry.slot + 36)) return;
 
                 // drag
                 if (registry.action.drag != null)
@@ -248,7 +247,6 @@ public class CustomInventory {
         int slot;
         ItemStack item;
         ItemStackAction action;
-        final int rawSlot = slot + 36; // 36 means player inventory's size of slots
     }
 
     @Setter
