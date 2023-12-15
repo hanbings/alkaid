@@ -187,7 +187,7 @@ public class CustomInventory {
             // item click callback
             int rawSlot = (event.getRawSlot());
             registries.forEach(registry -> {
-                if (!(rawSlot == registry.slot + 36)) return;
+                if (!(rawSlot == registry.slot)) return;
 
                 // click
                 if (registry.action.click != null)
@@ -214,7 +214,7 @@ public class CustomInventory {
             // item drag callback
             int rawSlot = (event.getRawSlots().stream().findFirst().orElse(-1));
             registries.forEach(registry -> {
-                if (!(rawSlot == registry.slot + 36)) return;
+                if (!(rawSlot == registry.slot)) return;
 
                 // drag
                 if (registry.action.drag != null)
