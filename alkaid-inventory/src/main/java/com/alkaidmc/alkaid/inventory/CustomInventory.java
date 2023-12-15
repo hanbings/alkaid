@@ -27,6 +27,7 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.Nullable;
@@ -180,6 +181,7 @@ public class CustomInventory {
             InventoryClickEvent event = (InventoryClickEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
             if (((Holder) event.getInventory().getHolder()).custom() != this) return;
+            if (!(event.getClickedInventory() instanceof PlayerInventory)) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
@@ -207,6 +209,8 @@ public class CustomInventory {
             InventoryDragEvent event = (InventoryDragEvent) e;
             if (!(event.getInventory().getHolder() instanceof Holder)) return;
             if (((Holder) event.getInventory().getHolder()).custom() != this) return;
+            event.getInventorySlots().removeIf(index -> index < 36); // 36 means the size of slots in player's inventory
+            if (event.getInventorySlots().isEmpty()) return;
 
             Holder holder = (Holder) inventory.getHolder();
             if (holder == null || holder.custom.uuid != uuid) return;
