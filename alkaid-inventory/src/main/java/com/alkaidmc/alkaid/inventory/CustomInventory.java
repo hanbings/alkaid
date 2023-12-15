@@ -82,8 +82,8 @@ public class CustomInventory {
         return this;
     }
 
-    public CustomInventory add(ItemStackAction action, ItemStack item, int... slot) {
-        for (int i : slot) registries.add(new ItemStackRegistry(i, item, action));
+    public CustomInventory add(ItemStackAction action, ItemStack item, int... rawSlots) {
+        for (int i : rawSlots) registries.add(new ItemStackRegistry(i, item, action));
         return this;
     }
 
@@ -186,9 +186,9 @@ public class CustomInventory {
             if (click != null) click.accept(event);
 
             // item click callback
-            int slot = (event.getSlot());
+            int rawSlot = (event.getRawSlot());
             registries.forEach(registry -> {
-                if (!(slot == registry.slot)) return;
+                if (!(rawSlot == registry.rawSlot)) return;
 
                 // click
                 if (registry.action.click != null)
@@ -213,9 +213,9 @@ public class CustomInventory {
             if (drag != null) drag.accept(event);
 
             // item drag callback
-            int slot = (event.getRawSlots().stream().findFirst().orElse(-1));
+            int rawSlot = (event.getRawSlots().stream().findFirst().orElse(-1));
             registries.forEach(registry -> {
-                if (!(slot == registry.slot)) return;
+                if (!(rawSlot == registry.rawSlot)) return;
 
                 // drag
                 if (registry.action.drag != null)
@@ -248,6 +248,7 @@ public class CustomInventory {
         int slot;
         ItemStack item;
         ItemStackAction action;
+        final int rawSlot = slot + 36; // 36 means player inventory's size of slots
     }
 
     @Setter
