@@ -17,7 +17,6 @@
 package com.alkaidmc.alkaid.bukkit.config.gson;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
@@ -40,7 +39,8 @@ public class AlkaidFastConfigCenter {
         final S second;
     }
 
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson = AlkaidGsonBuilder.gson();
+
     private final Map<String, Pair<File, JsonObject>> jsonFiles = new HashMap<>();
 
     private JsonObject getConfigObject(String fileName) {
@@ -105,7 +105,7 @@ public class AlkaidFastConfigCenter {
             saveFile(file, gson.toJson(obj));
             System.out.println(obj);
         } else {
-            System.out.println("保存失败：$fileName");
+            System.out.println("保存失败：" + fileName);
         }
     }
 
