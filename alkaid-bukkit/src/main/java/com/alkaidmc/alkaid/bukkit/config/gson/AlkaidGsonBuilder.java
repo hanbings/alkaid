@@ -49,6 +49,7 @@ public class AlkaidGsonBuilder {
     public static Gson gson() {
         return Optional.ofNullable(gson).orElseGet(() -> {
             gson = new GsonBuilder()
+                    .setPrettyPrinting()
                     .enableComplexMapKeySerialization()
                     .serializeNulls()
                     .registerTypeAdapter(ItemStack.class, new ItemStackGsonAdapter())
