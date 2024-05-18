@@ -16,6 +16,7 @@
 
 package com.alkaidmc.alkaid.bukkit.config;
 
+import com.alkaidmc.alkaid.bukkit.config.gson.AlkaidFastConfigCenter;
 import com.google.gson.Gson;
 import org.bukkit.plugin.Plugin;
 
@@ -88,5 +89,30 @@ public class AlkaidJsonConfiguration {
             e.printStackTrace();
         }
         return null;
+    }
+
+    /**
+     * <p> zh </p>
+     * 快速读取配置文件， <br>
+     * 开发者无需维护json文件， <br>
+     * 只需要专注编写代码即可 <br>
+     * 加载成功后使用 Gson 转换成数据实体并返回 <br>
+     *
+     * <p> en </p>
+     * Quickly read the configuration file, <br>
+     * Developers don't need to maintain the JSON file, <br>
+     * Just focus on writing code, <br>
+     * After successful loading, convert it into a data entity using Gson and return it. <br>
+     *
+     * @param plugin        插件实例 / Plugin instance
+     * @param configName    配置文件名 / Config name
+     * @param defaultConfig 初始配置 / Resource path in plugin jar
+     * @return 依赖注入后的数据实体快照 / Dependency injection data entity snapshot
+     */
+    public <T> T fastLoad(Plugin plugin, String configName, T defaultConfig) {
+        String fileName = "./plugins/" + plugin.getName() + "/" + configName + ".json";
+        AlkaidFastConfigCenter afc = new AlkaidFastConfigCenter();
+        afc.makeDefaultConfig(fileName, defaultConfig);
+        return (T) afc.readSnapshot(fileName, defaultConfig.getClass());
     }
 }
