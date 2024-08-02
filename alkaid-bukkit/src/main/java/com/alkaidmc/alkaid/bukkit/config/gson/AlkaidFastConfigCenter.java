@@ -19,6 +19,7 @@ package com.alkaidmc.alkaid.bukkit.config.gson;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -153,6 +154,34 @@ public class AlkaidFastConfigCenter {
     public void setValue(String fileName, String key, JsonElement value) {
         getConfigObject(fileName).add(key, value);
         save(fileName);
+    }
+
+    /**
+     * <p> zh </p>
+     * 将给定对象转换为JsonPrimitive对象，支持的数据类型包括Boolean、Number、String和Character。
+     * 如果传入的对象类型不在此范围内，将抛出IllegalArgumentException异常。
+     *
+     * <p> en </p>
+     * Converts the given object to a JsonPrimitive instance, supporting types such as Boolean,
+     * Number, String, and Character. An IllegalArgumentException is thrown if the object's type
+     * does not fall within these supported categories.
+     *
+     * @param value 待转换的对象 / the object to be converted
+     * @return 转换后的JsonPrimitive对象 / the resulting JsonPrimitive instance
+     * @throws IllegalArgumentException 如果value的类型不受支持 / if the type of value is unsupported
+     */
+    public JsonPrimitive convertToJsonPrimitive(Object value) {
+        if (value instanceof Boolean) {
+            return new JsonPrimitive((Boolean) value);
+        } else if (value instanceof Number) {
+            return new JsonPrimitive((Number) value);
+        } else if (value instanceof String) {
+            return new JsonPrimitive((String) value);
+        } else if (value instanceof Character) {
+            return new JsonPrimitive((Character) value);
+        } else {
+            throw new IllegalArgumentException("Unsupported type: " + value.getClass().getName());
+        }
     }
 
     /**
