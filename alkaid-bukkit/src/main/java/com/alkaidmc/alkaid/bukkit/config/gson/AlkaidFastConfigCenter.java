@@ -206,7 +206,7 @@ public class AlkaidFastConfigCenter {
         if (jsonFiles.containsKey(fileName)) {
             File file = jsonFiles.get(fileName).first();
             JsonObject obj = jsonFiles.get(fileName).second();
-            file.getParentFile().mkdirs();
+            if (file.getParentFile() != null) file.getParentFile().mkdirs();
             saveFile(file, gson.toJson(obj));
             System.out.println(obj);
         } else {
